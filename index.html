@@ -3,1374 +3,858 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>樊珍秀 - 商务数据分析与应用 | 个人学习平台</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>樊珍秀 - 商务数据分析专业学习主页</title>
+    <!-- 引入外部样式与图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
-/* ================================
-   Global Reset & Variables
-================================ */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --color-primary: #6366f1;
-    --color-primary-dark: #4f46e5;
-    --color-accent: #8b5cf6;
-    --color-secondary: #ec4899;
-    --color-dark: #0f172a;
-    --color-gray-900: #1e293b;
-    --color-gray-800: #334155;
-    --color-gray-700: #475569;
-    --color-gray-600: #64748b;
-    --color-gray-500: #94a3b8;
-    --color-gray-400: #cbd5e1;
-    --color-gray-300: #e2e8f0;
-    --color-gray-200: #f1f5f9;
-    --color-gray-100: #f8fafc;
-    --color-white: #ffffff;
-    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-    --gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
-    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
-    --radius-sm: 8px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-    --radius-full: 9999px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    --font-sans: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
-}
-
-html {
-    scroll-behavior: smooth;
-    font-size: 16px;
-}
-
-body {
-    font-family: var(--font-sans);
-    color: var(--color-dark);
-    background: var(--color-gray-100);
-    line-height: 1.6;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-    transition: var(--transition);
-}
-
-/* ================================
-   Navigation
-================================ */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-    transition: var(--transition);
-}
-
-.navbar.scrolled {
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: var(--shadow-sm);
-}
-
-.nav-container {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 1rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.nav-logo {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-}
-
-.logo-text {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.logo-sub {
-    font-size: 0.75rem;
-    color: var(--color-gray-500);
-    letter-spacing: 2px;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-}
-
-.nav-link {
-    position: relative;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--color-gray-700);
-    padding: 0.5rem 0;
-    transition: var(--transition);
-}
-
-.nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--gradient-primary);
-    transition: var(--transition);
-    transform: translateX(-50%);
-}
-
-.nav-link:hover,
-.nav-link.active {
-    color: var(--color-primary);
-}
-
-.nav-link:hover::after,
-.nav-link.active::after {
-    width: 100%;
-}
-
-.nav-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-}
-
-.nav-toggle span {
-    width: 24px;
-    height: 2px;
-    background: var(--color-dark);
-    border-radius: 2px;
-    transition: var(--transition);
-}
-
-.nav-toggle.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.nav-toggle.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.nav-toggle.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -7px);
-}
-
-/* ================================
-   Hero Section
-================================ */
-.hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 2rem 4rem;
-    overflow: hidden;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
-}
-
-.hero-bg {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.gradient-circle {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.5;
-    animation: float 20s ease-in-out infinite;
-}
-
-.circle-1 {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, #6366f1, transparent);
-    top: -10%;
-    left: -10%;
-}
-
-.circle-2 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, #ec4899, transparent);
-    bottom: -10%;
-    right: -5%;
-    animation-delay: -5s;
-}
-
-.circle-3 {
-    width: 350px;
-    height: 350px;
-    background: radial-gradient(circle, #8b5cf6, transparent);
-    top: 40%;
-    right: 20%;
-    animation-delay: -10s;
-}
-
-@keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(30px, -30px) scale(1.1); }
-    66% { transform: translate(-20px, 20px) scale(0.95); }
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 1280px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    width: 100%;
-}
-
-.hero-text {
-    animation: fadeInUp 0.8s ease-out;
-}
-
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 1.25rem;
-    background: rgba(99, 102, 241, 0.1);
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    border-radius: var(--radius-full);
-    font-size: 0.875rem;
-    color: var(--color-primary);
-    margin-bottom: 1.5rem;
-}
-
-.badge-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--color-primary);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-}
-
-.hero-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-}
-
-.title-line {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: var(--color-gray-600);
-    margin-bottom: 0.5rem;
-}
-
-.title-name {
-    display: block;
-    color: var(--color-dark);
-    letter-spacing: -2px;
-}
-
-.title-gradient {
-    display: block;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
-    margin-top: 0.25rem;
-}
-
-.hero-description {
-    font-size: 1.125rem;
-    color: var(--color-gray-600);
-    margin-bottom: 2.5rem;
-    max-width: 540px;
-    line-height: 1.8;
-}
-
-.hero-stats {
-    display: flex;
-    gap: 2.5rem;
-    margin-bottom: 2.5rem;
-}
-
-.stat-item {
-    display: flex;
-    flex-direction: column;
-}
-
-.stat-value {
-    font-size: 2.25rem;
-    font-weight: 800;
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-}
-
-.stat-label {
-    font-size: 0.875rem;
-    color: var(--color-gray-500);
-    margin-top: 0.25rem;
-}
-
-.hero-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: var(--radius-full);
-    border: none;
-    cursor: pointer;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-primary {
-    background: var(--gradient-primary);
-    color: var(--color-white);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
-}
-
-.btn-primary i {
-    transition: var(--transition);
-}
-
-.btn-primary:hover i {
-    transform: translateX(4px);
-}
-
-.btn-secondary {
-    background: rgba(255, 255, 255, 0.8);
-    color: var(--color-dark);
-    border: 2px solid var(--color-gray-300);
-    backdrop-filter: blur(10px);
-}
-
-.btn-secondary:hover {
-    border-color: var(--color-primary);
-    color: var(--color-primary);
-    transform: translateY(-2px);
-}
-
-/* Hero Visual */
-.hero-visual {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 500px;
-}
-
-.avatar-container {
-    position: relative;
-    width: 380px;
-    height: 380px;
-    animation: fadeInRight 1s ease-out 0.3s both;
-}
-
-.avatar-ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    background: conic-gradient(from 0deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    padding: 8px;
-    animation: spin 15s linear infinite;
-}
-
-.avatar-ring-2 {
-    position: absolute;
-    inset: 20px;
-    border-radius: 50%;
-    border: 2px dashed rgba(99, 102, 241, 0.3);
-    animation: spin 30s linear infinite reverse;
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-.avatar-main {
-    position: absolute;
-    inset: 40px;
-    border-radius: 50%;
-    background: var(--gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 8rem;
-    color: var(--color-white);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-}
-
-.floating-card {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: var(--radius-md);
-    box-shadow: var(--shadow-md);
-    font-weight: 600;
-    font-size: 0.9rem;
-    animation: floatCard 6s ease-in-out infinite;
-}
-
-.floating-card i {
-    font-size: 1.25rem;
-}
-
-.card-1 {
-    top: 10%;
-    left: -10%;
-    color: var(--color-primary);
-}
-.card-1 i { color: var(--color-primary); }
-.card-2 {
-    bottom: 20%;
-    left: -5%;
-    color: var(--color-accent);
-    animation-delay: -2s;
-}
-.card-2 i { color: var(--color-accent); }
-.card-3 {
-    top: 30%;
-    right: -10%;
-    color: var(--color-secondary);
-    animation-delay: -4s;
-}
-.card-3 i { color: var(--color-secondary); }
-
-@keyframes floatCard {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeInRight {
-    from { opacity: 0; transform: translateX(50px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-.scroll-hint {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--color-gray-500);
-    font-size: 0.875rem;
-    animation: bounce 2s ease-in-out infinite;
-}
-.scroll-arrow {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-sm);
-}
-@keyframes bounce {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 10px); }
-}
-
-/* ================================
-   Section Headers
-================================ */
-section {
-    padding: 6rem 0;
-}
-.section-header {
-    text-align: center;
-    margin-bottom: 4rem;
-}
-.section-tag {
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: rgba(99, 102, 241, 0.1);
-    color: var(--color-primary);
-    border-radius: var(--radius-full);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-}
-.section-title {
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 800;
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #0f172a 0%, #4f46e5 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-.section-desc {
-    font-size: 1.125rem;
-    color: var(--color-gray-600);
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-/* ================================
-   About Section
-================================ */
-.about { background: var(--color-white); }
-.about-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 2rem;
-}
-.about-card {
-    padding: 2.5rem 2rem;
-    background: var(--color-gray-100);
-    border-radius: var(--radius-lg);
-    text-align: center;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-    border: 1px solid transparent;
-}
-.about-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: var(--gradient-primary);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: var(--transition);
-}
-.about-card:hover {
-    background: var(--color-white);
-    border-color: var(--color-gray-200);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-8px);
-}
-.about-card:hover::before { transform: scaleX(1); }
-.card-icon {
-    width: 72px; height: 72px;
-    margin: 0 auto 1.5rem;
-    background: var(--gradient-primary);
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: var(--color-white);
-    transition: var(--transition);
-}
-.about-card:hover .card-icon { transform: scale(1.1) rotate(-5deg); }
-.about-card h3 {
-    font-size: 1.375rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: var(--color-dark);
-}
-.about-card p {
-    color: var(--color-gray-600);
-    line-height: 1.8;
-}
-
-/* ================================
-   Skills Section
-================================ */
-.skills { background: var(--color-gray-100); }
-.skills-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    max-width: 900px;
-    margin: 0 auto;
-}
-.skill-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.875rem 1.5rem;
-    background: var(--color-white);
-    border: 1px solid var(--color-gray-200);
-    border-radius: var(--radius-full);
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--color-gray-700);
-    transition: var(--transition);
-    cursor: default;
-}
-.skill-tag:hover {
-    background: var(--gradient-primary);
-    color: var(--color-white);
-    border-color: transparent;
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-}
-.skill-tag i {
-    color: var(--color-primary);
-    transition: var(--transition);
-}
-.skill-tag:hover i { color: var(--color-white); }
-
-/* ================================
-   Courses Section
-================================ */
-.courses { background: var(--color-white); }
-.course-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-}
-.course-card {
-    position: relative;
-    padding: 2rem;
-    background: var(--color-white);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-gray-200);
-    cursor: pointer;
-    transition: var(--transition);
-    overflow: hidden;
-}
-.course-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0; height: 100%;
-    background: var(--gradient-primary);
-    opacity: 0;
-    transition: var(--transition);
-    z-index: 0;
-}
-.course-card:hover {
-    transform: translateY(-12px);
-    box-shadow: var(--shadow-lg);
-    border-color: transparent;
-}
-.course-card:hover::before { opacity: 0.03; }
-.course-card > * { position: relative; z-index: 1; }
-.course-icon {
-    width: 64px; height: 64px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-    transition: var(--transition);
-}
-.course-card:hover .course-icon { transform: scale(1.15) rotate(5deg); }
-.course-card h3 {
-    font-size: 1.375rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: var(--color-dark);
-    transition: var(--transition);
-}
-.course-card:hover h3 { color: var(--color-primary-dark); }
-.course-desc {
-    color: var(--color-gray-600);
-    margin-bottom: 1.5rem;
-    line-height: 1.7;
-    font-size: 0.95rem;
-}
-.course-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--color-gray-200);
-    transition: var(--transition);
-}
-.course-card:hover .course-meta { border-top-color: rgba(255,255,255,0.2); }
-.chapter-count {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--color-gray-500);
-}
-.course-arrow {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--color-gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-gray-600);
-    transition: var(--transition);
-}
-.course-card:hover .course-arrow {
-    background: var(--gradient-primary);
-    color: var(--color-white);
-    transform: translateX(4px);
-}
-
-/* ================================
-   Modal & Panel Base
-================================ */
-.modal, .chapter-panel {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-}
-.modal.active, .chapter-panel.active {
-    display: flex;
-    animation: fadeIn 0.3s ease-out;
-}
-.modal-overlay, .chapter-panel::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-.modal-content, .chapter-content {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    max-height: 85vh;
-    background: var(--color-white);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.chapter-content { max-width: 800px; max-height: 90vh; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(40px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.modal-close, .chapter-close {
-    position: absolute;
-    top: 1.5rem; right: 1.5rem;
-    width: 40px; height: 40px;
-    border: none;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.25rem;
-    color: var(--color-gray-700);
-    z-index: 10;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.modal-close:hover, .chapter-close:hover {
-    background: var(--color-dark);
-    color: var(--color-white);
-    transform: rotate(90deg);
-}
-
-/* Course Modal */
-.modal-header {
-    padding: 2.5rem 2.5rem 2rem;
-    color: var(--color-white);
-    position: relative;
-}
-.modal-header h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 0.75rem;
-}
-.course-desc-full {
-    font-size: 1rem;
-    opacity: 0.9;
-    max-width: 600px;
-}
-.course-info-row {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.25rem;
-    flex-wrap: wrap;
-}
-.info-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: var(--radius-full);
-    font-size: 0.875rem;
-    backdrop-filter: blur(4px);
-}
-.modal-body {
-    flex: 1;
-    overflow-y: auto;
-    padding: 2rem 2.5rem 2.5rem;
-}
-.chapters-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: var(--color-dark);
-}
-.chapter-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-.chapter-item {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    padding: 1.25rem 1.5rem;
-    background: var(--color-gray-100);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: var(--transition);
-    border: 2px solid transparent;
-}
-.chapter-item:hover {
-    background: var(--color-white);
-    border-color: var(--color-gray-200);
-    box-shadow: var(--shadow-md);
-    transform: translateX(8px);
-}
-.chapter-number {
-    flex-shrink: 0;
-    width: 48px; height: 48px;
-    border-radius: var(--radius-md);
-    color: var(--color-white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.125rem;
-}
-.chapter-info { flex: 1; }
-.chapter-info h4 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--color-dark);
-    margin-bottom: 0.25rem;
-}
-.chapter-info p {
-    font-size: 0.9rem;
-    color: var(--color-gray-500);
-}
-.chapter-open {
-    color: var(--color-gray-400);
-    transition: var(--transition);
-}
-.chapter-item:hover .chapter-open { color: var(--color-primary); }
-
-/* Chapter Detail Panel (核心实战练习区域) */
-.chapter-detail-header {
-    padding: 2.5rem 2.5rem 1.5rem;
-    border-bottom: 1px solid var(--color-gray-200);
-}
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--color-primary);
-    font-weight: 500;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: var(--transition);
-}
-.back-btn:hover { transform: translateX(-4px); }
-.chapter-detail-header h2 {
-    font-size: 1.75rem;
-    font-weight: 800;
-    color: var(--color-dark);
-    margin-bottom: 0.5rem;
-}
-.chapter-subtitle {
-    color: var(--color-gray-500);
-    font-size: 1rem;
-}
-.chapter-detail-body {
-    padding: 2rem 2.5rem 2.5rem;
-    overflow-y: auto;
-    flex: 1;
-}
-.detail-section {
-    margin-bottom: 2.5rem;
-}
-.detail-section:last-child { margin-bottom: 0; }
-.detail-section h3 {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-dark);
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--color-gray-200);
-}
-.detail-section h3 i {
-    width: 40px; height: 40px;
-    background: var(--gradient-primary);
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-white);
-    font-size: 1rem;
-}
-.detail-section p {
-    color: var(--color-gray-700);
-    line-height: 1.9;
-    margin-bottom: 1rem;
-}
-.knowledge-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-}
-.knowledge-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem 1.25rem;
-    background: var(--color-gray-100);
-    border-radius: var(--radius-md);
-    transition: var(--transition);
-}
-.knowledge-list li:hover {
-    background: var(--color-white);
-    box-shadow: var(--shadow-sm);
-    transform: translateX(4px);
-}
-.knowledge-list li::before {
-    content: '✓';
-    flex-shrink: 0;
-    width: 24px; height: 24px;
-    background: var(--color-primary);
-    color: var(--color-white);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-.knowledge-list li span {
-    flex: 1;
-    color: var(--color-gray-700);
-    line-height: 1.6;
-}
-
-/* 代码块 */
-.code-block {
-    background: var(--color-dark);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-.code-block-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
-    background: var(--color-gray-900);
-    border-bottom: 1px solid var(--color-gray-800);
-}
-.code-block-header span {
-    color: var(--color-gray-400);
-    font-size: 0.85rem;
-    font-family: 'Courier New', monospace;
-}
-.copy-btn {
-    background: none;
-    border: 1px solid var(--color-gray-700);
-    color: var(--color-gray-400);
-    padding: 0.375rem 0.75rem;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    font-size: 0.8rem;
-    transition: var(--transition);
-}
-.copy-btn:hover {
-    background: var(--color-primary);
-    color: var(--color-white);
-    border-color: var(--color-primary);
-}
-.code-block pre {
-    padding: 1.25rem;
-    margin: 0;
-    overflow-x: auto;
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: #e2e8f0;
-}
-.code-keyword { color: #c084fc; }
-.code-string { color: #86efac; }
-.code-number { color: #fbbf24; }
-.code-comment { color: #64748b; font-style: italic; }
-.code-func { color: #60a5fa; }
-
-/* 实战练习模块（新增） */
-.practice-wrap {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.15);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-}
-.practice-question {
-    font-weight: 600;
-    color: var(--color-dark);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-}
-.practice-question i {
-    color: var(--color-primary);
-    margin-top: 0.2rem;
-}
-.practice-textarea {
-    width: 100%;
-    min-height: 120px;
-    padding: 1rem;
-    border: 1px solid var(--color-gray-300);
-    border-radius: var(--radius-sm);
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    resize: vertical;
-    margin-bottom: 1rem;
-    transition: var(--transition);
-}
-.practice-textarea:focus {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
-}
-.practice-btn-group {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-}
-.practice-btn {
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-sm);
-    border: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: var(--transition);
-}
-.btn-run {
-    background: #10b981;
-    color: #fff;
-}
-.btn-run:hover { background: #059669; }
-.btn-answer {
-    background: var(--color-gray-200);
-    color: var(--color-gray-700);
-}
-.btn-answer:hover { background: var(--color-gray-300); }
-.btn-clear {
-    background: var(--color-gray-200);
-    color: var(--color-gray-700);
-}
-.btn-clear:hover { background: var(--color-gray-300); }
-.run-result {
-    background: var(--color-gray-900);
-    color: #e2e8f0;
-    padding: 1rem;
-    border-radius: var(--radius-sm);
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    white-space: pre-wrap;
-    display: none;
-}
-.answer-box {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    padding: 1rem;
-    border-radius: var(--radius-sm);
-    margin-top: 1rem;
-    display: none;
-}
-.answer-box h4 {
-    color: #047857;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-}
-.answer-content {
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    color: #065f46;
-    white-space: pre-wrap;
-}
-
-/* Contact & Footer */
-.contact {
-    background: var(--gradient-dark);
-    color: var(--color-white);
-    padding: 5rem 0;
-}
-.contact-wrapper {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 4rem;
-    align-items: center;
-}
-.contact-info .section-tag {
-    background: rgba(99, 102, 241, 0.2);
-    color: #a5b4fc;
-}
-.contact-info h2 {
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    font-weight: 800;
-    margin: 1rem 0 1rem;
-    line-height: 1.2;
-}
-.contact-info > p {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.05rem;
-    margin-bottom: 2rem;
-    max-width: 500px;
-}
-.contact-items {
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-}
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
-    transition: var(--transition);
-}
-.contact-item:hover {
-    background: rgba(99, 102, 241, 0.1);
-    border-color: rgba(99, 102, 241, 0.3);
-    transform: translateX(8px);
-}
-.contact-item i {
-    font-size: 1.25rem;
-    color: #a5b4fc;
-}
-.contact-item span { font-size: 1rem; }
-.contact-visual { display: flex; justify-content: center; }
-.contact-orb {
-    width: 280px; height: 280px;
-    border-radius: 50%;
-    background: var(--gradient-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 7rem;
-    color: var(--color-white);
-    box-shadow: 0 0 80px rgba(99, 102, 241, 0.4);
-    animation: orbFloat 6s ease-in-out infinite;
-}
-@keyframes orbFloat {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
-}
-.footer {
-    background: var(--color-dark);
-    color: var(--color-gray-400);
-    padding: 2rem 0;
-    text-align: center;
-}
-.footer-content p {
-    font-size: 0.9rem;
-    margin: 0.25rem 0;
-}
-.footer-motto {
-    color: var(--color-gray-500);
-    font-style: italic;
-}
-
-/* Scroll Reveal & Scrollbar */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-::-webkit-scrollbar {
-    width: 10px; height: 10px;
-}
-::-webkit-scrollbar-track { background: var(--color-gray-100); }
-::-webkit-scrollbar-thumb {
-    background: var(--color-gray-400);
-    border-radius: 5px;
-    transition: var(--transition);
-}
-::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
-.modal-content::-webkit-scrollbar-thumb,
-.chapter-content::-webkit-scrollbar-thumb {
-    background: var(--color-gray-300);
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .hero-content { grid-template-columns: 1fr; text-align: center; }
-    .hero-description { margin-left: auto; margin-right: auto; }
-    .hero-stats, .hero-actions { justify-content: center; }
-    .hero-visual { min-height: 400px; margin-top: 2rem; }
-    .avatar-container { width: 320px; height: 320px; }
-    .contact-wrapper { grid-template-columns: 1fr; text-align: center; }
-    .contact-items { align-items: center; }
-}
-@media (max-width: 768px) {
-    .container { padding: 0 1.25rem; }
-    section { padding: 4rem 0; }
-    .nav-menu {
-        position: fixed;
-        top: 72px; left: 0; right: 0;
-        flex-direction: column;
-        background: var(--color-white);
-        padding: 2rem; gap: 1.5rem;
-        box-shadow: var(--shadow-md);
-        transform: translateY(-100%);
-        opacity: 0;
-        pointer-events: none;
-        transition: var(--transition);
-    }
-    .nav-menu.active {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .nav-toggle { display: flex; }
-    .hero { padding: 6rem 1.25rem 3rem; min-height: auto; }
-    .hero-title { font-size: 2.25rem; }
-    .title-line { font-size: 1.125rem; }
-    .hero-stats { gap: 1.5rem; }
-    .stat-value { font-size: 1.75rem; }
-    .avatar-container { width: 260px; height: 260px; }
-    .avatar-main { font-size: 5rem; }
-    .floating-card { padding: 0.75rem 1rem; font-size: 0.8rem; }
-    .floating-card i { font-size: 1rem; }
-    .card-1,.card-2 { left: 0; }
-    .card-3 { right: 0; }
-    .about-grid, .course-grid { grid-template-columns: 1fr; }
-    .modal, .chapter-panel { padding: 1rem; }
-    .modal-header { padding: 2rem 1.5rem 1.5rem; }
-    .modal-header h2 { font-size: 1.5rem; }
-    .modal-body, .chapter-detail-body { padding: 1.5rem; }
-    .chapter-detail-header { padding: 2rem 1.5rem 1.25rem; }
-    .contact-orb { width: 200px; height: 200px; font-size: 5rem; }
-    .btn { padding: 0.875rem 1.5rem; font-size: 0.95rem; }
-}
-@media (max-width: 480px) {
-    .hero-title { font-size: 2rem; }
-    .hero-stats { gap: 1rem; }
-    .stat-value { font-size: 1.5rem; }
-    .hero-actions { flex-direction: column; width: 100%; }
-    .hero-actions .btn { width: 100%; }
-    .avatar-container { width: 220px; height: 220px; }
-    .chapter-item { padding: 1rem; gap: 1rem; }
-    .chapter-number { width: 40px; height: 40px; font-size: 1rem; }
-    .practice-btn-group { flex-direction: column; }
-}
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    html { scroll-behavior: auto; }
-}
+        /* 全局变量统一样式 */
+        :root {
+            --main-color: #165DFF;
+            --main-light: #E8F1FF;
+            --main-dark: #0E42D2;
+            --success-color: #00B42A;
+            --success-light: #ECFBF1;
+            --warning-color: #FF7D00;
+            --warning-light: #FFF7E8;
+            --danger-color: #F53F3F;
+            --danger-light: #FFEEEE;
+            --purple-color: #9B6ADE;
+            --purple-light: #FAF5FF;
+            --yellow-color: #F7BA1E;
+            --yellow-light: #FFFEF0;
+            --gray-bg: #F5F7FA;
+            --text-primary: #1D2129;
+            --text-secondary: #6C757D;
+            --card-shadow: 0 4px 18px rgba(22, 93, 255, 0.12);
+            --card-hover-shadow: 0 12px 32px rgba(22, 93, 255, 0.22);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: var(--gray-bg);
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+        /* 顶部导航栏 吸顶固定 */
+        .top-nav {
+            background-color: #FFFFFF;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            padding: 12px 0;
+        }
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--main-color);
+        }
+        .nav-item {
+            padding: 6px 18px;
+            border-radius: 20px;
+            margin: 0 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+        .nav-item.active {
+            background-color: var(--main-color);
+            color: #fff;
+        }
+        .nav-item:hover:not(.active) {
+            background-color: var(--main-light);
+            border-color: var(--main-color);
+        }
+        /* 个人信息横幅 */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--main-color), #4080FF);
+            color: #FFFFFF;
+            border-radius: 20px;
+            padding: 45px;
+            margin: 35px 0;
+            box-shadow: 0 8px 28px rgba(22, 93, 255, 0.28);
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            height: 100%;
+        }
+        .stat-num {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        /* 首页课程卡片样式 核心可点击区域 */
+        .course-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            padding: 28px;
+            height: 100%;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            border-left: 6px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .course-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--main-color), #4080FF);
+            opacity: 0;
+            transition: 0.3s ease;
+        }
+        .course-card:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: var(--card-hover-shadow);
+            border-left-color: var(--main-color);
+        }
+        .course-card:hover::before {
+            opacity: 1;
+        }
+        .course-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        .tag-label {
+            font-size: 12px;
+            padding: 4px 12px;
+            border-radius: 16px;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+        .tag-basic {background: var(--main-light); color: var(--main-color);}
+        .tag-middle {background: var(--warning-light); color: var(--warning-color);}
+        .tag-advanced {background: var(--danger-light); color: var(--danger-color);}
+        .progress {
+            height: 12px;
+            border-radius: 6px;
+            background: #E5E6EB;
+            margin: 15px 0;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, var(--main-color), #4080FF);
+            border-radius: 6px;
+        }
+        .course-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin: 12px 0;
+        }
+        .course-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+        /* 课程详情页面 整体容器 */
+        .course-detail {
+            display: none;
+            margin: 30px 0;
+        }
+        .back-btn {
+            margin-bottom: 25px;
+        }
+        /* 左侧章节目录 悬浮固定 */
+        .chapter-sidebar {
+            background: #fff;
+            border-radius: 18px;
+            padding: 22px;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 100px;
+        }
+        .sidebar-title {
+            font-weight: 700;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #E5E6EB;
+            margin-bottom: 15px;
+        }
+        .sidebar-chap-item {
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 8px 0;
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+        .sidebar-chap-item:hover {
+            background-color: var(--main-light);
+        }
+        .sidebar-chap-item.active {
+            background-color: var(--main-color);
+            color: #fff;
+        }
+        /* 章节内容模块 */
+        .chapter-box {
+            background: #fff;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 22px;
+            box-shadow: var(--card-shadow);
+        }
+        .chapter-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .chapter-content {
+            display: none;
+            margin-top: 22px;
+            padding-top: 22px;
+            border-top: 1px dashed #E5E6EB;
+        }
+        .chapter-content.show {
+            display: block;
+        }
+        /* 知识点面板 区分不同模块 */
+        .know-panel {
+            background: var(--main-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 18px 0;
+            border-left: 5px solid var(--main-color);
+        }
+        .hard-panel {
+            background: var(--warning-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 18px 0;
+            border-left: 5px solid var(--warning-color);
+        }
+        .extend-panel {
+            background: var(--success-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 18px 0;
+            border-left: 5px solid var(--success-color);
+        }
+        .think-panel {
+            background: var(--purple-light);
+            padding: 18px;
+            border-radius: 12px;
+            margin: 18px 0;
+            border-left: 5px solid var(--purple-color);
+        }
+        .exercise-panel {
+            background: var(--yellow-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 18px 0;
+            border-left: 5px solid var(--yellow-color);
+        }
+        .code-panel {
+            background: #F6F8FA;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 18px 0;
+        }
+        .tag-item {
+            display: inline-block;
+            background: #fff;
+            border: 1px solid var(--main-color);
+            color: var(--main-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin: 6px 5px;
+        }
+        /* 在线练习平台 核心实操区 */
+        .practice-platform {
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 28px;
+        }
+        .code-editor {
+            width: 100%;
+            min-height: 220px;
+            padding: 16px;
+            border: 1px solid #DCDCDC;
+            border-radius: 12px;
+            font-family: "Consolas", "Monaco", monospace;
+            font-size: 14px;
+            resize: vertical;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .code-editor:focus {
+            border-color: var(--main-color);
+        }
+        .run-result {
+            background: #161B22;
+            color: #58E182;
+            padding: 18px;
+            border-radius: 12px;
+            min-height: 130px;
+            margin-top: 16px;
+            white-space: pre-wrap;
+            font-family: "Consolas", monospace;
+        }
+        .btn-custom {
+            background-color: var(--main-color);
+            border-color: var(--main-color);
+            color: #fff;
+        }
+        .btn-custom:hover {
+            background-color: var(--main-dark);
+            border-color: var(--main-dark);
+            color: #fff;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
+    <!-- 顶部全局导航栏 -->
+    <div class="top-nav">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap">
             <div class="nav-logo">
-                <span class="logo-text">樊珍秀</span>
-                <span class="logo
+                <i class="bi bi-person-badge-fill me-2"></i>樊珍秀 | 个人学习主页
+            </div>
+            <div class="d-flex">
+                <div class="nav-item active" onclick="backToHome()">
+                    <i class="bi bi-house-door me-1"></i>课程首页
+                </div>
+                <div class="nav-item">
+                    <i class="bi bi-journal-check me-1"></i>学习档案
+                </div>
+                <div class="nav-item">
+                    <i class="bi bi-bar-chart-fill me-1"></i>进度统计
+                </div>
+                <div class="nav-item">
+                    <i class="bi bi-question-circle me-1"></i>使用帮助
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- 个人信息 & 学习数据统计横幅 -->
+        <div class="hero-banner">
+            <div class="row align-items-center">
+                <div class="col-lg-7 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-3">你好，我是樊珍秀 🎓</h2>
+                    <p class="fs-5 mb-2"><i class="bi bi-building me-2"></i>广东科学技术职业学院 商学院</p>
+                    <p class="fs-5 mb-3"><i class="bi bi-book me-2"></i>专业：商务数据分析与应用</p>
+                    <p class="opacity-90 fs-6">本页面为个人专业课程学习平台，包含<strong>10门核心专业课、100个学习章节</strong>，每章节配备完整知识点、思考题、分层练习与在线代码实操平台，实现学、练、测一体化学习。</p>
+                </div>
+                <div class="col-lg-5">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <div class="stat-card">
+                                <div class="stat-num" style="color: var(--main-color);">10</div>
+                                <div class="text-secondary">全部课程</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-card">
+                                <div class="stat-num" style="color: var(--success-color);">100</div>
+                                <div class="text-secondary">总章节数</div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="stat-card">
+                                <div class="stat-num" style="color: var(--warning-color);">0</div>
+                                <div class="text-secondary">已完成章节</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== 首页：10门课程卡片区域 ===================== -->
+        <div id="home-page">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h4 class="fw-bold mb-0">
+                    <i class="bi bi-grid-3x3-gap-fill text-primary me-2"></i>专业课程列表
+                </h4>
+                <span class="text-secondary">点击任意课程卡片，进入章节学习与实操练习</span>
+            </div>
+            <div class="row g-4">
+                <!-- 课程1：Python基础编程 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(1)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--main-light); color: var(--main-color);">
+                                <i class="bi bi-code-slash"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-basic">入门必修</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">1. Python基础编程</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 40%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：40%</small>
+                        <p class="course-desc">数据分析核心入门语言，讲解变量、分支、循环、函数、文件读写、异常处理等全量基础语法，全程代码实操。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>代码实操练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程2：商务数据分析技术 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(2)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--warning-light); color: var(--warning-color);">
+                                <i class="bi bi-bar-chart-line"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-middle">专业核心</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">2. 商务数据分析技术</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 30%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：30%</small>
+                        <p class="course-desc">系统学习数据分析全流程、指标体系、统计分析、数据清洗、对比/趋势/相关性分析、商业报告撰写。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>案例分析练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程3：数据采集与处理 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(3)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--danger-light); color: var(--danger-color);">
+                                <i class="bi bi-download"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-advanced">进阶必修</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">3. 数据采集与处理</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 20%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：20%</small>
+                        <p class="course-desc">学习多渠道数据采集、网页爬虫、正则表达式、数据规整、缺失/重复/异常数据清洗、批量数据处理实战。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>爬虫清洗练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程4：供应链数据分析 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(4)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--success-light); color: var(--success-color);">
+                                <i class="bi bi-truck"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-middle">方向课程</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">4. 供应链数据分析</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 25%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：25%</small>
+                        <p class="course-desc">围绕采购、仓储、物流、库存四大模块，学习供应链指标、需求预测、库存预警、风险分析与行业实战案例。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>业务分析练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程5：数据库原理与应用 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(5)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--main-light); color: var(--main-color);">
+                                <i class="bi bi-database"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-basic">入门必修</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">5. 数据库原理与应用</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 35%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：35%</small>
+                        <p class="course-desc">讲解关系型数据库、E-R模型、数据表设计，熟练掌握SQL增删改查、分组聚合、多表关联、索引与视图。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>SQL语句练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程6：Excel高级数据应用 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(6)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--warning-light); color: var(--warning-color);">
+                                <i class="bi bi-table"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-basic">办公必修</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">6. Excel高级数据应用</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 50%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：50%</small>
+                        <p class="course-desc">精通高级函数、查找引用、文本处理、数据透视表、条件格式、动态图表、自动化商务报表制作。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>报表制作练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程7：统计学基础 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(7)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--danger-light); color: var(--danger-color);">
+                                <i class="bi bi-calculator"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-middle">理论基础</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">7. 统计学基础</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 30%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：30%</small>
+                        <p class="course-desc">数据分析理论根基，包含描述统计、概率分布、抽样、参数估计、假设检验，支撑所有高阶分析工作。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>数理计算练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程8：数据可视化设计 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(8)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--success-light); color: var(--success-color);">
+                                <i class="bi bi-pie-chart"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-middle">实操专项</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">8. 数据可视化设计</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 28%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：28%</small>
+                        <p class="course-desc">学习图表选型、视觉配色、页面布局，使用Python绘图库制作专业图表、数据看板与可视化大屏。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>绘图实操练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程9：商务智能BI应用 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(9)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--main-light); color: var(--main-color);">
+                                <i class="bi bi-speedometer2"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-advanced">企业拓展</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">9. 商务智能BI应用</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 22%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：22%</small>
+                        <p class="course-desc">讲解BI架构、数据建模、多源数据整合、交互式报表、切片联动、企业运营看板搭建与发布。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>BI看板练习
+                        </div>
+                    </div>
+                </div>
+                <!-- 课程10：大数据导论 -->
+                <div class="col-md-6 col-xl-4">
+                    <div class="course-card" onclick="openCourse(10)">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="course-icon" style="background: var(--warning-light); color: var(--warning-color);">
+                                <i class="bi bi-cloud"></i>
+                            </div>
+                            <div>
+                                <span class="tag-label tag-middle">前沿认知</span>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mt-3">10. 大数据导论</h5>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: 18%"></div>
+                        </div>
+                        <small class="text-secondary">学习进度：18%</small>
+                        <p class="course-desc">认识大数据4V特征、技术生态、分布式存储与计算、流式数据采集、行业应用与未来发展趋势。</p>
+                        <div class="course-meta">
+                            <i class="bi bi-book me-1"></i>共10章节
+                            <span class="mx-2">|</span>
+                            <i class="bi bi-pencil-square me-1"></i>概念理解练习
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== 课程详情页：章节+练习平台 ===================== -->
+        <div class="course-detail" id="course-detail">
+            <div class="back-btn">
+                <button class="btn btn-outline-primary btn-lg" onclick="backToHome()">
+                    <i class="bi bi-arrow-left-circle me-2"></i>返回课程首页
+                </button>
+            </div>
+            <h4 id="course-title" class="fw-bold mb-5 fs-4"></h4>
+
+            <div class="row g-4">
+                <!-- 左侧：固定章节目录 -->
+                <div class="col-lg-3">
+                    <div class="chapter-sidebar">
+                        <h6 class="sidebar-title">
+                            <i class="bi bi-list-ul text-primary me-2"></i>章节目录
+                        </h6>
+                        <div id="sidebar-chap-list"></div>
+                    </div>
+                </div>
+                <!-- 右侧：练习平台 + 章节内容 -->
+                <div class="col-lg-9">
+                    <!-- 在线实操练习平台（全局常驻，可真实运行代码） -->
+                    <div class="practice-platform">
+                        <h5 class="fw-bold mb-4">
+                            <i class="bi bi-code-square text-primary me-2"></i>在线代码实操练习平台
+                        </h5>
+                        <p class="text-secondary mb-3">在下方编辑器编写 Python 代码，点击【运行代码】即可执行，支持实时查看运行结果与报错信息</p>
+                        <textarea id="main-code-editor" class="code-editor" placeholder="请在此编写代码..."></textarea>
+                        <div class="mt-4">
+                            <button class="btn btn-custom px-4" onclick="runCode()">
+                                <i class="bi bi-play-fill me-1"></i>运行代码
+                            </button>
+                            <button class="btn btn-outline-secondary ms-3 px-4" onclick="clearCode()">
+                                <i class="bi bi-trash me-1"></i>清空编辑器
+                            </button>
+                        </div>
+                        <div class="mt-4">
+                            <p class="mb-2 fw-medium">运行输出结果：</p>
+                            <div id="code-result" class="run-result">等待代码执行...</div>
+                        </div>
+                    </div>
+
+                    <!-- 所有章节详细内容区域 -->
+                    <div id="all-chapter-content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局数据：10门课程，每门10个完整章节（知识点、练习、代码全覆盖）
+        const courseData = {
+            // 课程1：Python基础编程（10章节完整版）
+            1: {
+                title: "1. Python基础编程",
+                chapters: [
+                    {
+                        title: "第1章 Python环境搭建与入门认知",
+                        core: ["Python属于解释型高级脚本语言，语法简洁、跨平台、开源免费", "CPython官方解释器是代码执行核心", "Anaconda集成环境：一键配置Python+数据分析第三方库", "主流编辑器：VS Code、PyCharm功能区分", "PEP8编码规范：缩进、命名、换行统一标准"],
+                        hard: ["交互式终端与脚本文件两种运行模式的区别", "多版本Python共存的环境管理方法", "新手常见语法报错快速定位与排查"],
+                        extend: ["Python发展历史与版本迭代", "数据分析三大核心库：NumPy、Pandas、Matplotlib简介"],
+                        think: "为什么数据分析领域优先选择Python，而非其他编程语言？",
+                        baseExercise: "使用print()函数分行输出你的姓名、学校、专业",
+                        advanceExercise: "分别编写单行注释和多行注释，理解注释在程序中的作用",
+                        demoCode: "print('姓名：樊珍秀')\nprint('学校：广东科学技术职业学院')\nprint('专业：商务数据分析与应用')\n# 单行注释：用于单行说明\n'''多行注释：\n用于大段文字说明\n'''"
+                    },
+                    {
+                        title: "第2章 变量、数据类型与运算符",
+                        core: ["变量是内存数据容器，Python无需提前声明类型", "四大基础数据类型：int整型、float浮点型、str字符串、bool布尔型", "算术运算符：加减乘除、取余、幂运算、整除", "比较运算符：大于、小于、等于、不等于，结果均为布尔值", "逻辑运算符：and、or、not，实现多条件组合判断", "数据类型强制转换语法与使用场景"],
+                        hard: ["不同数据类型混合运算的规则与报错原因", "布尔值隐式转换逻辑", "字符串与数字无法直接运算的底层原因"],
+                        extend: ["使用id()函数查看变量内存地址", "Python系统关键字列表与使用禁忌"],
+                        think: "已知商品单价和购买数量，如何通过代码计算总金额？",
+                        baseExercise: "定义两个整型变量，完成加减乘除四则运算并逐行输出结果",
+                        advanceExercise: "实现字符串拼接，再将字符串转为数字进行数学运算",
+                        demoCode: "price = 25\ncount = 10\nprint('加法运算：', price + count)\nprint('减法运算：', price - count)\nprint('乘法运算：', price * count)\nprint('除法运算：', price / count)"
+                    },
+                    {
+                        title: "第3章 条件分支 if 语句",
+                        core: ["程序三大基本结构：顺序结构、分支结构、循环结构", "单分支if语句：条件成立则执行代码块", "双分支if-else语句：二选一执行逻辑", "多分支if-elif-else语句：多区间逐级判断", "Python强制缩进规则：缩进决定代码从属关系", "复合条件：结合比较运算符与逻辑运算符实现复杂判断"],
+                        hard: ["if语句多层嵌套的逻辑梳理", "运算符优先级：括号 > 比较运算 > 逻辑运算", "数值区间临界值判断的易错点"],
+                        extend: ["三元表达式：简化简单二分支代码", "实战场景：成绩评级、用户权限判断、数据状态筛选"],
+                        think: "如何编写代码判断一个数字处于 50 ~ 100 的区间范围内？",
+                        baseExercise: "根据输入的分数划分等级：90分及以上为优秀，60-89分为及格，60分以下为不及格",
+                        advanceExercise: "细化为五级评分：优秀、良好、中等、及格、不及格，完成多分支判断",
+                        demoCode: "score = 85\nif score >= 90:\n    print('成绩：优秀')\nelif score >= 60:\n    print('成绩：及格')\nelse:\n    print('成绩：不及格')"
+                    },
+                    {
+                        title: "第4章 循环结构 for 与 while",
+                        core: ["循环的作用：重复执行相同逻辑，精简代码、提升效率", "while循环：基于条件判断，条件为真则持续循环", "for循环：专门用于遍历可迭代对象", "range()函数：生成连续整数序列，循环高频工具", "break语句：强制终止整个循环", "continue语句：跳过当前单次循环，进入下一轮循环"],
+                        hard: ["while死循环的产生原因与规避方案", "嵌套循环（外层循环+内层循环）的执行顺序", "break和continue在嵌套循环中的作用范围"],
+                        extend: ["循环+分支组合综合应用", "三大经典循环算法：累加、累乘、计数统计"],
+                        think: "使用循环输出1~20的所有数字，如何只保留其中的偶数？",
+                        baseExercise: "利用for循环输出1~10之间全部偶数",
+                        advanceExercise: "使用while循环计算 1 ~ 100 所有整数的累加和",
+                        demoCode: "for i in range(1, 11):\n    if i % 2 == 0:\n        print('偶数：', i)"
+                    },
+                    {
+                        title: "第5章 序列：列表与元组",
+                        core: ["序列概念：有序数据集合，支持下标访问、切片操作", "列表list[]：可变序列，支持增、删、改、查所有操作", "下标规则：正下标从0开始，负下标从末尾倒序访问", "切片语法 [起始:结束:步长]，截取部分数据", "列表常用方法：append()、pop()、remove()", "元组tuple()：不可变序列，定义后元素无法修改", "列表与元组基础遍历方式"],
+                        hard: ["列表浅拷贝与深拷贝的区别与使用场景", "切片越界的运行规则", "元组内部嵌套列表时的特殊可变特性"],
+                        extend: ["列表推导式：快速生成、筛选列表数据", "内置函数：len()、max()、min()、sorted() 用法"],
+                        think: "列表和元组功能高度相似，分别适用于哪些业务场景？",
+                        baseExercise: "创建商品价格列表，筛选出价格大于50的元素并组成新列表",
+                        advanceExercise: "对列表数据排序，并去除列表中的重复元素",
+                        demoCode: "price_list = [12, 66, 34, 78, 22]\nnew_list = [x for x in price_list if x > 50]\nprint('筛选后价格：', new_list)"
+                    },
+                    {
+                        title: "第6章 映射与集合：字典、集合",
+                        core: ["字典dict{}：键值对映射结构，键唯一不可重复，适合存储关联数据", "字典基础操作：增、删、改、查，遍历键、值、键值对", "集合set：无序集合，自动去重，常用于数据对比", "集合四大运算：交集、并集、差集、对称差集", "三大数据结构选型：列表存有序数据、字典存关联数据、集合做去重对比"],
+                        hard: ["字典键的类型限制：仅不可变数据类型可作为键", "集合无序特性，不支持下标访问", "字典、集合嵌套结构的使用规则"],
+                        extend: ["字典推导式用法", "利用集合快速对比两组数据的异同"],
+                        think: "使用字典存储学生姓名和对应成绩，如何快速查询指定学生的分数？",
+                        baseExercise: "用字典存储个人信息，遍历输出所有键和值",
+                        advanceExercise: "定义两个列表，利用集合找出两个列表中相同的元素",
+                        demoCode: "user_info = {'name':'樊珍秀','major':'商务数据分析与应用'}\nfor key, value in user_info.items():\n    print(key, '：', value)"
+                    },
+                    {
+                        title: "第7章 自定义函数",
+                        core: ["函数核心作用：封装重复代码，实现模块化开发与代码复用", "def 关键字：定义自定义函数", "形参（形式参数）、实参（实际参数）概念与传递规则", "return 语句：函数返回结果，并终止函数执行", "函数调用格式与执行流程", "变量作用域：局部变量、全局变量的划分"],
+                        hard: ["全局变量与局部变量重名时的优先级规则", "多参数、默认参数的使用规范", "有返回值函数与无返回值函数的区别"],
+                        extend: ["函数文档注释编写规范", "函数嵌套调用逻辑"],
+                        think: "将两数求和的代码封装为函数，相比直接编写代码有哪些优势？",
+                        baseExercise: "封装一个两数求和函数，传入参数并调用执行",
+                        advanceExercise: "封装函数，接收一组数据并计算平均值",
+                        demoCode: "def add_num(a, b):\n    return a + b\nresult = add_num(3, 5)\nprint('两数之和：', result)"
+                    },
+                    {
+                        title: "第8章 文件读写 IO 操作",
+                        core: ["文件操作三大步骤：打开文件 → 读写内容 → 关闭文件", "open()函数：打开文件，指定路径、打开模式、编码格式", "常用打开模式：r只读、w清空写入、a追加写入", "with上下文管理器：自动关闭文件，避免资源占用", "读写方法：read()读取全文、readline()逐行读取、write()写入内容"],
+                        hard: ["绝对路径与相对路径的写法区别", "编码错误导致中文乱码的解决方案", "大文件逐行读取的优化方案"],
+                        extend: ["二进制文件读写基础", "代码判断文件是否存在"],
+                        think: "w模式和a模式都可以写入文件，最终效果有什么区别？",
+                        baseExercise: "将一段文本写入本地txt文件，再重新读取内容并打印",
+                        advanceExercise: "逐行读取文件内容，并统计文件总行数",
+                        demoCode: "# 写入文件\nwith open('study.txt', 'w', encoding='utf-8') as f:\n    f.write('商务数据分析学习记录')\n# 读取文件\nwith open('study.txt', 'r', encoding='utf-8') as f:\n    print(f.read())"
+                    },
+                    {
+                        title: "第9章 异常捕获 try-except",
+                        core: ["程序异常：代码运行时出现错误，会直接终止程序", "try-except 异常捕获语法，拦截错误并给出友好提示", "常见异常类型：ValueError值错误、TypeError类型错误、IndexError下标错误", "else分支：无异常时执行", "finally分支：无论是否报错，必定执行"],
+                        hard: ["同时捕获多种异常的写法", "精准捕获异常的编写原则", "raise 关键字主动抛出异常"],
+                        extend: ["异常日志记录思路", "项目通用异常处理模板"],
+                        think: "用户手动输入内容极易出现格式错误，为什么必须添加异常捕获？",
+                        baseExercise: "实现字符串转数字功能，并捕获类型转换错误",
+                        advanceExercise: "结合循环与异常捕获，循环接收输入，直到用户输入合法数字为止",
+                        demoCode: "try:\n    num = int('abc123')\nexcept ValueError:\n    print('错误：字符串无法转为数字')"
+                    },
+                    {
+                        title: "第10章 Python综合数据项目实战",
+                        core: ["综合运用变量、分支、循环、函数、列表、字典全语法", "小型Python项目开发完整流程：需求分析 → 逻辑梳理 → 编码 → 测试调试", "基础数据统计逻辑：求和、计数、最大值、最小值、平均值", "input()函数接收用户交互式输入"],
+                        hard: ["复杂业务逻辑拆分为多个函数，实现模块化设计", "批量数据处理思路", "项目整体BUG排查与修复"],
+                        extend: ["数据格式化输出", "将运行结果持久化保存到本地文件"],
+                        think: "开发一款学生成绩统计工具，需要分哪些步骤梳理逻辑？",
+                        baseExercise: "录入5名学生成绩，计算总分、平均分、最高分、最低分",
+                        advanceExercise: "统计不及格人数，并将所有成绩数据写入本地文件",
+                        demoCode: "scores = [88, 92, 79, 85, 66]\ntotal = sum(scores)\navg = total / len(scores)\nprint('总分：', total)\nprint('平均分：', avg)"
+                    }
+                ]
+            },
+            // 课程2：商务数据分析技术（10章节）
+            2: {
+                title: "2. 商务数据分析技术",
+                chapters: [
+                    {
+                        title: "第1章 数据分析流程与行业认知",
+                        core: ["数据分析定义：对原始数据加工、挖掘价值，辅助商业决策", "五大标准流程：数据采集 → 数据清洗 → 数据分析 → 数据可视化 → 分析报告", "岗位划分：数据运营、数据分析师、大数据分析师工作侧重", "商务数据分析特点：紧密结合业务，目标为降本、增效、增收"],
+                        hard: ["全流程各环节衔接标准与质量要求", "将业务需求转化为可落地的数据需求", "不同行业数据分析流程的差异化调整"],
+                        extend: ["数据分析行业发展现状与就业方向", "数据分析主流工具栈组合"],
+                        think: "结合电商行业，简述数据分析五大流程分别需要完成哪些工作？",
+                        baseExercise: "逐条写出数据分析五大流程，并简单解释每个流程的作用",
+                        advanceExercise: "以校园超市为场景，设计一套完整的数据分析执行流程",
+                        demoCode: "print('1.数据采集 2.数据清洗 3.数据分析 4.数据可视化 5.分析报告')"
+                    },
+                    {
+                        title: "第2章 业务指标与维度体系搭建",
+                        core: ["指标：衡量业务状态的量化数值，分为绝对指标、相对指标", "维度：对数据进行分类拆分的角度（时间、地区、人群、产品）", "电商四大核心指标板块：流量指标、转化指标、营收指标、用户指标", "KPI关键绩效指标：企业核心考核数据", "指标统计口径：统一计算公式、统计范围、统计周期"],
+                        hard: ["指标与维度组合使用技巧", "复合指标拆解方法", "企业多层级指标体系设计原则"],
+                        extend: ["数据指标看板搭建规范", "全行业通用指标库参考"],
+                        think: "区分概念：「访客数」（指标）和「按日期统计」（维度）",
+                        baseExercise: "列举3个电商流量指标、2个电商转化指标",
+                        advanceExercise: "为线下实体门店设计8个核心KPI考核指标",
+                        demoCode: "print('流量指标：访客数、浏览量、新用户数')\nprint('转化指标：下单转化率、付款转化率')"
+                    },
+                    {
+                        title: "第3章 描述性统计分析",
+                        core: ["描述统计：用指标概括数据整体特征，是分析基础", "集中趋势指标：均值、中位数、众数", "离散趋势指标：极差、方差、标准差", "四分位数：划分数据分布区间，识别异常值"],
+                        hard: ["三类平均指标的适用业务场景", "方差、标准差的业务解读", "偏态数据的指标选择方案"],
+                        extend: ["频数、频率统计", "统计指标结合业务解读方法"],
+                        think: "数据中存在极端大值/小值时，为什么优先使用中位数而非平均值？",
+                        baseExercise: "计算一组数据的平均值、最大值、最小值",
+                        advanceExercise: "计算数据的方差与标准差，并解读数据波动程度",
+                        demoCode: "import statistics\ndata = [12, 15, 18, 20, 22]\nprint('平均值：', statistics.mean(data))"
+                    },
+                    {
+                        title: "第4章 数据清洗技术",
+                        core: ["脏数据四大类型：缺失数据、重复数据、异常数据、格式错误数据", "缺失值处理方案：直接删除、均值填充、固定值填充", "重复值：去重规则与批量去重方法", "异常值：阈值筛选、修正、剔除三种处理方式"],
+                        hard: ["不同业务场景下清洗方案的选择", "海量数据批量清洗优化", "清洗规则复用与标准化"],
+                        extend: ["数据格式标准化处理", "数据清洗质量验收标准"],
+                        think: "用户手机号大量缺失，应该选择删除数据还是填充数据？",
+                        baseExercise: "对列表中的重复数据进行去重处理",
+                        advanceExercise: "模拟缺失数据，分别使用均值、固定值两种方式填充",
+                        demoCode: "data_list = [1, 2, 2, 3, 3, 4, 5]\ndistinct_list = list(set(data_list))\nprint('去重后数据：', distinct_list)"
+                    },
+                    {
+                        title: "第5章 分组聚合与透视分析",
+                        core: ["分组分析：按照维度拆分数据，对比不同组别差异", "聚合运算：求和、计数、求平均、求最值", "数据透视表原理：多维度灵活分组、快速汇总", "单层分组、多层分组应用场景"],
+                        hard: ["多层分组的维度优先级", "分组后数据筛选", "大数据量分组性能优化"],
+                        extend: ["交叉表分析", "分组结果的横向对比解读"],
+                        think: "按照「地区+产品」两层分组，可以分析哪些商业问题？",
+                        baseExercise: "模拟销售数据，按照产品类别分组并求和",
+                        advanceExercise: "实现双层分组，并按照汇总数值降序排列",
+                        demoCode: "print('已完成按类别分组求和统计')"
+                    },
+                    {
+                        title: "第6章 对比与结构分析",
+                        core: ["对比分析法：数据分析最常用方法，横向、纵向对比", "同比：本期与去年同期对比，消除季节影响", "环比：本期与上一周期对比，反映短期变化", "结构分析：计算单项占总体比例，分析内部构成"],
+                        hard: ["同比、环比的适用场景区分", "多组数据对比的图表选型", "结构占比变化趋势分析"],
+                        extend: ["标杆对比法", "数据差异原因分析思路"],
+                        think: "商品月度销量的同比、环比，分别能反映什么经营状态？",
+                        baseExercise: "计算单项数据在整体中的占比",
+                        advanceExercise: "模拟三个月销量数据，计算月度环比增长率",
+                        demoCode: "total_sale = 1000\npart_sale = 250\nrate = part_sale / total_sale\nprint('单项占比：', rate)"
+                    },
+                    {
+                       
