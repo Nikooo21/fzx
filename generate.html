@@ -1,0 +1,599 @@
+#!/usr/bin/env python3
+"""Generate complete single-file learning platform with all 10 courses"""
+
+import json
+import re
+
+# Helper to strip ch() function from data files
+def strip_ch_helper(code):
+    code = re.sub(r'^# helper function\s*\n', '', code)
+    code = code.replace(
+        'def ch(id_num, title, content, knowledge, code_template, exercises):\n'
+        '    return {"id": id_num, "title": title, "content": content, "knowledge": knowledge, "code": code_template, "exercises": exercises}\n\n',
+        ''
+    )
+    return code
+
+# ==================== Load all course data ====================
+def ch(id_num, title, content, knowledge, code_template, exercises):
+    return {"id": id_num, "title": title, "content": content, "knowledge": knowledge, "code": code_template, "exercises": exercises}
+
+exec_globals = {'ch': ch}
+with open('/workspace/course_data.py', 'r') as f:
+    code = strip_ch_helper(f.read())
+exec(code, exec_globals)
+
+for fname in ['/workspace/course_data_34.py', '/workspace/course_data_56.py',
+              '/workspace/course_data_78.py', '/workspace/course_data_910.py']:
+    eg = {'ch': ch}
+    with open(fname, 'r') as f:
+        code = strip_ch_helper(f.read())
+    exec(code, eg)
+    for k, v in eg.items():
+        if k.startswith('course_'):
+            exec_globals[k] = v
+
+# Map variable names to ordered list
+course_order = [
+    'course_1_python', 'course_2_data_analysis', 'course_3_crawler', 'course_4_supply_chain',
+    'course_5_database', 'course_6_visualization', 'course_7_statistics', 'course_8_ml',
+    'course_9_bi', 'course_10_bigdata'
+]
+
+# Check all courses loaded
+for name in course_order:
+    if name not in exec_globals:
+        print(f'⚠ Warning: {name} not found!')
+
+courses_data = [exec_globals[name] for name in course_order if name in exec_globals]
+print(f'✓ Loaded {len(courses_data)} courses')
+
+# ==================== DEFINE ch() HELPER ====================
+def ch(id_num, title, content, knowledge, code_template, exercises):
+    return {"id": id_num, "title": title, "content": content, "knowledge": knowledge, "code": code_template, "exercises": exercises}
+
+# ==================== CSS ====================
+css = """*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#6366f1;--primary-dark:#4f46e5;--accent:#8b5cf6;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--dark:#0f172a;--g6:#475569;--g5:#64748b;--g4:#cbd5e1;--g3:#e2e8f0;--g2:#f1f5f9;--g1:#f8fafc;--sm:0 8px 24px rgba(0,0,0,0.08);--lg:0 20px 60px rgba(0,0,0,0.12);--r12:12px;--r20:20px}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;color:var(--dark);background:var(--g1);line-height:1.6;-webkit-font-smoothing:antialiased}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--g3);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-size:20px;font-weight:800;background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:24px}
+.nav-links a{color:var(--g5);text-decoration:none;font-weight:500;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:var(--primary)}
+.hero{padding:140px 32px 80px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,255,255,0.15),transparent 50%),radial-gradient(circle at 80% 80%,rgba(255,255,255,0.1),transparent 50%)}
+.hero-content{position:relative;max-width:900px;margin:0 auto}
+.hero h1{font-size:48px;font-weight:800;margin-bottom:20px;letter-spacing:-1px}
+.hero .subtitle{font-size:20px;opacity:0.9;margin-bottom:32px}
+.hero-stats{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:32px}
+.stat-item{background:rgba(255,255,255,0.15);padding:18px 28px;border-radius:var(--r12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);min-width:120px}
+.stat-num{font-size:32px;font-weight:800}
+.stat-label{font-size:13px;opacity:0.85;margin-top:4px}
+.section{padding:80px 32px}
+.container{max-width:1200px;margin:0 auto}
+.section-title{font-size:36px;font-weight:800;text-align:center;margin-bottom:12px}
+.section-desc{text-align:center;color:var(--g5);margin-bottom:48px;font-size:16px}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.course-card{background:#fff;border-radius:var(--r20);padding:28px;box-shadow:var(--sm);transition:all .3s;cursor:pointer;border:2px solid transparent}
+.course-card:hover{transform:translateY(-6px);box-shadow:var(--lg);border-color:var(--primary)}
+.course-icon-wrap{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.course-card h3{font-size:20px;font-weight:700;margin-bottom:8px}
+.course-card .desc{color:var(--g5);font-size:14px;margin-bottom:16px;min-height:42px}
+.course-meta{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--g3);font-size:13px;color:var(--g5)}
+.course-meta .arrow{color:var(--primary);font-weight:700}
+.progress-bar-wrap{background:var(--g2);height:6px;border-radius:3px;overflow:hidden;margin-top:12px}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:3px;transition:width .4s;width:0%}
+.modal-mask{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-mask.active{display:flex;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:var(--r20);max-width:900px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;animation:slideUp .3s}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{padding:28px 32px;color:#fff}
+.modal-header h2{font-size:24px;font-weight:800}
+.modal-header .desc{opacity:0.9;font-size:14px;margin-top:4px}
+.close-btn{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);color:#fff;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;transition:all .2s;z-index:10}
+.close-btn:hover{background:rgba(255,255,255,0.35);transform:rotate(90deg)}
+.modal-body{padding:24px 32px;overflow-y:auto;flex:1}
+.chapter-item{background:var(--g1);padding:18px 22px;border-radius:var(--r12);cursor:pointer;transition:all .2s;border:2px solid transparent;display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.chapter-item:hover{background:#fff;border-color:var(--g3);transform:translateX(4px);box-shadow:var(--sm)}
+.chapter-item.done{border-color:var(--success);background:rgba(16,185,129,0.06)}
+.chapter-num{width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,0.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;color:var(--primary)}
+.chapter-item.done .chapter-num{background:var(--success);color:#fff}
+.chapter-info{flex:1}
+.chapter-info h4{font-size:16px;font-weight:700;margin-bottom:4px}
+.chapter-info p{font-size:13px;color:var(--g5)}
+.chapter-detail{padding:0}
+.chapter-detail-header{padding:24px 28px;color:#fff;position:sticky;top:0;z-index:10}
+.chapter-detail-header h2{font-size:22px;font-weight:800;margin-bottom:6px}
+.chapter-detail-header .meta{font-size:14px;opacity:0.9;margin-top:8px;display:flex;gap:16px}
+.breadcrumb{font-size:13px;opacity:0.85;margin-bottom:8px;cursor:pointer}
+.breadcrumb:hover{text-decoration:underline}
+.chapter-body{padding:28px}
+.content-block{margin-bottom:28px}
+.content-block h3{font-size:18px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.content-block h3 i{width:32px;height:32px;background:var(--g2);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;color:var(--primary)}
+.content-block .content-text{color:var(--g6);line-height:1.8;background:var(--g1);padding:16px 20px;border-radius:var(--r12);font-size:15px}
+.knowledge-list{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.knowledge-list li{padding:10px 16px;background:var(--g1);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:14px}
+.knowledge-list li::before{content:'\\2713';color:var(--success);font-weight:800}
+.code-editor-wrap{background:#1e293b;border-radius:var(--r12);overflow:hidden;margin-bottom:10px;border:1px solid #334155}
+.code-editor-header{padding:10px 14px;background:#0f172a;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #334155}
+.code-editor-header .title{color:#cbd5e1;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.btn-run,.btn-reset{padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:#fff}
+.btn-run{background:var(--success)}.btn-run:hover{background:#059669}
+.btn-reset{background:var(--g6)}.btn-reset:hover{background:#334155}
+.code-editor{width:100%;min-height:140px;padding:14px;background:#1e293b;border:none;color:#e2e8f0;font-family:'SF Mono',Monaco,'Courier New',Consolas,monospace;font-size:13px;line-height:1.7;resize:vertical;outline:none;tab-size:4}
+.code-editor:focus{box-shadow:inset 0 0 0 2px var(--primary)}
+.code-output{background:#020617;padding:14px;border-top:1px solid #334155;font-family:'SF Mono',Monaco,'Courier New',Consolas,monospace;font-size:13px;color:#a5f3fc;white-space:pre-wrap;word-wrap:break-word;min-height:36px;max-height:260px;overflow-y:auto;border-radius:0 0 8px 8px}
+.code-output.error{color:#fca5a5}
+.code-output .output-label{color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:block}
+.exercise-item{background:var(--g1);border-radius:var(--r12);padding:20px;margin-bottom:14px;border-left:4px solid var(--primary);transition:all .2s}
+.exercise-item:hover{box-shadow:var(--sm)}
+.exercise-type{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:10px}
+.type-mcq{background:rgba(99,102,241,0.15);color:var(--primary)}
+.type-fill{background:rgba(245,158,11,0.15);color:var(--warning)}
+.type-run{background:rgba(16,185,129,0.15);color:var(--success)}
+.exercise-question{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:12px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:8px}
+.mcq-option{padding:10px 14px;background:#fff;border:2px solid var(--g3);border-radius:10px;cursor:pointer;font-size:14px;transition:all .2s;display:flex;align-items:center;gap:10px}
+.mcq-option:hover{border-color:var(--primary)}
+.mcq-option .opt-letter{width:24px;height:24px;background:var(--g2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.mcq-option.selected{border-color:var(--primary);background:rgba(99,102,241,0.06)}
+.mcq-option.selected .opt-letter{background:var(--primary);color:#fff}
+.mcq-option.correct{border-color:var(--success);background:rgba(16,185,129,0.06)}
+.mcq-option.correct .opt-letter{background:var(--success);color:#fff}
+.mcq-option.wrong{border-color:var(--danger);background:rgba(239,68,68,0.06)}
+.mcq-option.wrong .opt-letter{background:var(--danger);color:#fff}
+.fill-input{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fill-input input{flex:1;min-width:200px;padding:10px 14px;border:2px solid var(--g3);border-radius:8px;font-size:14px;transition:all .2s}
+.fill-input input:focus{outline:none;border-color:var(--primary)}
+.fill-input input.correct{border-color:var(--success);background:rgba(16,185,129,0.06)}
+.fill-input input.wrong{border-color:var(--danger);background:rgba(239,68,68,0.06)}
+.check-btn,.show-btn{padding:7px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:#fff;background:var(--primary)}
+.check-btn:hover{background:var(--primary-dark)}
+.show-btn{background:var(--g4);color:var(--g6)}.show-btn:hover{background:var(--g3)}
+.exercise-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;display:none}
+.exercise-feedback.show{display:block;animation:fadeIn .3s}
+.exercise-feedback.correct{background:rgba(16,185,129,0.12);color:var(--success)}
+.exercise-feedback.wrong{background:rgba(239,68,68,0.12);color:var(--danger)}
+.exercise-feedback.info{background:rgba(99,102,241,0.12);color:var(--primary)}
+.exercise-feedback .ans{font-weight:700;padding:2px 6px;background:rgba(0,0,0,0.05);border-radius:4px}
+.course-progress{font-size:12px;color:var(--g5);display:flex;justify-content:space-between;margin-top:8px;padding:0 4px}
+.footer{padding:32px;text-align:center;color:var(--g5);font-size:13px;background:#fff;border-top:1px solid var(--g3)}"""
+
+# ==================== JS ====================
+js = r'''
+let progress = JSON.parse(localStorage.getItem('fan_progress') || '{}');
+let currentCourseId = null;
+let currentChapterId = null;
+
+function saveProgress() { localStorage.setItem('fan_progress', JSON.stringify(progress)); }
+
+function markDone(courseId, chId, exIdx) {
+    progress[`${courseId}-${chId}-${exIdx}`] = true;
+    saveProgress();
+}
+
+function isDoneKey(courseId, chId, exIdx) {
+    return progress[`${courseId}-${chId}-${exIdx}`] === true;
+}
+
+function chapterProgress(courseId, chId) {
+    const ch = courses.find(c=>c.id===courseId).chapters.find(c=>c.id===chId);
+    if (!ch) return {done:0,total:0,pct:0};
+    let d = 0;
+    for (let i=0;i<ch.exercises.length;i++) if (isDoneKey(courseId,chId,i)) d++;
+    return {done:d, total:ch.exercises.length, pct:Math.round(d/ch.exercises.length*100)};
+}
+
+function courseProgress(courseId) {
+    const c = courses.find(c=>c.id===courseId);
+    let td=0,dd=0;
+    c.chapters.forEach(ch=>ch.exercises.forEach((_,i)=>{td++; if(isDoneKey(courseId,ch.id,i)) dd++;}));
+    return {done:dd, total:td, pct:td>0?Math.round(dd/td*100):0};
+}
+
+function updateStats() {
+    const totalCh = courses.reduce((s,c)=>s+c.chapters.length,0);
+    const totalEx = courses.reduce((s,c)=>s+c.chapters.reduce((ss,ch)=>ss+ch.exercises.length,0),0);
+    let doneEx = 0; Object.values(progress).forEach(v=>{if(v)doneEx++;});
+    const pct = totalEx>0?Math.round(doneEx/totalEx*100):0;
+    document.getElementById('heroStats').innerHTML = `
+        <div class="hero-stats">
+            <div class="stat-item"><div class="stat-num">${courses.length}</div><div class="stat-label">核心课程</div></div>
+            <div class="stat-item"><div class="stat-num">${totalCh}</div><div class="stat-label">学习章节</div></div>
+            <div class="stat-item"><div class="stat-num">${totalEx}</div><div class="stat-label">练习题</div></div>
+            <div class="stat-item"><div class="stat-num">${pct}%</div><div class="stat-label">完成进度</div></div>
+        </div>`;
+}
+
+function renderCourses() {
+    const grid = document.getElementById('coursesGrid');
+    grid.innerHTML = courses.map(c => {
+        const p = courseProgress(c.id);
+        return '<div class="course-card" onclick="openCourse('+c.id+')">'+
+            '<div class="course-icon-wrap" style="background:'+c.color+'15;color:'+c.color+'"><i class="fas '+c.icon+'"></i></div>'+
+            '<h3>'+c.name+'</h3><p class="desc">'+c.desc+'</p>'+
+            '<div class="course-meta"><span><i class="fas fa-book"></i> '+c.chapters.length+'章 · '+p.done+'/'+p.total+' 已完成</span><span class="arrow">开始 →</span></div>'+
+            '<div class="progress-bar-wrap"><div class="progress-bar" style="width:'+p.pct+'%"></div></div>'+
+            '</div>';
+    }).join('');
+}
+
+function openCourse(courseId) {
+    currentCourseId = courseId;
+    const course = courses.find(c=>c.id===courseId);
+    document.getElementById('modalHeader').style.background = 'linear-gradient(135deg,'+course.color+'dd,'+course.color+')';
+    document.getElementById('modalHeader').innerHTML =
+        '<h2>'+course.name+'</h2><div class="desc">'+course.desc+'</div>';
+    document.getElementById('modalBody').innerHTML =
+        '<div class="course-progress" style="margin-bottom:16px"><span>学习进度</span><span>共 '+course.chapters.length+' 章节</span></div>'+
+        '<div class="progress-bar-wrap" style="margin-bottom:20px"><div class="progress-bar" style="width:'+courseProgress(courseId).pct+'%"></div></div>'+
+        course.chapters.map((ch,idx)=>{
+            const p = chapterProgress(courseId, ch.id);
+            const doneClass = p.done===p.total&&p.total>0?' done':'';
+            return '<div class="chapter-item'+doneClass+'" onclick="openChapter('+courseId+','+ch.id+')">'+
+                '<div class="chapter-num">'+(''+(idx+1)).padStart(2,'0')+'</div>'+
+                '<div class="chapter-info"><h4>'+ch.title+'</h4><p>'+ch.content.substring(0,40)+'...</p></div>'+
+                '<div class="course-progress" style="flex-direction:column;align-items:flex-end;gap:2px;margin:0"><span>'+p.done+'/'+p.total+'</span>'+
+                '<div class="progress-bar-wrap" style="width:60px;height:4px"><div class="progress-bar" style="width:'+p.pct+'%"></div></div></div></div>';
+        }).join('');
+    document.getElementById('courseModal').classList.add('active');
+}
+
+function closeModal() {
+    document.getElementById('courseModal').classList.remove('active');
+}
+
+function openChapter(courseId, chId) {
+    currentChapterId = chId;
+    const course = courses.find(c=>c.id===courseId);
+    const ch = course.chapters.find(c=>c.id===chId);
+    const body = document.getElementById('chapterBody');
+    document.getElementById('chapterHeader').style.background = 'linear-gradient(135deg,'+course.color+'dd,'+course.color+')';
+    document.getElementById('chapterHeader').innerHTML =
+        '<div class="breadcrumb" onclick="openCourse('+courseId+')">← 返回 '+course.name+'</div>'+
+        '<h2>'+ch.title+'</h2><div class="meta">'+course.name+' · '+(chId)+' / '+course.chapters.length+'</div>';
+    body.innerHTML = '';
+
+    // Content section
+    body.innerHTML += '<div class="content-block"><h3><i class="fas fa-book-open"></i> 章节内容</h3><div class="content-text">'+ch.content+'</div></div>';
+
+    // Knowledge points
+    if (ch.knowledge) {
+        body.innerHTML += '<div class="content-block"><h3><i class="fas fa-lightbulb"></i> 核心知识点</h3><ul class="knowledge-list">'+
+            ch.knowledge.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
+    }
+
+    // Code example
+    if (ch.code) {
+        body.innerHTML += '<div class="content-block"><h3><i class="fas fa-code"></i> 代码示例</h3>'+
+            '<div class="code-editor-wrap"><div class="code-editor-header"><span class="title"><i class="fas fa-python"></i> Python</span></div>'+
+            '<pre class="code-editor" style="overflow:auto;background:#1e293b;color:#e2e8f0;padding:14px;font-size:13px;min-height:auto;resize:none" readonly>'+ch.code+'</pre></div></div>';
+    }
+
+    // Exercises
+    body.innerHTML += '<div class="content-block"><h3><i class="fas fa-pencil-alt"></i> 练习平台</h3></div>';
+    ch.exercises.forEach((ex, idx) => {
+        const exDiv = document.createElement('div');
+        exDiv.className = 'exercise-item';
+        exDiv.dataset.course = courseId;
+        exDiv.dataset.chapter = chId;
+        exDiv.dataset.exIdx = idx;
+
+        const typeLabel = {mcq:'选择题', fill:'填空题', run:'编程练习'};
+        const typeClass = {mcq:'type-mcq', fill:'type-fill', run:'type-run'};
+
+        if (ex.type === 'mcq') {
+            exDiv.innerHTML = '<span class="exercise-type '+typeClass.mcq+'">'+typeLabel.mcq+'</span>'+
+                '<div class="exercise-question">'+ex.q+'</div>'+
+                '<div class="mcq-options" data-ex="'+idx+'">'+
+                ex.opts.map((o,i) => '<div class="mcq-option" data-idx="'+i+'" onclick="checkMCQ(this,'+courseId+','+chId+','+idx+')">'+
+                    '<span class="opt-letter">'+String.fromCharCode(65+i)+'</span><span>'+o+'</span></div>').join('')+
+                '</div><div class="exercise-feedback" id="fb-'+courseId+'-'+chId+'-'+idx+'"></div>';
+        } else if (ex.type === 'fill') {
+            exDiv.innerHTML = '<span class="exercise-type '+typeClass.fill+'">'+typeLabel.fill+'</span>'+
+                '<div class="exercise-question">'+ex.q+'</div>'+
+                '<div class="fill-input"><input type="text" id="fill-'+courseId+'-'+chId+'-'+idx+'" placeholder="请输入答案...">'+
+                '<button class="check-btn" onclick="checkFill('+courseId+','+chId+','+idx+')">✓ 检查</button>'+
+                '<button class="show-btn" onclick="showFillAns('+courseId+','+chId+','+idx+')">显示答案</button></div>'+
+                '<div class="exercise-feedback" id="fb-'+courseId+'-'+chId+'-'+idx+'"></div>';
+        } else if (ex.type === 'run') {
+            const savedCode = localStorage.getItem('editor_'+courseId+'_'+chId+'_'+idx) || ex.template || '';
+            exDiv.innerHTML = '<span class="exercise-type '+typeClass.run+'">'+typeLabel.run+'</span>'+
+                '<div class="exercise-question">'+ex.q+'</div>'+
+                '<div class="code-hint"><i class="fas fa-info-circle"></i> '+ex.hint+'</div>'+
+                '<div class="code-editor-wrap">'+
+                '<div class="code-editor-header"><span class="title"><i class="fas fa-terminal"></i> Python 在线运行</span>'+
+                '<div><button class="btn-run" onclick="runCode('+courseId+','+chId+','+idx+')" id="runBtn-'+courseId+'-'+chId+'-'+idx+'"><i class="fas fa-play"></i> 运行</button>'+
+                '<button class="btn-reset" onclick="resetCode('+courseId+','+chId+','+idx+')" style="margin-left:6px"><i class="fas fa-undo"></i> 重置</button></div></div>'+
+                '<textarea class="code-editor" id="editor-'+courseId+'-'+chId+'-'+idx+'" spellcheck="false">'+savedCode+'</textarea>'+
+                '<div class="code-output" id="output-'+courseId+'-'+chId+'-'+idx+'"><span class="output-label">输出</span></div></div>';
+        }
+        body.appendChild(exDiv);
+    });
+
+    // Close other modals and show chapter
+    document.getElementById('courseModal').classList.remove('active');
+    document.getElementById('chapterModal').classList.add('active');
+}
+
+function closeChapter() {
+    document.getElementById('chapterModal').classList.remove('active');
+}
+
+// ============ MCQ checking ============
+function checkMCQ(el, courseId, chId, exIdx) {
+    const parent = el.closest('.mcq-options');
+    const opts = parent.querySelectorAll('.mcq-option');
+    opts.forEach(o => o.classList.remove('selected','correct','wrong'));
+
+    el.classList.add('selected');
+    const course = courses.find(c=>c.id===courseId);
+    const ch = course.chapters.find(c=>c.id===chId);
+    const ex = ch.exercises[exIdx];
+    const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
+
+    if (parseInt(el.dataset.idx) === ex.ans) {
+        el.classList.add('correct');
+        fb.className = 'exercise-feedback show correct';
+        fb.textContent = '✓ 回答正确！';
+        markDone(courseId, chId, exIdx);
+    } else {
+        el.classList.add('wrong');
+        const correctOpt = opts[ex.ans];
+        correctOpt.classList.add('correct');
+        fb.className = 'exercise-feedback show wrong';
+        fb.textContent = '✗ 不正确。正确答案是 ' + String.fromCharCode(65+ex.ans) + ': ' + ex.opts[ex.ans];
+    }
+    updateAllProgress();
+}
+
+// ============ Fill checking ============
+function checkFill(courseId, chId, exIdx) {
+    const input = document.getElementById('fill-'+courseId+'-'+chId+'-'+exIdx);
+    const course = courses.find(c=>c.id===courseId);
+    const ch = course.chapters.find(c=>c.id===chId);
+    const ex = ch.exercises[exIdx];
+    const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
+    const val = input.value.trim();
+
+    const answers = ex.ans.split(' ');
+    const correct = answers.some(a => val.includes(a) || a.includes(val));
+
+    if (correct) {
+        input.className = 'correct';
+        fb.className = 'exercise-feedback show correct';
+        fb.textContent = '✓ 回答正确！';
+        markDone(courseId, chId, exIdx);
+    } else {
+        input.className = 'wrong';
+        fb.className = 'exercise-feedback show wrong';
+        fb.textContent = '✗ 还不完全正确，试试看其他答案';
+    }
+    updateAllProgress();
+}
+
+function showFillAns(courseId, chId, exIdx) {
+    const course = courses.find(c=>c.id===courseId);
+    const ch = course.chapters.find(c=>c.id===chId);
+    const ex = ch.exercises[exIdx];
+    const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
+    fb.className = 'exercise-feedback show info';
+    fb.innerHTML = '参考答案: <span class="ans">'+ex.ans+'</span>';
+}
+
+// ============ Code running with Pyodide ============
+let pyodide = null;
+
+async function loadPyodide() {
+    if (pyodide) return pyodide;
+    const loadingOutputs = document.querySelectorAll('.code-output');
+    loadingOutputs.forEach(o => {
+        if (o.innerHTML.includes('输出</span>') && !o.innerHTML.includes('运行中')) {
+            o.innerHTML = '<span class="output-label">初始化 Python 环境...</span>';
+        }
+    });
+    try {
+        pyodide = await loadPyodide({
+            indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.0/full/',
+            stdout: (text) => { window.pyodideOutput += text; },
+            stderr: (text) => { window.pyodideOutput += 'Error: ' + text; }
+        });
+        await pyodide.loadPackage(['pandas', 'numpy']);
+        return pyodide;
+    } catch(e) {
+        console.error('Pyodide load failed:', e);
+        return null;
+    }
+}
+
+async function runCode(courseId, chId, exIdx) {
+    const editor = document.getElementById('editor-'+courseId+'-'+chId+'-'+exIdx);
+    const output = document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx);
+    const btn = document.getElementById('runBtn-'+courseId+'-'+chId+'-'+exIdx);
+    const code = editor.value;
+
+    localStorage.setItem('editor_'+courseId+'_'+chId+'_'+exIdx, code);
+
+    output.innerHTML = '<span class="output-label">运行中...</span>';
+    output.className = 'code-output';
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 运行中...';
+
+    try {
+        if (!pyodide) {
+            output.innerHTML = '<span class="output-label">加载中</span>正在加载Python环境，请稍候...';
+            await loadPyodide();
+        }
+
+        if (!pyodide) {
+            throw new Error('Python环境加载失败，请检查网络连接');
+        }
+
+        const startTime = performance.now();
+        window.pyodideOutput = '';
+
+        try {
+            await pyodide.runPythonAsync(code);
+        } catch(e) {
+            window.pyodideOutput = '错误: ' + (e.message || e.toString());
+        }
+
+        const elapsed = (performance.now() - startTime).toFixed(1);
+
+        if (!window.pyodideOutput || window.pyodideOutput.trim() === '') {
+            output.innerHTML = '<span class="output-label">输出 (耗时 '+elapsed+'ms)</span>代码执行完毕（无输出）';
+        } else {
+            output.innerHTML = '<span class="output-label">输出 (耗时 '+elapsed+'ms)</span>' + window.pyodideOutput;
+        }
+        output.className = 'code-output';
+        markDone(courseId, chId, exIdx);
+
+    } catch(e) {
+        output.innerHTML = '<span class="output-label">错误</span>' + (e.message || e.toString());
+        output.className = 'code-output error';
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-play"></i> 运行';
+    updateAllProgress();
+}
+
+function resetCode(courseId, chId, exIdx) {
+    const course = courses.find(c=>c.id===courseId);
+    const ch = course.chapters.find(c=>c.id===chId);
+    const ex = ch.exercises[exIdx];
+    document.getElementById('editor-'+courseId+'-'+chId+'-'+exIdx).value = ex.template || '';
+    localStorage.removeItem('editor_'+courseId+'_'+chId+'_'+exIdx);
+    document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx).innerHTML = '<span class="output-label">输出</span>';
+    document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx).className = 'code-output';
+}
+
+function updateAllProgress() {
+    renderCourses();
+    updateStats();
+    if (currentCourseId) {
+        if (document.getElementById('courseModal').classList.contains('active')) {
+            openCourse(currentCourseId);
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateStats();
+    renderCourses();
+
+    document.getElementById('courseModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('courseModal')) closeModal();
+    });
+    document.getElementById('chapterModal').addEventListener('click', (e) => {
+        if (e.target === document.getElementById('chapterModal')) closeChapter();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (document.getElementById('chapterModal').classList.contains('active')) closeChapter();
+            else if (document.getElementById('courseModal').classList.contains('active')) closeModal();
+        }
+    });
+});
+'''
+
+# ==================== BUILD HTML ====================
+html = '''<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>樊珍秀 - 商务数据分析与应用 | 个人学习平台</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.0/full/pyodide.js"></script>
+<style>''' + css + '''</style>
+</head>
+<body>
+
+<nav class="navbar">
+<div class="nav-logo">樊珍秀</div>
+<div class="nav-links">
+<a href="#" onclick="document.getElementById('coursesSection').scrollIntoView({behavior:'smooth'})">课程中心</a>
+<a href="#" onclick="updateStats();document.getElementById('heroSection').scrollIntoView({behavior:'smooth'})">个人主页</a>
+</div>
+</nav>
+
+<section id="heroSection" class="hero">
+<div class="hero-content">
+<h1>樊珍秀</h1>
+<p class="subtitle">广东科学技术职业学院 · 商学院 · 商务数据分析与应用专业</p>
+<p style="opacity:0.8;max-width:600px;margin:0 auto 16px">专注于数据采集、处理、分析与可视化，用数据洞察商业价值。每个章节都配有交互式练习平台，边学边练。</p>
+<div id="heroStats"></div>
+</div>
+</section>
+
+<section id="coursesSection" class="section" style="background:#fff">
+<div class="container">
+<h2 class="section-title">课程中心</h2>
+<p class="section-desc">10门核心课程，每门10章节，交互式练习平台，边学边练</p>
+<div class="courses-grid" id="coursesGrid"></div>
+</div>
+</section>
+
+<footer class="footer">
+<p>&copy; 2024 樊珍秀 · 商务数据分析与应用 | 保留所有权利</p>
+</footer>
+
+<!-- Course Modal -->
+<div class="modal-mask" id="courseModal">
+<div class="modal">
+<div class="modal-header" id="modalHeader" style="position:relative">
+<h2>课程名称</h2>
+<div class="desc">描述</div>
+<button class="close-btn" onclick="closeModal()"><i class="fas fa-times"></i></button>
+</div>
+<div class="modal-body" id="modalBody"></div>
+</div>
+</div>
+
+<!-- Chapter Modal -->
+<div class="modal-mask" id="chapterModal">
+<div class="modal">
+<div class="modal-header" id="chapterHeader" style="position:relative">
+<div class="breadcrumb" onclick="closeChapter()">← 返回</div>
+<h2>章节名称</h2>
+<button class="close-btn" onclick="closeChapter()"><i class="fas fa-times"></i></button>
+</div>
+<div class="modal-body" id="chapterBody"></div>
+</div>
+</div>
+
+<script>
+const courses = __COURSES_DATA__;
+
+__JS_LOGIC__
+</script>
+</body>
+</html>'''
+
+html = html.replace('__COURSES_DATA__', json.dumps(courses_data, ensure_ascii=False))
+html = html.replace('__JS_LOGIC__', js)
+
+size = len(html)
+lines = html.count('\n')
+total_ch = sum(len(c["chapters"]) for c in courses_data)
+total_ex = sum(len(ch["exercises"]) for c in courses_data for ch in c["chapters"])
+print(f'✓ 整合完成!')
+print(f'  文件大小: {size:,} 字节')
+print(f'  总行数: {lines}')
+print(f'  课程: {len(courses_data)} (全部)')
+print(f'  章节: {total_ch}')
+print(f'  练习题: {total_ex} 道')
+print(f'  CSS: 内联样式')
+print(f'  JS: 内联脚本')
+print(f'  数据: 内联JSON')
+
+# Write output file
+with open('/workspace/index.html', 'w', encoding='utf-8') as f:
+    f.write(html)
+
+print(f'  ✓ 已写入 /workspace/index.html')
