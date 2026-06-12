@@ -1,1107 +1,804 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""Generate the enhanced single-file learning platform HTML"""
+ 
+import json
+ 
+# ==================== COURSES DATA ====================
+ 
+def ch(id_num, title, content, knowledge, code_template, exercises):
+return {"id": id_num, "title": title, "content": content,
+"knowledge": knowledge, "code": code_template, "exercises": exercises}
+ 
+course_python = {
+"id": 1, "name": "Python基础", "icon": "fa-code", "color": "#3776AB",
+"desc": "从零开始学习Python编程语言，掌握编程基础语法和核心概念",
+"chapters": [
+ch(1, "第一章：Python简介与环境搭建",
+"Python是一种简洁优雅的高级通用编程语言。本章介绍Python的发展历程、特点以及如何在不同操作系统上安装和使用Python环境。",
+["Python的历史与特点", "解释型语言 vs 编译型语言", "开发环境选择", "第一个Python程序"],
+"print('Hello, World!')\nname = 'Fan Zhenxiu'\nversion = 3.11\nprint(f'{name} uses Python {version}')",
+[
+{"type": "mcq", "q": "Python是由谁创造的？", "opts": ["Guido van Rossum", "Linus Torvalds", "Bill Gates", "Mark Zuckerberg"], "ans": 0},
+{"type": "fill", "q": "在屏幕上输出文字使用的函数是 ____('内容')", "ans": "print"},
+{"type": "run", "q": "编写代码：输出你的姓名、年龄，并计算 1+2+3+...+10 的结果",
+"hint": "使用 print() 输出；用 sum(range(1, 11)) 计算累加",
+"template": "# 输出个人信息\nname = \"樊珍秀\"\nage = 20\nprint(f\"姓名: {name}\")\nprint(f\"年龄: {age}\")\n\n# 计算 1+2+...+10\ntotal = sum(range(1, 11))\nprint(f\"1+2+...+10 = {total}\")\n"}
+]),
+ch(2, "第二章：变量与数据类型",
+"变量是程序中存储数据的容器。Python支持多种数据类型，包括数值类型(int, float)、字符串(str)、布尔值(bool)等。理解数据类型是编程的基础。",
+["变量命名规则(字母/数字/下划线,不能以数字开头)", "整数(int)与浮点数(float)", "字符串(str)操作", "布尔类型(bool)和类型检测type()"],
+"age = 20\nheight = 1.75\nname = '樊珍秀'\nmessage = f'姓名: {name}, 年龄: {age}'\nprint(message)",
+[
+{"type": "mcq", "q": "下列哪个是合法的变量名？", "opts": ["1name", "my-name", "my_name", "class"], "ans": 2},
+{"type": "fill", "q": "type(3.14) 的返回结果是 <class '____'>", "ans": "float"},
+{"type": "run", "q": "定义三个变量：姓名、年龄、成绩，使用 f-string 格式化输出，检测各变量类型，并演示类型转换",
+"hint": "使用 f\"文本 {变量}\"；用 type() 检测类型；用 int()/str()/float() 转换",
+"template": "name = \"樊珍秀\"\nage = 20\nscore = 95\n\nprint(f\"姓名: {name}\")\nprint(f\"年龄: {age}\")\nprint(f\"成绩: {score}\")\nprint(f\"年龄+成绩 = {age + score}\")\n\nprint(f\"\\nname 的类型: {type(name)}\")\nprint(f\"age 的类型: {type(age)}\")\nprint(f\"score 的类型: {type(score)}\")\nprint(f\"True 的类型: {type(True)}\")\n\nprint(f\"\\nstr(age) = '{str(age)}' (转字符串)\")\nprint(f\"int('123') = {int('123')} (转整数)\")\nprint(f\"float('3.14') = {float('3.14')} (转浮点)\")\n"}
+]),
+ch(3, "第三章：运算符与表达式",
+"运算符用于对数据进行操作。Python支持算术运算(+,-,*,/,//,%,**)、比较运算(==,!=,>,<)、逻辑运算(and,or,not)等多种运算符。",
+["算术运算符: + - * / // % **", "比较运算符: == != > < >= <=", "逻辑运算符: and or not", "运算符优先级和括号使用"],
+"a, b = 10, 3\nprint(f'加: {a+b}, 除: {a/b}')\nprint(f'整除: {a//b}, 取模: {a%b}')\nprint(f'幂: {a**b}')",
+[
+{"type": "mcq", "q": "表达式 17 // 5 的结果是？", "opts": ["3.4", "3", "4", "2"], "ans": 1},
+{"type": "fill", "q": "2 的 10 次方用 Python 表达式写为 ____", "ans": "2**10"},
+{"type": "run", "q": "给定圆的半径 r=7，计算并输出圆的周长和面积(π取3.14159)；判断 r 是否在 5-10 之间",
+"hint": "周长=2*π*r，面积=π*r²；使用比较运算符",
+"template": "r = 7\npi = 3.14159\n\ncircumference = 2 * pi * r\narea = pi * r ** 2\n\nprint(f\"半径 r = {r}\")\nprint(f\"周长 = {circumference:.4f}\")\nprint(f\"面积 = {area:.4f}\")\n\nprint(f\"\\nr 是否在 5-10 之间? {5 <= r <= 10}\")\nprint(f\"r 的平方 = {r**2}\")\nprint(f\"r 的平方根 = {r**0.5:.4f}\")\nprint(f\"r / 2 (整除) = {r // 2}\")\nprint(f\"r % 2 (取模) = {r % 2}\")\n"}
+]),
+ch(4, "第四章：流程控制语句",
+"流程控制允许程序根据条件执行不同的代码路径。主要包括 if-elif-else 条件判断、for 循环、while 循环以及 break 和 continue 语句。",
+["if-elif-else 多分支条件判断", "for 循环遍历序列与 range()", "while 循环及退出条件", "break/continue 控制循环流程"],
+"score = 85\nif score >= 90:\n    grade = '优秀'\nelif score >= 80:\n    grade = '良好'\nelif score >= 60:\n    grade = '及格'\nelse:\n    grade = '不及格'\nprint(f'成绩 {score} = {grade}')\n\nfor i in range(1, 6):\n    print(f'第 {i} 次循环')",
+[
+{"type": "mcq", "q": "for 循环中用于生成整数序列的函数是？", "opts": ["range()", "seq()", "list()", "numbers()"], "ans": 0},
+{"type": "fill", "q": "跳出当前循环使用 ____ 关键字；跳过当前迭代继续下次循环使用 ____", "ans": "break continue"},
+{"type": "run", "q": "用循环输出1-100中所有能被7整除的数字；判断数字列表中每个数的奇偶性；打印九九乘法表；演示break和continue",
+"hint": "for + range + if；% 求模；嵌套 for",
+"template": "print(\"【1】1-100 中能被 7 整除的数:\")\nresults = [n for n in range(1, 101) if n % 7 == 0]\nprint(f\"共 {len(results)} 个: {results}\")\n\nprint(\"\\n【2】奇偶判断:\")\nfor n in [23, 45, 68, 100, 7, 15, 36, 99]:\n    print(f\"  {n}: {'偶数' if n % 2 == 0 else '奇数'}\")\n\nprint(\"\\n【3】九九乘法表:\")\nfor i in range(1, 10):\n    for j in range(1, i+1):\n        print(f\"{j}x{i}={i*j}\", end=\"\\t\")\n    print()\n\nprint(\"\\n【4】break/continue:\")\nfor n in range(1, 11):\n    if n % 3 == 0: continue\n    if n == 8: break\n    print(f\"  n = {n}\")\n"}
+]),
+ch(5, "第五章：列表与元组",
+"列表(list)和元组(tuple)是Python中常用的序列数据结构。列表可变，元组不可变。掌握索引、切片和常用方法是数据处理的基础。",
+["列表的创建与访问(索引从0开始)", "列表的增删改查(append,pop,insert,remove,sort)", "列表切片 s[start:end:step]", "元组的不可变特性与解包"],
+"fruits = ['apple', 'banana', 'cherry']\nprint(f'列表: {fruits}')\nprint(f'第一个: {fruits[0]}, 最后一个: {fruits[-1]}')\nprint(f'切片前2个: {fruits[:2]}')\nfruits.append('date')\nprint(f'追加后: {fruits}')\n\ncoordinates = (3, 4)\nx, y = coordinates\nprint(f'元组解包: x={x}, y={y}')",
+[
+{"type": "mcq", "q": "fruits = ['a','b','c']，fruits[-1] 的结果是？", "opts": ["'a'", "'b'", "'c'", "报错"], "ans": 2},
+{"type": "fill", "q": "在列表末尾添加元素使用 ____() 方法；排序使用 ____()", "ans": "append sort"},
+{"type": "run", "q": "创建成绩列表，完成排序/反转/切片/统计(最高/最低/平均/总分)；使用列表推导式筛选",
+"hint": "使用 max(), min(), sum(), len(), sorted()；列表推导式 [x for x in ... if ...]",
+"template": "scores = [85, 92, 78, 88, 95, 72, 80, 90]\nprint(f\"原始: {scores}\")\nprint(f\"最高: {max(scores)}, 最低: {min(scores)}\")\nprint(f\"平均: {sum(scores)/len(scores):.1f}, 总分: {sum(scores)}\")\nprint(f\"升序: {sorted(scores)}\")\nprint(f\"降序: {sorted(scores, reverse=True)}\")\nprint(f\"前3: {scores[:3]}, 后3: {scores[-3:]}\")\nprint(f\"反转: {scores[::-1]}\")\nprint(f\"偶数: {[x for x in scores if x%2==0]}\")\nprint(f\"80分以上: {[x for x in scores if x>=80]}\")\nprint(f\"平方: {[x**2 for x in scores]}\")\n"}
+]),
+ch(6, "第六章：字典",
+"字典(dict)用于存储键值对(key-value)映射关系。通过键可以快速查找值，是数据分析中存储结构化数据的常用方式。",
+["字典的创建与访问 d[key] / d.get(key)", "字典的增删改查操作", "遍历: keys()/values()/items()", "字典推导式与嵌套字典"],
+"student = {'name': '樊珍秀', 'age': 20, 'major': '商务数据分析'}\nprint(f\"姓名: {student['name']}\")\nfor k, v in student.items():\n    print(f'  {k}: {v}')\nprint(f\"身高 (get): {student.get('height', '未知')}\")",
+[
+{"type": "mcq", "q": "访问字典键时避免 KeyError 的方法是？", "opts": ["d[key]", "d.get(key)", "d[key] = ...", "d.key"], "ans": 1},
+{"type": "fill", "q": "遍历键值对使用 d.____()；获取所有键用 d.____()", "ans": "items keys"},
+{"type": "run", "q": "创建学生成绩字典，遍历输出，添加/删除学生，按成绩排序，统计总分/平均分/最高分",
+"hint": "用 sorted(d.items(), key=lambda x: x[1], reverse=True) 排序",
+"template": "scores = {'张三':85, '李四':92, '王五':78, '赵六':88}\nprint(\"所有学生:\")\nfor n, s in scores.items():\n    print(f\"  {n}: {s}分\")\nscores['孙八'] = 82\nprint(f\"\\n新增孙八后共{len(scores)}人\")\nsc = list(scores.values())\nprint(f\"平均: {sum(sc)/len(sc):.1f}, 最高: {max(sc)}, 最低: {min(sc)}\")\nsorted_stu = sorted(scores.items(), key=lambda x: -x[1])\nprint(\"排名:\")\nfor i,(n,s) in enumerate(sorted_stu,1):\n    print(f\"  第{i}名: {n} {s}分\")\nprint(f\"及格: {dict((n,s) for n,s in scores.items() if s>=60)}\")\n"}
+]),
+ch(7, "第七章：函数",
+"函数是组织代码的基本单元，用于封装可重用的代码块。Python支持默认参数、返回多值和lambda匿名函数。",
+["函数定义 def 与调用", "参数传递(位置/关键字/默认参数)", "返回值 return (可返回多个值)", "lambda 匿名函数和高阶函数"],
+"def calc_area(r):\n    return 3.14159 * r**2\nprint(f'r=5, 面积={calc_area(5):.2f}')\nadd = lambda x, y: x + y\nprint(f'lambda: 3+5={add(3,5)}')",
+[
+{"type": "mcq", "q": "定义函数使用什么关键字？", "opts": ["function", "def", "func", "define"], "ans": 1},
+{"type": "fill", "q": "返回多个值时用逗号分隔，接收时用多个变量____", "ans": "解包"},
+{"type": "run", "q": "定义函数：判断素数、计算阶乘、多值返回(最小/最大/总和/平均)、lambda排序",
+"hint": "def 函数名(参数): ... return ...；lambda 可用作排序 key",
+"template": "def is_prime(n):\n    if n<2: return False\n    for i in range(2,int(n**0.5)+1):\n        if n%i==0: return False\n    return True\n\ndef stats(nums):\n    return min(nums),max(nums),sum(nums),sum(nums)/len(nums)\n\nprint(\"素数:\", [n for n in range(1,51) if is_prime(n)])\nmn,mx,tot,avg = stats([85,92,78,88,95])\nprint(f\"统计: 最低{mn}, 最高{mx}, 总和{tot}, 平均{avg:.1f}\")\nprint(f\"lambda排序: {sorted([(1,5),(3,2),(2,8)], key=lambda x: x[1])}\")\n"}
+]),
+ch(8, "第八章：文件操作",
+"文件操作是程序与外部数据交互的重要方式。使用 with 语句可自动管理文件打开与关闭。",
+["文件打开模式 ('r','w','a','r+')", "读取文件 (read,readline,readlines)", "写入文件 (write,writelines)", "with 语句自动关闭"],
+"with open('demo.txt','w') as f:\n    f.write('Hello\\n')\nwith open('demo.txt','r') as f:\n    for line in f: print(line.strip())",
+[
+{"type": "mcq", "q": "自动管理文件打开/关闭的语句是？", "opts": ["try-catch", "for", "with", "while"], "ans": 2},
+{"type": "fill", "q": "只读模式: open('f.txt', ____)；写入模式: open('f.txt', ____)", "ans": "'r' 'w'"},
+{"type": "run", "q": "创建CSV写入学生数据，读取后统计平均分/最高分，将报告写入新文件",
+"hint": "用 with open() as f: 操作文件；readlines() 读取所有行",
+"template": "import os\nwith open('stu.csv','w') as f:\n    f.write('name,age,score\\n')\n    f.write('张三,20,85\\n')\n    f.write('李四,21,92\\n')\n    f.write('王五,19,78\\n')\nwith open('stu.csv','r') as f:\n    lines = f.readlines()\nprint(f\"共{len(lines)}行\")\ndata = [l.strip().split(',') for l in lines[1:]]\nscores = [int(d[2]) for d in data]\nprint(f\"平均分: {sum(scores)/len(scores):.1f}\")\nprint(f\"最高分: {max(scores)}\")\nwith open('report.txt','w') as f:\n    f.write(f\"平均分: {sum(scores)/len(scores):.1f}\\n\")\n    f.write(f\"最高分: {max(scores)}\\n\")\nprint(\"报告已写入 report.txt\")\nfor fn in ['stu.csv','report.txt']:\n    if os.path.exists(fn): os.remove(fn)\nprint(\"临时文件已清理\")\n"}
+]),
+ch(9, "第九章：模块与包",
+"模块通过 import 导入，可使用标准库功能。Python有丰富的标准库：math, random, datetime, os 等。",
+["import / from ... import ...", "常用标准库 (math, random, datetime, os)", "dir() 查看模块功能", "自定义模块"],
+"import math\nprint(f'pi={math.pi:.4f}')\nprint(f'√144={math.sqrt(144)}')\nfrom random import randint, choice\nprint(f'随机: {randint(1,100)}, {choice([\"A\",\"B\"])}')",
+[
+{"type": "mcq", "q": "只导入模块中的特定函数用？", "opts": ["from module import func", "import module.func", "include func", "use func"], "ans": 0},
+{"type": "fill", "q": "生成1-100随机整数: random.____(1,100)；当前时间: datetime.datetime.____()", "ans": "randint now"},
+{"type": "run", "q": "使用 math 计算圆面积和三角函数；用 random 模拟掷骰子和彩票；用 datetime 显示当前时间",
+"hint": "import math; import random; import datetime",
+"template": "import math, random, datetime\nprint(f\"π={math.pi:.6f}\")\nprint(f\"sin(30°)={math.sin(math.radians(30)):.4f}\")\nprint(f\"10!={math.factorial(10)}\")\ndice = [random.randint(1,6) for _ in range(10)]\nprint(f\"掷骰子10次: {dice}, 平均{sum(dice)/10:.1f}\")\nnow = datetime.datetime.now()\nprint(f\"现在: {now.strftime('%Y-%m-%d %H:%M:%S')}\")\nprint(f\"今天是星期{['一','二','三','四','五','六','日'][now.weekday()]}\")\n"}
+]),
+ch(10, "第十章：面向对象编程",
+"OOP将数据和操作封装在对象中。用class定义类，通过继承实现代码复用和多态。",
+["类的定义 class", "对象实例化和属性/方法", "__init__ 构造方法", "继承: class 子类(父类)"],
+"class Student:\n    def __init__(self, n, a, m):\n        self.name, self.age, self.major = n, a, m\n    def intro(self):\n        return f'我叫{self.name}, {self.age}岁'\nfan = Student('樊珍秀',20,'商务数据分析')\nprint(fan.intro())",
+[
+{"type": "mcq", "q": "构造方法的名称是？", "opts": ["__init__", "__new__", "__create__", "constructor"], "ans": 0},
+{"type": "fill", "q": "在类方法中引用当前对象用 ____；继承时在类名括号中写 ____", "ans": "self 父类名"},
+{"type": "run", "q": "创建银行账户类 BankAccount（存/取/查询/交易记录）；创建子类 SavingsAccount 添加利息计算",
+"hint": "class 类: def __init__(self,...): ... def 方法(self,...): ...",
+"template": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner=owner; self.balance=balance\n        self.txns=[(('开户',balance))]\n    def deposit(self,amt):\n        self.balance+=amt; self.txns.append(('存款',amt))\n    def withdraw(self,amt):\n        if amt<=self.balance:\n            self.balance-=amt; self.txns.append(('取款',-amt)); return True\n        return False\n\nclass SavingsAccount(BankAccount):\n    def __init__(self,owner,balance=0,rate=0.03):\n        super().__init__(owner,balance); self.rate=rate\n    def add_interest(self):\n        int_ = round(self.balance*self.rate,2)\n        self.balance+=int_\n        self.txns.append(('利息',int_))\n\nacct = SavingsAccount('樊珍秀',1000,0.035)\nacct.deposit(2000); acct.withdraw(500)\nacct.add_interest()\nprint(f\"{acct.owner} 余额: {acct.balance:.2f}元\")\nfor t,a in acct.txns:\n    print(f\"  {t}: {a:+.2f}\")\n"}
+])
+]
+}
+ 
+# ==================== CSS ====================
+css = """*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#6366f1;--primary-dark:#4f46e5;--accent:#8b5cf6;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--dark:#0f172a;--g6:#475569;--g5:#64748b;--g4:#cbd5e1;--g3:#e2e8f0;--g2:#f1f5f9;--g1:#f8fafc;--sm:0 8px 24px rgba(0,0,0,0.08);--lg:0 20px 60px rgba(0,0,0,0.12);--r12:12px;--r20:20px}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;color:var(--dark);background:var(--g1);line-height:1.6;-webkit-font-smoothing:antialiased}
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--g3);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-size:20px;font-weight:800;background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:24px}
+.nav-links a{color:var(--g5);text-decoration:none;font-weight:500;font-size:14px;transition:color .2s}
+.nav-links a:hover{color:var(--primary)}
+.hero{padding:140px 32px 80px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,255,255,0.15),transparent 50%),radial-gradient(circle at 80% 80%,rgba(255,255,255,0.1),transparent 50%)}
+.hero-content{position:relative;max-width:900px;margin:0 auto}
+.hero h1{font-size:48px;font-weight:800;margin-bottom:20px;letter-spacing:-1px}
+.hero .subtitle{font-size:20px;opacity:0.9;margin-bottom:32px}
+.hero-stats{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:32px}
+.stat-item{background:rgba(255,255,255,0.15);padding:18px 28px;border-radius:var(--r12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);min-width:120px}
+.stat-num{font-size:32px;font-weight:800}
+.stat-label{font-size:13px;opacity:0.85;margin-top:4px}
+.section{padding:80px 32px}
+.container{max-width:1200px;margin:0 auto}
+.section-title{font-size:36px;font-weight:800;text-align:center;margin-bottom:12px}
+.section-desc{text-align:center;color:var(--g5);margin-bottom:48px;font-size:16px}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.course-card{background:#fff;border-radius:var(--r20);padding:28px;box-shadow:var(--sm);transition:all .3s;cursor:pointer;border:2px solid transparent}
+.course-card:hover{transform:translateY(-6px);box-shadow:var(--lg);border-color:var(--primary)}
+.course-icon-wrap{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.course-card h3{font-size:20px;font-weight:700;margin-bottom:8px}
+.course-card .desc{color:var(--g5);font-size:14px;margin-bottom:16px;min-height:42px}
+.course-meta{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--g3);font-size:13px;color:var(--g5)}
+.course-meta .arrow{color:var(--primary);font-weight:700}
+.progress-bar-wrap{background:var(--g2);height:6px;border-radius:3px;overflow:hidden;margin-top:12px}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:3px;transition:width .4s;width:0%}
+.modal-mask{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-mask.active{display:flex;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:var(--r20);max-width:900px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;animation:slideUp .3s}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{padding:28px 32px;color:#fff}
+.modal-header h2{font-size:24px;font-weight:800}
+.modal-header .desc{opacity:0.9;font-size:14px;margin-top:4px}
+.close-btn{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);color:#fff;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;transition:all .2s;z-index:10}
+.close-btn:hover{background:rgba(255,255,255,0.35);transform:rotate(90deg)}
+.modal-body{padding:24px 32px;overflow-y:auto;flex:1}
+.chapter-item{background:var(--g1);padding:18px 22px;border-radius:var(--r12);cursor:pointer;transition:all .2s;border:2px solid transparent;display:flex;align-items:center;gap:16px;margin-bottom:10px}
+.chapter-item:hover{background:#fff;border-color:var(--g3);transform:translateX(4px);box-shadow:var(--sm)}
+.chapter-item.done{border-color:var(--success);background:rgba(16,185,129,0.06)}
+.chapter-num{width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,0.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;color:var(--primary)}
+.chapter-item.done .chapter-num{background:var(--success);color:#fff}
+.chapter-info{flex:1}
+.chapter-info h4{font-size:16px;font-weight:700;margin-bottom:4px}
+.chapter-info p{font-size:13px;color:var(--g5)}
+.chapter-detail{padding:0}
+.chapter-detail-header{padding:24px 28px;color:#fff;position:sticky;top:0;z-index:10}
+.chapter-detail-header h2{font-size:22px;font-weight:800;margin-bottom:6px}
+.chapter-detail-header .meta{font-size:14px;opacity:0.9;margin-top:8px;display:flex;gap:16px}
+.breadcrumb{font-size:13px;opacity:0.85;margin-bottom:8px;cursor:pointer}
+.breadcrumb:hover{text-decoration:underline}
+.chapter-body{padding:28px}
+.content-block{margin-bottom:28px}
+.content-block h3{font-size:18px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.content-block h3 i{width:32px;height:32px;background:var(--g2);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;color:var(--primary)}
+.content-block .content-text{color:var(--g6);line-height:1.8;background:var(--g1);padding:16px 20px;border-radius:var(--r12);font-size:15px}
+.knowledge-list{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
+.knowledge-list li{padding:10px 16px;background:var(--g1);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:14px}
+.knowledge-list li::before{content:'\\2713';color:var(--success);font-weight:800}
+.code-editor-wrap{background:#1e293b;border-radius:var(--r12);overflow:hidden;margin-bottom:10px;border:1px solid #334155}
+.code-editor-header{padding:10px 14px;background:#0f172a;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #334155}
+.code-editor-header .title{color:#cbd5e1;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.btn-run,.btn-reset{padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:#fff}
+.btn-run{background:var(--success)}.btn-run:hover{background:#059669}
+.btn-reset{background:var(--g6)}.btn-reset:hover{background:#334155}
+.code-editor{width:100%;min-height:140px;padding:14px;background:#1e293b;border:none;color:#e2e8f0;font-family:'SF Mono',Monaco,'Courier New',Consolas,monospace;font-size:13px;line-height:1.7;resize:vertical;outline:none;tab-size:4}
+.code-editor:focus{box-shadow:inset 0 0 0 2px var(--primary)}
+.code-output{background:#020617;padding:14px;border-top:1px solid #334155;font-family:'SF Mono',Monaco,'Courier New',Consolas,monospace;font-size:13px;color:#a5f3fc;white-space:pre-wrap;word-wrap:break-word;min-height:36px;max-height:260px;overflow-y:auto;border-radius:0 0 8px 8px}
+.code-output.error{color:#fca5a5}
+.code-output .output-label{color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:block}
+.exercise-item{background:var(--g1);border-radius:var(--r12);padding:20px;margin-bottom:14px;border-left:4px solid var(--primary);transition:all .2s}
+.exercise-item:hover{box-shadow:var(--sm)}
+.exercise-type{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:10px}
+.type-mcq{background:rgba(99,102,241,0.15);color:var(--primary)}
+.type-fill{background:rgba(245,158,11,0.15);color:var(--warning)}
+.type-run{background:rgba(16,185,129,0.15);color:var(--success)}
+.exercise-question{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:12px;line-height:1.6}
+.mcq-options{display:flex;flex-direction:column;gap:8px}
+.mcq-option{padding:10px 14px;background:#fff;border:2px solid var(--g3);border-radius:10px;cursor:pointer;font-size:14px;transition:all .2s;display:flex;align-items:center;gap:10px}
+.mcq-option:hover{border-color:var(--primary)}
+.mcq-option .opt-letter{width:24px;height:24px;background:var(--g2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.mcq-option.selected{border-color:var(--primary);background:rgba(99,102,241,0.06)}
+.mcq-option.selected .opt-letter{background:var(--primary);color:#fff}
+.mcq-option.correct{border-color:var(--success);background:rgba(16,185,129,0.06)}
+.mcq-option.correct .opt-letter{background:var(--success);color:#fff}
+.mcq-option.wrong{border-color:var(--danger);background:rgba(239,68,68,0.06)}
+.mcq-option.wrong .opt-letter{background:var(--danger);color:#fff}
+.fill-input{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.fill-input input{flex:1;min-width:200px;padding:10px 14px;border:2px solid var(--g3);border-radius:8px;font-size:14px;transition:all .2s}
+.fill-input input:focus{outline:none;border-color:var(--primary)}
+.fill-input input.correct{border-color:var(--success);background:rgba(16,185,129,0.06)}
+.fill-input input.wrong{border-color:var(--danger);background:rgba(239,68,68,0.06)}
+.check-btn,.show-btn{padding:7px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:#fff;background:var(--primary)}
+.check-btn:hover{background:var(--primary-dark)}
+.show-btn{background:var(--g4);color:var(--g6)}.show-btn:hover{background:var(--g3)}
+.exercise-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;display:none}
+.exercise-feedback.show{display:block;animation:fadeIn .3s}
+.exercise-feedback.correct{background:rgba(16,185,129,0.12);color:var(--success)}
+.exercise-feedback.wrong{background:rgba(239,68,68,0.12);color:var(--danger)}
+.exercise-feedback.info{background:rgba(99,102,241,0.12);color:var(--primary)}
+.exercise-feedback .ans{font-weight:700;padding:2px 6px;background:rgba(0,0,0,0.05);border-radius:4px}
+.course-progress{font-size:12px;color:var(--g5);display:flex;justify-content:space-between;margin-top:8px;padding:0 4px}
+.footer{padding:32px;text-align:center;color:var(--g5);font-size:13px;background:#fff;border-top:1px solid var(--g3)}"""
+ 
+js = r'''
+let progress = JSON.parse(localStorage.getItem('fan_progress') || '{}');
+let currentCourseId = null;
+let currentChapterId = null;
+ 
+function saveProgress() { localStorage.setItem('fan_progress', JSON.stringify(progress)); }
+ 
+function markDone(courseId, chId, exIdx) {
+progress[`${courseId}-${chId}-${exIdx}`] = true;
+saveProgress();
+}
+ 
+function isDoneKey(courseId, chId, exIdx) {
+return progress[`${courseId}-${chId}-${exIdx}`] === true;
+}
+ 
+function chapterProgress(courseId, chId) {
+const ch = courses.find(c=>c.id===courseId).chapters.find(c=>c.id===chId);
+if (!ch) return {done:0,total:0,pct:0};
+let d = 0;
+for (let i=0;i<ch.exercises.length;i++) if (isDoneKey(courseId,chId,i)) d++;
+return {done:d, total:ch.exercises.length, pct:Math.round(d/ch.exercises.length*100)};
+}
+ 
+function courseProgress(courseId) {
+const c = courses.find(c=>c.id===courseId);
+let td=0,dd=0;
+c.chapters.forEach(ch=>ch.exercises.forEach((_,i)=>{td++; if(isDoneKey(courseId,ch.id,i)) dd++;}));
+return {done:dd, total:td, pct:td>0?Math.round(dd/td*100):0};
+}
+ 
+function updateStats() {
+const totalCh = courses.reduce((s,c)=>s+c.chapters.length,0);
+const totalEx = courses.reduce((s,c)=>s+c.chapters.reduce((ss,ch)=>ss+ch.exercises.length,0),0);
+let doneEx = 0; Object.values(progress).forEach(v=>{if(v)doneEx++;});
+const pct = totalEx>0?Math.round(doneEx/totalEx*100):0;
+document.getElementById('heroStats').innerHTML = `
+<div class="hero-stats">
+<div class="stat-item"><div class="stat-num">${courses.length}</div><div class="stat-label">核心课程</div></div>
+<div class="stat-item"><div class="stat-num">${totalCh}</div><div class="stat-label">学习章节</div></div>
+<div class="stat-item"><div class="stat-num">${totalEx}</div><div class="stat-label">练习题</div></div>
+<div class="stat-item"><div class="stat-num">${pct}%</div><div class="stat-label">完成进度</div></div>
+</div>`;
+}
+ 
+function renderCourses() {
+const grid = document.getElementById('coursesGrid');
+grid.innerHTML = courses.map(c => {
+const p = courseProgress(c.id);
+return '<div class="course-card" onclick="openCourse('+c.id+')">'+
+'<div class="course-icon-wrap" style="background:'+c.color+'15;color:'+c.color+'"><i class="fas '+c.icon+'"></i></div>'+
+'<h3>'+c.name+'</h3><p class="desc">'+c.desc+'</p>'+
+'<div class="course-meta"><span><i class="fas fa-book"></i> '+c.chapters.length+'章 · '+p.done+'/'+p.total+' 已完成</span><span class="arrow">开始 →</span></div>'+
+'<div class="progress-bar-wrap"><div class="progress-bar" style="width:'+p.pct+'%"></div></div>'+
+'</div>';
+}).join('');
+}
+ 
+function openCourse(courseId) {
+currentCourseId = courseId;
+const course = courses.find(c=>c.id===courseId);
+document.getElementById('modalHeader').style.background = 'linear-gradient(135deg,'+course.color+'dd,'+course.color+')';
+document.getElementById('modalHeader').innerHTML =
+'<h2>'+course.name+'</h2><div class="desc">'+course.desc+'</div>';
+document.getElementById('modalBody').innerHTML =
+'<div class="course-progress" style="margin-bottom:16px"><span>学习进度</span><span>共 '+course.chapters.length+' 章节</span></div>'+
+'<div class="progress-bar-wrap" style="margin-bottom:20px"><div class="progress-bar" style="width:'+courseProgress(courseId).pct+'%"></div></div>'+
+course.chapters.map((ch,idx)=>{
+const p = chapterProgress(courseId, ch.id);
+const doneClass = p.done===p.total&&p.total>0?' done':'';
+return '<div class="chapter-item'+doneClass+'" onclick="openChapter('+courseId+','+ch.id+')">'+
+'<div class="chapter-num">'+(''+(idx+1)).padStart(2,'0')+'</div>'+
+'<div class="chapter-info"><h4>'+ch.title+'</h4><p>'+ch.content.substring(0,40)+'...</p></div>'+
+'<div class="course-progress" style="flex-direction:column;align-items:flex-end;gap:2px;margin:0"><span>'+p.done+'/'+p.total+'</span>'+
+'<div class="progress-bar-wrap" style="width:60px;height:4px"><div class="progress-bar" style="width:'+p.pct+'%"></div></div></div></div>';
+}).join('');
+document.getElementById('courseModal').classList.add('active');
+}
+ 
+function closeModal() {
+document.getElementById('courseModal').classList.remove('active');
+}
+ 
+function openChapter(courseId, chId) {
+currentChapterId = chId;
+const course = courses.find(c=>c.id===courseId);
+const ch = course.chapters.find(c=>c.id===chId);
+const body = document.getElementById('chapterBody');
+document.getElementById('chapterHeader').style.background = 'linear-gradient(135deg,'+course.color+'dd,'+course.color+')';
+document.getElementById('chapterHeader').innerHTML =
+'<div class="breadcrumb" onclick="openCourse('+courseId+')">← 返回 '+course.name+'</div>'+
+'<h2>'+ch.title+'</h2><div class="meta">'+course.name+' · '+(chId)+' / '+course.chapters.length+'</div>';
+body.innerHTML = '';
+ 
+// Content section
+body.innerHTML += '<div class="content-block"><h3><i class="fas fa-book-open"></i> 章节内容</h3><div class="content-text">'+ch.content+'</div></div>';
+ 
+// Knowledge points
+if (ch.knowledge) {
+body.innerHTML += '<div class="content-block"><h3><i class="fas fa-lightbulb"></i> 核心知识点</h3><ul class="knowledge-list">'+
+ch.knowledge.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
+}
+ 
+// Code example
+if (ch.code) {
+body.innerHTML += '<div class="content-block"><h3><i class="fas fa-code"></i> 代码示例</h3>'+
+'<div class="code-editor-wrap"><div class="code-editor-header"><span class="title"><i class="fas fa-python"></i> Python</span></div>'+
+'<pre class="code-editor" style="overflow:auto;background:#1e293b;color:#e2e8f0;padding:14px;font-size:13px;min-height:auto;resize:none" readonly>'+ch.code+'</pre></div></div>';
+}
+ 
+// Exercises
+body.innerHTML += '<div class="content-block"><h3><i class="fas fa-pencil-alt"></i> 练习平台</h3></div>';
+ch.exercises.forEach((ex, idx) => {
+const exDiv = document.createElement('div');
+exDiv.className = 'exercise-item';
+exDiv.dataset.course = courseId;
+exDiv.dataset.chapter = chId;
+exDiv.dataset.exIdx = idx;
+ 
+const typeLabel = {mcq:'选择题', fill:'填空题', run:'编程练习'};
+const typeClass = {mcq:'type-mcq', fill:'type-fill', run:'type-run'};
+ 
+if (ex.type === 'mcq') {
+exDiv.innerHTML = '<span class="exercise-type '+typeClass.mcq+'">'+typeLabel.mcq+'</span>'+
+'<div class="exercise-question">'+ex.q+'</div>'+
+'<div class="mcq-options" data-ex="'+idx+'">'+
+ex.opts.map((o,i) => '<div class="mcq-option" data-idx="'+i+'" onclick="checkMCQ(this,'+courseId+','+chId+','+idx+')">'+
+'<span class="opt-letter">'+String.fromCharCode(65+i)+'</span><span>'+o+'</span></div>').join('')+
+'</div><div class="exercise-feedback" id="fb-'+courseId+'-'+chId+'-'+idx+'"></div>';
+} else if (ex.type === 'fill') {
+exDiv.innerHTML = '<span class="exercise-type '+typeClass.fill+'">'+typeLabel.fill+'</span>'+
+'<div class="exercise-question">'+ex.q+'</div>'+
+'<div class="fill-input"><input type="text" id="fill-'+courseId+'-'+chId+'-'+idx+'" placeholder="请输入答案...">'+
+'<button class="check-btn" onclick="checkFill('+courseId+','+chId+','+idx+')">✓ 检查</button>'+
+'<button class="show-btn" onclick="showFillAns('+courseId+','+chId+','+idx+')">显示答案</button></div>'+
+'<div class="exercise-feedback" id="fb-'+courseId+'-'+chId+'-'+idx+'"></div>';
+} else if (ex.type === 'run') {
+const savedCode = localStorage.getItem('editor_'+courseId+'_'+chId+'_'+idx) || ex.template || '';
+exDiv.innerHTML = '<span class="exercise-type '+typeClass.run+'">'+typeLabel.run+'</span>'+
+'<div class="exercise-question">'+ex.q+'</div>'+
+'<div class="code-hint"><i class="fas fa-info-circle"></i> '+ex.hint+'</div>'+
+'<div class="code-editor-wrap">'+
+'<div class="code-editor-header"><span class="title"><i class="fas fa-terminal"></i> Python 在线运行</span>'+
+'<div><button class="btn-run" onclick="runCode('+courseId+','+chId+','+idx+')" id="runBtn-'+courseId+'-'+chId+'-'+idx+'"><i class="fas fa-play"></i> 运行</button>'+
+'<button class="btn-reset" onclick="resetCode('+courseId+','+chId+','+idx+')" style="margin-left:6px"><i class="fas fa-undo"></i> 重置</button></div></div>'+
+'<textarea class="code-editor" id="editor-'+courseId+'-'+chId+'-'+idx+'" spellcheck="false">'+savedCode+'</textarea>'+
+'<div class="code-output" id="output-'+courseId+'-'+chId+'-'+idx+'"><span class="output-label">输出</span></div></div>';
+}
+body.appendChild(exDiv);
+});
+ 
+// Close other modals and show chapter
+document.getElementById('courseModal').classList.remove('active');
+document.getElementById('chapterModal').classList.add('active');
+}
+ 
+function closeChapter() {
+document.getElementById('chapterModal').classList.remove('active');
+}
+ 
+// ============ MCQ checking ============
+function checkMCQ(el, courseId, chId, exIdx) {
+const parent = el.closest('.mcq-options');
+const opts = parent.querySelectorAll('.mcq-option');
+opts.forEach(o => o.classList.remove('selected','correct','wrong'));
+ 
+el.classList.add('selected');
+const course = courses.find(c=>c.id===courseId);
+const ch = course.chapters.find(c=>c.id===chId);
+const ex = ch.exercises[exIdx];
+const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
+ 
+if (parseInt(el.dataset.idx) === ex.ans) {
+el.classList.add('correct');
+fb.className = 'exercise-feedback show correct';
+fb.textContent = '✓ 回答正确！';
+markDone(courseId, chId, exIdx);
+} else {
+el.classList.add('wrong');
+const correctOpt = opts[ex.ans];
+correctOpt.classList.add('correct');
+fb.className = 'exercise-feedback show wrong';
+fb.textContent = '✗ 不正确。正确答案是 ' + String.fromCharCode(65+ex.ans) + ': ' + ex.opts[ex.ans];
+}
+updateAllProgress();
+}
+ 
+// ============ Fill checking ============
+function checkFill(courseId, chId, exIdx) {
+const input = document.getElementById('fill-'+courseId+'-'+chId+'-'+exIdx);
+const course = courses.find(c=>c.id===courseId);
+const ch = course.chapters.find(c=>c.id===chId);
+const ex = ch.exercises[exIdx];
+const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
+const val = input.value.trim();
+ 
+const answers = ex.ans.split(' ');
+const correct = answers.some(a => val.includes(a) || a.includes(val));
+ 
+if (correct) {
+input.className = 'correct';
+fb.className = 'exercise-feedback show correct';
+fb.textContent = '✓ 回答正确！';
+markDone(courseId, chId, exIdx);
+} else {
+input.className = 'wrong';
+fb.className = 'exercise-feedback show wrong';
+fb.textContent = '✗ 还不完全正确，试试看其他答案';
+}
+updateAllProgress();
+}
+ 
+function showFillAns(courseId, chId, exIdx) {
+const course = courses.find(c=>c.id===courseId);
+const ch = course.chapters.find(c=>c.id===chId);
+const ex = ch.exercises[exIdx];
+const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
+fb.className = 'exercise-feedback show info';
+fb.innerHTML = '参考答案: <span class="ans">'+ex.ans+'</span>';
+}
+ 
+// ============ Code running ============
+function runCode(courseId, chId, exIdx) {
+const editor = document.getElementById('editor-'+courseId+'-'+chId+'-'+exIdx);
+const output = document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx);
+const btn = document.getElementById('runBtn-'+courseId+'-'+chId+'-'+exIdx);
+const code = editor.value;
+ 
+localStorage.setItem('editor_'+courseId+'_'+chId+'_'+exIdx, code);
+ 
+output.innerHTML = '<span class="output-label">运行中...</span>';
+output.className = 'code-output';
+btn.disabled = true;
+btn.textContent = '运行中...';
+ 
+const startTime = performance.now();
+const lines = code.split('\\n');
+let resultLines = [];
+ 
+// Custom Python interpreter simulation
+// This is a mini Python runner that handles basic constructs
+function runPython(codeStr) {
+const outputLines = [];
+let vars = {};
+ 
+function writeOut(text) {
+outputLines.push(String(text));
+}
+ 
+// Process line by line
+let i = 0;
+const codeLines = codeStr.split('\\n');
+while (i < codeLines.length) {
+const line = codeLines[i].trim();
+ 
+if (!line || line.startsWith('#')) { i++; continue; }
+ 
+try {
+// print()
+if (line.startsWith('print(')) {
+const match = line.match(/^print\((.*)\)$/);
+if (match) {
+let arg = match[1].trim();
+// Handle f-strings
+if (arg.startsWith('f"') || arg.startsWith("f'")) {
+let strContent = arg.substring(2, arg.length-1);
+// Replace {var} with values
+let result = strContent.replace(/\\{(\\w+)\\}/g, (m, vname) => {
+return vars[vname] !== undefined ? vars[vname] : m;
+});
+writeOut(result);
+}
+// Handle strings
+else if ((arg.startsWith('"') && arg.endsWith('"')) ||
+(arg.startsWith("'") && arg.endsWith("'"))) {
+writeOut(arg.slice(1, -1));
+}
+// Handle variables and expressions
+else {
+try {
+let val = evalExpr(arg, vars);
+writeOut(val);
+} catch(e) {
+writeOut(arg);
+}
+}
+}
+}
+// Variable assignment
+else if (line.includes('=') && !line.includes('==')) {
+const eqIdx = line.indexOf('=');
+const varname = line.substring(0, eqIdx).trim();
+let valStr = line.substring(eqIdx+1).trim();
+ 
+// Check for f-strings
+if (valStr.startsWith('f"') || valStr.startsWith("f'")) {
+let strContent = valStr.substring(2, valStr.length-1);
+strContent = strContent.replace(/\\{(\\w+)\\}/g, (m, vname) => {
+return vars[vname] !== undefined ? vars[vname] : m;
+});
+vars[varname] = strContent;
+}
+// regular strings
+else if (valStr.startsWith('"') || valStr.startsWith("'")) {
+vars[varname] = valStr.slice(1, -1);
+}
+// numbers
+else {
+try {
+let val = evalExpr(valStr, vars);
+vars[varname] = val;
+} catch(e) {
+// maybe it's something else - just store as string
+vars[varname] = valStr;
+}
+}
+}
+// for loops (simplified)
+else if (line.startsWith('for ')) {
+const forMatch = line.match(/^for (\\w+) in (.*):$/);
+if (forMatch) {
+const varName = forMatch[1];
+const iterExpr = forMatch[2].trim();
+ 
+// Find the loop body
+let bodyLines = [];
+i++;
+while (i < codeLines.length) {
+const bodyLine = codeLines[i];
+if (bodyLine.trim() && !bodyLine.startsWith(' ')) { i--; break; }
+if (bodyLine.trim()) bodyLines.push(bodyLine.trim());
+i++;
+}
+ 
+// Handle range()
+const rangeMatch = iterExpr.match(/^range\\((\\d+)(?:,\\s*(\\d+))?(?:,\\s*(\\d+))?\\)$/);
+if (rangeMatch) {
+const start = parseInt(rangeMatch[1]) || 0;
+const end = rangeMatch[2] ? parseInt(rangeMatch[2]) : start;
+const step = rangeMatch[3] ? parseInt(rangeMatch[3]) : 1;
+const actualStart = rangeMatch[2] ? start : 0;
+const actualEnd = rangeMatch[2] ? end : start;
+ 
+for (let v = actualStart; v < actualEnd; v += step || 1) {
+vars[varName] = v;
+for (const bodyLine of bodyLines) {
+const processedLine = bodyLine.replace(new RegExp('\\\\b' + varName + '\\\\b', 'g'), v);
+const evalLine = '    ' + processedLine;
+try {
+const pp = processedLine;
+if (pp.startsWith('print(')) {
+const pm = pp.match(/^print\((.*)\)$/);
+if (pm) {
+let pa = pm[1].trim();
+if (pa.startsWith('f"') || pa.startsWith("f'")) {
+let sc = pa.substring(2, pa.length-1);
+let res = sc.replace(/\\{(\\w+)\\}/g, (m,vn) => vars[vn]!==undefined?vars[vn]:m);
+writeOut(res);
+} else if ((pa.startsWith('"')&&pa.endsWith('"'))||(pa.startsWith("'")&&pa.endsWith("'"))) {
+writeOut(pa.slice(1,-1));
+} else {
+try { writeOut(evalExpr(pa, vars)); } catch(e) { writeOut(pa); }
+}
+}
+}
+} catch(e) {}
+}
+}
+continue;
+}
+// Handle list iteration like `for n in [1,2,3]`
+const listMatch = iterExpr.match(/^\\[(.*)\\]$/);
+if (listMatch) {
+const items = listMatch[1].split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
+for (const v of items) {
+vars[varName] = v;
+for (const bodyLine of bodyLines) {
+const pp = bodyLine;
+if (pp.startsWith('print(')) {
+const pm = pp.match(/^print\((.*)\)$/);
+if (pm) {
+let pa = pm[1].trim();
+if (pa.startsWith('f"')||pa.startsWith("f'")) {
+let sc = pa.substring(2, pa.length-1);
+let res = sc.replace(/\\{(\\w+)\\}/g, (m,vn)=>vars[vn]!==undefined?vars[vn]:m);
+writeOut(res);
+} else {
+try { writeOut(evalExpr(pa, vars)); } catch(e) { writeOut(pa); }
+}
+}
+}
+}
+}
+continue;
+}
+}
+}
+// import
+else if (line.startsWith('import ')) {
+// just skip - we don't really import
+}
+// from ... import ...
+else if (line.startsWith('from ')) {
+// skip
+}
+// other expressions - try to evaluate
+else {
+try {
+let val = evalExpr(line, vars);
+if (val !== undefined) writeOut(val);
+} catch(e) {
+// silently ignore unparseable lines
+}
+}
+} catch(e) {
+writeOut('Error: ' + e.message);
+}
+i++;
+}
+return outputLines;
+}
+ 
+function evalExpr(expr, vars) {
+expr = expr.trim();
+// Try to evaluate simple expressions
+const allVars = {...vars};
+// Check for + operators (concatenation or addition)
+if (expr.includes('+') && !expr.includes('(')) {
+// Handle f-string expressions in various contexts
+}
+// Try as number
+if (!isNaN(Number(expr))) return Number(expr);
+// Try as variable
+if (vars[expr] !== undefined) return vars[expr];
+// Check for arithmetic expressions with variables
+try {
+let expr2 = expr;
+for (const [k,v] of Object.entries(vars)) {
+if (typeof v === 'number') {
+expr2 = expr2.replace(new RegExp('\\\\b' + k + '\\\\b', 'g'), String(v));
+}
+}
+// Now try to evaluate the numeric expression
+if (!expr2.match(/[a-zA-Z]/)) {
+const val = Function('"use strict"; return (' + expr2 + ')')();
+return val;
+}
+} catch(e) {}
+return undefined;
+}
+ 
+// Run the code in a simplified way
+let result;
+try {
+result = runPython(code);
+const elapsed = (performance.now() - startTime).toFixed(1);
+ 
+if (result.length === 0) {
+output.innerHTML = '<span class="output-label">输出</span>代码执行完毕（无输出）';
+} else {
+output.innerHTML = '<span class="output-label">输出 (耗时 '+elapsed+'ms)</span>' + result.join('\\n');
+}
+output.className = 'code-output';
+ 
+markDone(courseId, chId, exIdx);
+} catch(e) {
+output.innerHTML = '<span class="output-label">错误</span>' + e.message;
+output.className = 'code-output error';
+}
+ 
+btn.disabled = false;
+btn.innerHTML = '<i class="fas fa-play"></i> 运行';
+updateAllProgress();
+}
+ 
+function resetCode(courseId, chId, exIdx) {
+const course = courses.find(c=>c.id===courseId);
+const ch = course.chapters.find(c=>c.id===chId);
+const ex = ch.exercises[exIdx];
+document.getElementById('editor-'+courseId+'-'+chId+'-'+exIdx).value = ex.template || '';
+localStorage.removeItem('editor_'+courseId+'_'+chId+'_'+exIdx);
+document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx).innerHTML = '<span class="output-label">输出</span>';
+document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx).className = 'code-output';
+}
+ 
+function updateAllProgress() {
+renderCourses();
+updateStats();
+if (currentCourseId) {
+if (document.getElementById('courseModal').classList.contains('active')) {
+openCourse(currentCourseId);
+} else if (document.getElementById('chapterModal').classList.contains('active')) {
+// just re-render courses
+}
+}
+}
+ 
+document.addEventListener('DOMContentLoaded', () => {
+updateStats();
+renderCourses();
+ 
+// Close on overlay click
+document.getElementById('courseModal').addEventListener('click', (e) => {
+if (e.target === document.getElementById('courseModal')) closeModal();
+});
+document.getElementById('chapterModal').addEventListener('click', (e) => {
+if (e.target === document.getElementById('chapterModal')) closeChapter();
+});
+ 
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+if (e.key === 'Escape') {
+if (document.getElementById('chapterModal').classList.contains('active')) closeChapter();
+else if (document.getElementById('courseModal').classList.contains('active')) closeModal();
+}
+});
+});
+'''
+ 
+# ==================== BUILD HTML ====================
+html = '''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>樊珍秀 - 商务数据分析与应用 | 个人学习平台</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        :root {
-            --color-primary: #6366f1;
-            --color-primary-dark: #4f46e5;
-            --color-accent: #8b5cf6;
-            --color-secondary: #ec4899;
-            --color-dark: #0f172a;
-            --color-gray-900: #1e293b;
-            --color-gray-800: #334155;
-            --color-gray-700: #475569;
-            --color-gray-600: #64748b;
-            --color-gray-500: #94a3b8;
-            --color-gray-400: #cbd5e1;
-            --color-gray-300: #e2e8f0;
-            --color-gray-200: #f1f5f9;
-            --color-gray-100: #f8fafc;
-            --color-white: #ffffff;
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-            --gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
-            --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --radius-full: 9999px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --font-sans: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-        body {
-            font-family: var(--font-sans);
-            color: var(--color-dark);
-            background: var(--color-gray-100);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        a {
-            color: inherit;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.1);
-            transition: var(--transition);
-        }
-        .navbar.scrolled {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: var(--shadow-sm);
-        }
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .logo-sub {
-            font-size: 0.75rem;
-            color: var(--color-gray-500);
-            letter-spacing: 2px;
-        }
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        .nav-link {
-            position: relative;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--color-gray-700);
-            padding: 0.5rem 0;
-            transition: var(--transition);
-        }
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-        .nav-link:hover,
-        .nav-link.active {
-            color: var(--color-primary);
-        }
-        .nav-link:hover::after,
-        .nav-link.active::after {
-            width: 100%;
-        }
-        .nav-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-        .nav-toggle span {
-            width: 24px;
-            height: 2px;
-            background: var(--color-dark);
-            border-radius: 2px;
-            transition: var(--transition);
-        }
-        /* Hero */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 2rem 4rem;
-            overflow: hidden;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
-        }
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            overflow: hidden;
-            z-index: 0;
-        }
-        .gradient-circle {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: float 20s ease-in-out infinite;
-        }
-        .circle-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, #6366f1, transparent);
-            top: -10%;
-            left: -10%;
-        }
-        .circle-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, #ec4899, transparent);
-            bottom: -10%;
-            right: -5%;
-            animation-delay: -5s;
-        }
-        .circle-3 {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, #8b5cf6, transparent);
-            top: 40%;
-            right: 20%;
-            animation-delay: -10s;
-        }
-        @keyframes float {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(30px, -30px) scale(1.1);
-            }
-            66% {
-                transform: translate(-20px, 20px) scale(0.95);
-            }
-        }
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 1280px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            width: 100%;
-        }
-        .hero-text {
-            animation: fadeInUp 0.8s ease-out;
-        }
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 1.25rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: var(--radius-full);
-            font-size: 0.875rem;
-            color: var(--color-primary);
-            margin-bottom: 1.5rem;
-        }
-        .badge-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--color-primary);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.3);
-            }
-        }
-        .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
-        .title-line {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--color-gray-600);
-            margin-bottom: 0.5rem;
-        }
-        .title-name {
-            display: block;
-            color: var(--color-dark);
-            letter-spacing: -2px;
-        }
-        .title-gradient {
-            display: block;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: clamp(1.8rem, 3.5vw, 3rem);
-            margin-top: 0.25rem;
-        }
-        .hero-description {
-            font-size: 1.125rem;
-            color: var(--color-gray-600);
-            margin-bottom: 2.5rem;
-            max-width: 540px;
-            line-height: 1.8;
-        }
-        .hero-stats {
-            display: flex;
-            gap: 2.5rem;
-            margin-bottom: 2.5rem;
-        }
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-        .stat-value {
-            font-size: 2.25rem;
-            font-weight: 800;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-        }
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--color-gray-500);
-            margin-top: 0.25rem;
-        }
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: var(--radius-full);
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: var(--color-white);
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
-        }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--color-dark);
-            border: 2px solid var(--color-gray-300);
-            backdrop-filter: blur(10px);
-        }
-        .btn-secondary:hover {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-            transform: translateY(-2px);
-        }
-        .hero-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 500px;
-        }
-        .avatar-container {
-            position: relative;
-            width: 380px;
-            height: 380px;
-        }
-        .avatar-ring {
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            background: conic-gradient(from 0deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            padding: 8px;
-            animation: spin 15s linear infinite;
-        }
-        .avatar-ring-2 {
-            position: absolute;
-            inset: 20px;
-            border-radius: 50%;
-            border: 2px dashed rgba(99, 102, 241, 0.3);
-            animation: spin 30s linear infinite reverse;
-        }
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-        .avatar-main {
-            position: absolute;
-            inset: 40px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8rem;
-            color: var(--color-white);
-            box-shadow: var(--shadow-lg), var(--shadow-glow);
-        }
-        .floating-card {
-            position: absolute;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-            font-weight: 600;
-            font-size: 0.9rem;
-            animation: floatCard 6s ease-in-out infinite;
-        }
-        .card-1 {
-            top: 10%;
-            left: -10%;
-            color: var(--color-primary);
-        }
-        .card-2 {
-            bottom: 20%;
-            left: -5%;
-            color: var(--color-accent);
-            animation-delay: -2s;
-        }
-        .card-3 {
-            top: 30%;
-            right: -10%;
-            color: var(--color-secondary);
-            animation-delay: -4s;
-        }
-        @keyframes floatCard {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .scroll-hint {
-            position: absolute;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--color-gray-500);
-            font-size: 0.875rem;
-            animation: bounce 2s ease-in-out infinite;
-        }
-        .scroll-arrow {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow-sm);
-        }
-        @keyframes bounce {
-            0%,
-            100% {
-                transform: translate(-50%, 0);
-            }
-            50% {
-                transform: translate(-50%, 10px);
-            }
-        }
-        /* Sections */
-        section {
-            padding: 6rem 0;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        .section-tag {
-            display: inline-block;
-            padding: 0.4rem 1rem;
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--color-primary);
-            border-radius: var(--radius-full);
-            font-size: 0.875rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #0f172a 0%, #4f46e5 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .section-desc {
-            font-size: 1.125rem;
-            color: var(--color-gray-600);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        /* About */
-        .about {
-            background: var(--color-white);
-        }
-        .about-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 2rem;
-        }
-        .about-card {
-            padding: 2.5rem 2rem;
-            background: var(--color-gray-100);
-            border-radius: var(--radius-lg);
-            text-align: center;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-        }
-        .about-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--gradient-primary);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: var(--transition);
-        }
-        .about-card:hover {
-            background: var(--color-white);
-            border-color: var(--color-gray-200);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-8px);
-        }
-        .about-card:hover::before {
-            transform: scaleX(1);
-        }
-        .card-icon {
-            width: 72px;
-            height: 72px;
-            margin: 0 auto 1.5rem;
-            background: var(--gradient-primary);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--color-white);
-        }
-        .about-card h3 {
-            font-size: 1.375rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--color-dark);
-        }
-        .about-card p {
-            color: var(--color-gray-600);
-            line-height: 1.8;
-        }
-        /* Skills */
-        .skills {
-            background: var(--color-gray-100);
-        }
-        .skills-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .skill-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.875rem 1.5rem;
-            background: var(--color-white);
-            border: 1px solid var(--color-gray-200);
-            border-radius: var(--radius-full);
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--color-gray-700);
-            transition: var(--transition);
-            cursor: default;
-        }
-        .skill-tag:hover {
-            background: var(--gradient-primary);
-            color: var(--color-white);
-            border-color: transparent;
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-        .skill-tag i {
-            color: var(--color-primary);
-            transition: var(--transition);
-        }
-        .skill-tag:hover i {
-            color: var(--color-white);
-        }
-        /* Courses */
-        .courses {
-            background: var(--color-white);
-        }
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .course-card {
-            position: relative;
-            padding: 2rem;
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--color-gray-200);
-            cursor: pointer;
-            transition: var(--transition);
-            overflow: hidden;
-        }
-        .course-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: var(--gradient-primary);
-            opacity: 0;
-            transition: var(--transition);
-            z-index: 0;
-        }
-        .course-card:hover {
-            transform: translateY(-12px);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-        .course-card:hover::before {
-            opacity: 0.03;
-        }
-        .course-card>* {
-            position: relative;
-            z-index: 1;
-        }
-        .course-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-            transition: var(--transition);
-        }
-        .course-card:hover .course-icon {
-            transform: scale(1.15) rotate(5deg);
-        }
-        .course-card h3 {
-            font-size: 1.375rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--color-dark);
-        }
-        .course-card .course-desc {
-            color: var(--color-gray-600);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-            font-size: 0.95rem;
-        }
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1.25rem;
-            border-top: 1px solid var(--color-gray-200);
-        }
-        .course-arrow {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--color-gray-100);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-gray-600);
-        }
-        .course-card:hover .course-arrow {
-            background: var(--gradient-primary);
-            color: var(--color-white);
-        }
-        /* Modal */
-        .modal {
-            position: fixed;
-            inset: 0;
-            z-index: 2000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        .modal.active {
-            display: flex;
-        }
-        .modal-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(8px);
-        }
-        .modal-content {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            max-height: 85vh;
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .modal-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.25rem;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-header {
-            padding: 2.5rem 2.5rem 2rem;
-            color: var(--color-white);
-        }
-        .modal-header h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-        .modal-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 2rem 2.5rem 2.5rem;
-        }
-        .chapter-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .chapter-item {
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            padding: 1.25rem 1.5rem;
-            background: var(--color-gray-100);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .chapter-item:hover {
-            background: var(--color-white);
-            box-shadow: var(--shadow-md);
-            transform: translateX(8px);
-        }
-        .chapter-number {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
-            color: var(--color-white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.125rem;
-            flex-shrink: 0;
-        }
-        .chapter-info {
-            flex: 1;
-        }
-        .chapter-info h4 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--color-dark);
-        }
-        /* Chapter Panel */
-        .chapter-panel {
-            position: fixed;
-            inset: 0;
-            z-index: 3000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        .chapter-panel.active {
-            display: flex;
-        }
-        .chapter-panel::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(8px);
-        }
-        .chapter-content {
-            position: relative;
-            width: 100%;
-            max-width: 850px;
-            max-height: 90vh;
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            overflow-y: auto;
-        }
-        .chapter-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            width: 40px;
-            height: 40px;
-            border: none;
-            background: var(--color-gray-100);
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.125rem;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .chapter-detail-header {
-            padding: 2.5rem 2.5rem 1.5rem;
-            border-bottom: 1px solid var(--color-gray-200);
-        }
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--color-primary);
-            font-weight: 500;
-            cursor: pointer;
-            margin-bottom: 1rem;
-        }
-        .chapter-detail-body {
-            padding: 2rem 2.5rem 2.5rem;
-        }
-        .detail-section {
-            margin-bottom: 2rem;
-        }
-        .detail-section h3 {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-        .knowledge-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .knowledge-list li {
-            padding: 0.75rem 1rem;
-            background: var(--color-gray-100);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .knowledge-list li::before {
-            content: '✓';
-            width: 24px;
-            height: 24px;
-            background: var(--color-primary);
-            color: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            flex-shrink: 0;
-        }
-        /* Practice Platform */
-        .practice-platform {
-            background: #1a1a2e;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            margin-top: 1.5rem;
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-        .platform-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1rem 1.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .platform-title {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: #e2e8f0;
-            font-weight: 700;
-        }
-        .platform-editor-wrap {
-            position: relative;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .line-numbers {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 44px;
-            background: rgba(0, 0, 0, 0.25);
-            color: #64748b;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            line-height: 1.65;
-            padding: 1rem 0;
-            text-align: right;
-            padding-right: 0.75rem;
-            overflow: hidden;
-            user-select: none;
-            pointer-events: none;
-        }
-        .platform-editor {
-            width: 100%;
-            min-height: 200px;
-            padding: 1rem 1rem 1rem 56px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            color: #e2e8f0;
-            background: rgba(0, 0, 0, 0.2);
-            border: none;
-            resize: vertical;
-            outline: none;
-            tab-size: 4;
-            white-space: pre;
-            overflow-x: auto;
-        }
-        .platform-actions {
-            display: flex;
-            gap: 0.75rem;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            align-items: center;
-        }
-        .btn-run {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.65rem 1.5rem;
-            font-weight: 700;
-            border-radius: var(--radius-full);
-            border: none;
-            cursor: pointer;
-            background: var(--gradient-primary);
-            color: #fff;
-            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
-        }
-        .btn-reset {
-            padding: 0.65rem 1.25rem;
-            border-radius: var(--radius-full);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            background: rgba(255, 255, 255, 0.06);
-            color: #cbd5e1;
-        }
-        .platform-output {
-            padding: 1.25rem 1.5rem;
-            background: rgba(0, 0, 0, 0.15);
-            min-height: 60px;
-            max-height: 200px;
-            overflow-y: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            color: #cbd5e1;
-            white-space: pre-wrap;
-        }
-        .output-error {
-            color: #f87171;
-        }
-        /* Contact */
-        .contact {
-            background: var(--gradient-dark);
-            color: var(--color-white);
-            padding: 5rem 0;
-        }
-        .contact-wrapper {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-        .contact-info .section-tag {
-            background: rgba(99, 102, 241, 0.2);
-            color: #a5b4fc;
-        }
-        .contact-info h2 {
-            font-size: clamp(1.75rem, 3vw, 2.5rem);
-            font-weight: 800;
-            margin: 1rem 0;
-        }
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--radius-md);
-            margin-bottom: 1rem;
-        }
-        .contact-orb {
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: var(--gradient-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 7rem;
-            margin: 0 auto;
-            box-shadow: 0 0 80px rgba(99, 102, 241, 0.4);
-        }
-        .footer {
-            background: var(--color-dark);
-            color: var(--color-gray-400);
-            padding: 2rem 0;
-            text-align: center;
-        }
-        @media (max-width: 1024px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .contact-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
-        @media (max-width: 768px) {
-            .nav-menu {
-                position: fixed;
-                top: 72px;
-                left: 0;
-                right: 0;
-                flex-direction: column;
-                background: #fff;
-                padding: 2rem;
-                gap: 1.5rem;
-                transform: translateY(-100%);
-                opacity: 0;
-                pointer-events: none;
-                transition: var(--transition);
-            }
-            .nav-menu.active {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: auto;
-            }
-            .nav-toggle {
-                display: flex;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>樊珍秀 - 商务数据分析与应用 | 个人学习平台</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>''' + css + '''</style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo"><span class="logo-text">樊珍秀</span><span class="logo-sub">商务数据分析</span></div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link active">首页</a></li>
-                <li><a href="#about" class="nav-link">关于我</a
+ 
+<nav class="navbar">
+<div class="nav-logo">樊珍秀</div>
+<div class="nav-links">
+<a href="#" onclick="document.getElementById('coursesSection').scrollIntoView({behavior:'smooth'})">课程中心</a>
+<a href="#" onclick="updateStats();document.getElementById('heroSection').scrollIntoView({behavior:'smooth'})">个人主页</a>
+</div>
+</nav>
+ 
+隐藏43行
+</div>
+ 
+<script>
+const courses = __COURSES_DATA__;
+ 
+__JS_LOGIC__
+</script>
+</body>
+</html>'''
+ 
+html = html.replace('__COURSES_DATA__', json.dumps(course_python, ensure_ascii=False))
+html = html.replace('__JS_LOGIC__', js)
+ 
+size = len(html)
+lines = html.count('\n')
+隐藏5行
+print(f'  练习题: {sum(len(ch["exercises"]) for ch in course_python["chapters"])} 道')
+print(f'  CSS: 内联样式')
+print(f'  JS: 内联脚本')
+print(f'  数据: 内联JSON')
+ 
+# Write output file
+with open('/workspace/index.html', 'w', encoding='utf-8') as f:
+f.write(html)
+ 
+print(f'  ✓ 已写入 /workspace/index.html')
