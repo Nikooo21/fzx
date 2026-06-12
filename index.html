@@ -1389,16 +1389,6 @@ chapters: [
 name: "供应链数据分析",
 icon: "🚚",
 chapters: [
-{ title: "第一章：供应链基础", knowledge: ["供应链概念与构成", "供应链五大环节", "供应链数据分析价值", "供应链指标体系"], exercises: [{ q: "供应链的核心是？", options: ["生产", "物流", "信息流、资金流、物流", "销售"], answer: 2 }] },
-{ title: "第二章：采购数据分析", knowledge: ["供应商绩效评估", "采购成本分析", "采购周期分析", "供应商份额ABC分析"], exercises: [{ q: "ABC分析法的分类依据是？", options: ["价格", "采购金额占比", "供应商规模", "交货时间"], answer: 1 }] },
-{ title: "第三章：库存数据分析", knowledge: ["库存周转率计算", "安全库存设定", "库存成本分析", "库存账龄分析", "呆滞物料识别"], exercises: [{ q: "库存周转率越高说明什么？", options: ["库存积压", "资金占用高", "库存运营效率好", "采购频繁"], answer: 2 }] },
-{ title: "第四章：仓库数据分析", knowledge: ["仓库面积利用率", "库存准确率", "收发存报表分析", "仓库人效分析", "仓位利用率"], exercises: [{ q: "库存准确率的计算公式是？", options: ["账面数/实数×100%", "差异数/账面数×100%", "账面数与实数一致的比例", "正确入库数/总入库数"], answer: 2 }] },
-{ title: "第五章：物流数据分析", knowledge: ["配送时效分析", "物流成本分析", "运输损耗率", "车辆装载率", "配送路径分析"], exercises: [{ q: "物流成本包含哪些部分？", options: ["只有运输费", "运输、仓储、包装、装卸等", "只有仓储费", "只有包装费"], answer: 1 }] },
-{ title: "第六章：需求预测", knowledge: ["时间序列分析基础", "移动平均法", "指数平滑法", "预测误差分析", "预测模型选择"], exercises: [{ q: "移动平均法适用于什么类型的数据？", options: ["剧烈波动", "较为平稳", "快速增长", "快速下降"], answer: 1 }] },
-{ title: "第七章：供应链优化", knowledge: ["库存优化模型", "补货策略优化", "安全库存优化", "采购批量优化", "物流网络优化"], exercises: [{ q: "EOQ模型用于优化什么？", options: ["采购价格", "采购批量", "供应商选择", "运输路线"], answer: 1 }] },
-{ title: "第八章：供应商管理", knowledge: ["供应商评估体系", "供应商分级管理", "供应商绩效考核", "供应商关系管理", "供应商风险控制"], exercises: [{ q: "供应商绩效评估的维度包括？", options: ["只有价格", "价格、质量、交期、服务等", "只有质量", "只有交期"], answer: 1 }] },
-{ title: "第九章：智能供应链", knowledge: ["供应链数字化转型", "物联网在供应链应用", "区块链溯源技术", "AI预测应用", "供应链控制塔"], exercises: [{ q: "供应链控制塔的作用是？", options: ["监控运输", "端到端可视化与协同", "仓储管理", "采购比价"], answer: 1 }] },
-{ title: "第十章：实战与案例", knowledge: ["零售供应链分析案例", "制造业供应链优化", "跨境电商供应链", "供应链数据分析报告", "数据分析驱动决策"], exercises: [{ q: "供应链分析报告的核心是？", options: ["数据越多越好", "发现问题与建议", "图表越漂亮越好", "引用越多越好"], answer: 1 }] }
 { title: "第一章：供应链基础", knowledge: [
 "供应链概念与构成：供应链是从原材料采购到最终产品送达消费者手中的完整流程，涵盖供应商、制造商、分销商、零售商和最终用户。核心要素包括：信息流（需求预测、订单状态）、物流（运输、仓储、配送）、资金流（支付、发票、应收账款）。供应链管理(SCM)旨在优化成本、效率和客户满意度。",
 "供应链五大环节：1)采购（寻源、供应商选择、合同管理）；2)生产（计划、排程、质量控制）；3)仓储（库存管理、仓库布局、拣选策略）；4)运输（路线规划、承运商选择、跟踪）；5)配送（最后一公里、逆向物流）。每个环节都产生大量数据，分析这些数据是优化的关键。",
@@ -1495,16 +1485,6 @@ chapters: [
 name: "数据库原理与应用",
 icon: "💾",
 chapters: [
-{ title: "第一章：数据库基础", knowledge: ["数据库发展历史", "数据库系统组成", "DBMS功能", "数据模型概念", "数据库体系结构"], exercises: [{ q: "DBMS的中文含义是？", options: ["数据库", "数据库管理系统", "数据库系统", "数据库管理员"], answer: 1 }] },
-{ title: "第二章：关系模型", knowledge: ["关系数据结构", "关系完整性约束", "主键与外键", "实体完整性", "参照完整性"], exercises: [{ q: "主键的作用是？", options: ["加快查询", "唯一标识元组", "建立表关联", "保存数据"], answer: 1 }] },
-{ title: "第三章：SQL基础", knowledge: ["SQL语言分类DDL/DML/DQL/DCL", "创建数据库与表", "数据类型选择", "约束添加", "基本查询SELECT"], exercises: [{ q: "SELECT语句用于？", options: ["插入数据", "删除数据", "查询数据", "修改表结构"], answer: 2 }] },
-{ title: "第四章：SQL查询", knowledge: ["条件查询WHERE", "排序ORDER BY", "限制结果LIMIT", "去重DISTINCT", "模糊查询LIKE"], exercises: [{ q: "WHERE子句用于？", options: ["排序", "分组", "条件过滤", "连接表"], answer: 2 }] },
-{ title: "第五章：聚合与分组", knowledge: ["聚合函数COUNT/SUM/AVG/MAX/MIN", "分组GROUP BY", "HAVING子句", "分组过滤", "多字段分组"], exercises: [{ q: "HAVING和WHERE的区别是？", options: ["没有区别", "HAVING可以用于分组后过滤", "WHERE用于分组后", "HAVING用于分组前"], answer: 1 }] },
-{ title: "第六章：多表查询", knowledge: ["表连接INNER JOIN", "左连接LEFT JOIN", "右连接RIGHT JOIN", "全连接FULL JOIN", "自连接"], exercises: [{ q: "INNER JOIN返回的结果是？", options: ["左表全部记录", "右表全部记录", "两表匹配上的记录", "两表所有记录"], answer: 2 }] },
-{ title: "第七章：子查询", knowledge: ["子查询概念", "标量子查询", "列子查询", "行子查询", "EXISTS子查询"], exercises: [{ q: "子查询可以出现在哪里？", options: ["只能在WHERE中", "SELECT、FROM、WHERE、HAVING", "只能在FROM中", "只能在SELECT中"], answer: 1 }] },
-{ title: "第八章：数据库设计", knowledge: ["需求分析", "概念结构设计E-R图", "逻辑结构设计", "物理设计", "规范化与反规范化"], exercises: [{ q: "第一范式要求？", options: ["没有重复列", "属性不可分", "主键关联", "消除冗余"], answer: 1 }] },
-{ title: "第九章：索引与优化", knowledge: ["索引概念与作用", "索引类型B-tree/Hash", "索引创建与删除", "执行计划分析", "SQL优化技巧"], exercises: [{ q: "索引的主要作用是？", options: ["节省存储空间", "加快查询速度", "保证数据唯一", "建立表关系"], answer: 1 }] },
-{ title: "第十章：数据库应用", knowledge: ["事务与ACID特性", "并发控制", "视图创建与使用", "存储过程入门", "数据库备份恢复"], exercises: [{ q: "事务的ACID特性不包括？", options: ["原子性", "一致性", "隔离性", "共享性"], answer: 3 }] }
 { title: "第一章：数据库基础", knowledge: [
 "数据库发展历史：1960年代层次数据库（IBM IMS）→1970年关系模型提出（E.F.Codd）→1980年代商用关系数据库（Oracle、DB2、SQL Server）→1990年代Web数据库→2000年代NoSQL兴起→2010年代NewSQL和云数据库。里程碑：关系模型奠定了现代数据库的理论基础；SQL成为标准查询语言。",
 "数据库系统组成：数据库(DB)存储数据的仓库；数据库管理系统(DBMS)管理数据库的软件（如MySQL、PostgreSQL）；数据库管理员(DBA)负责维护管理；应用程序通过DBMS访问数据。核心功能：数据定义(DDL)、数据操纵(DML)、数据控制(DCL)、事务管理、并发控制、恢复管理。",
@@ -1601,16 +1581,6 @@ chapters: [
 name: "Excel数据分析",
 icon: "📈",
 chapters: [
-{ title: "第一章：Excel基础", knowledge: ["Excel界面认识", "工作簿与工作表", "单元格与区域引用", "数据类型与格式", "快速填充Ctrl+E"], exercises: [{ q: "Excel工作簿默认有几个工作表？", options: ["1个", "2个", "3个", "可以自定义"], answer: 2 }] },
-{ title: "第二章：公式与函数", knowledge: ["公式输入与编辑", "相对引用与绝对引用", "常用函数SUM/AVERAGE", "逻辑函数IF/AND/OR", "文本函数TEXT/LEFT/RIGHT"], exercises: [{ q: "$A$1是什么引用方式？", options: ["相对引用", "绝对引用", "混合引用", "交叉引用"], answer: 1 }] },
-{ title: "第三章：查找函数", knowledge: ["VLOOKUP精确匹配", "VLOOKUP区间匹配", "HLOOKUP函数", "INDEX+MATCH组合", "XLOOKUP新函数"], exercises: [{ q: "VLOOKUP的第三个参数表示？", options: ["查找值", "查找范围", "返回列号", "匹配类型"], answer: 2 }] },
-{ title: "第四章：统计函数", knowledge: ["COUNT/COUNTA函数", "COUNTIF单条件计数", "COUNTIFS多条件计数", "SUMIF条件求和", "AVERAGEIF条件平均"], exercises: [{ q: "COUNT和COUNTA的区别是？", options: ["没有区别", "COUNT只计数值，COUNTA计非空", "COUNT计非空，COUNTA计数值", "COUNT更快"], answer: 1 }] },
-{ title: "第五章：日期函数", knowledge: ["日期序列号原理", "TODAY/NOW函数", "YEAR/MONTH/DAY函数", "DATEDIF计算间隔", "WORKDAY/NETWORKDAYS"], exercises: [{ q: "TODAY()函数返回什么？", options: ["当前日期", "当前时间", "日期时间", "序列号"], answer: 0 }] },
-{ title: "第六章：数据透视表", knowledge: ["创建数据透视表", "字段拖拽与布局", "值汇总方式设置", "筛选与切片器", "分组与计算字段"], exercises: [{ q: "数据透视表的主要功能是？", options: ["美化表格", "快速汇总分析大量数据", "添加图表", "保护数据"], answer: 1 }] },
-{ title: "第七章：图表制作", knowledge: ["图表类型选择", "图表元素设置", "组合图表创建", "动态图表制作", "图表美化技巧"], exercises: [{ q: "展示趋势变化用什么图表？", options: ["饼图", "柱状图", "折线图", "散点图"], answer: 2 }] },
-{ title: "第八章：条件格式", knowledge: ["突出显示单元格规则", "数据条/色阶/图标集", "公式条件格式", "新建规则与管理", "动态提醒格式"], exercises: [{ q: "条件格式的作用是？", options: ["固定单元格颜色", "根据条件动态格式化", "打印格式", "锁定单元格"], answer: 1 }] },
-{ title: "第九章：Power Query", knowledge: ["Power Query界面", "数据导入与合并", "数据类型转换", "列操作与行筛选", "分组与透视"], exercises: [{ q: "Power Query主要用于？", options: ["制作图表", "数据清洗与转换", "打印报表", "保护文件"], answer: 1 }] },
-{ title: "第十章：综合案例", knowledge: ["销售数据分析报告", "财务报表制作", "预算执行分析", "数据看板设计", "Excel与BI工具联动"], exercises: [{ q: "Excel数据分析报告的核心是？", options: ["表格越复杂越好", "数据准确、逻辑清晰、结论明确", "颜色越多越好", "公式越长越好"], answer: 1 }] }
 { title: "第一章：Excel基础", knowledge: [
 "Excel界面认识：标题栏（文件名和程序名）、菜单栏（文件、编辑、视图等）、工具栏（常用命令按钮）、编辑栏（输入和编辑单元格内容）、工作表区域（行号、列标、单元格）、状态栏（显示状态信息）。快捷键：Ctrl+S保存、Ctrl+C复制、Ctrl+V粘贴、Ctrl+Z撤销、Ctrl+F查找。",
 "工作簿与工作表：工作簿是Excel文件(.xlsx)，可包含多个工作表。默认打开有Sheet1/Sheet2/Sheet3三个工作表。右键工作表标签可插入、删除、重命名、移动、复制工作表。工作表之间可通过公式引用数据（如=Sheet2!A1）。",
@@ -1707,16 +1677,6 @@ chapters: [
 name: "机器学习基础",
 icon: "🤖",
 chapters: [
-{ title: "第一章：机器学习概述", knowledge: ["机器学习定义", "机器学习分类监督/无监督/强化", "机器学习流程", "应用场景案例", "开发环境配置"], exercises: [{ q: "机器学习与传统编程的区别是？", options: ["没有区别", "机器学习从数据中学习规则", "传统编程更智能", "两者结合没有意义"], answer: 1 }] },
-{ title: "第二章：数学基础", knowledge: ["线性代数回顾矩阵运算", "概率论基础", "统计学基础", "损失函数概念", "梯度下降原理"], exercises: [{ q: "梯度下降的目的是？", options: ["计算梯度", "找到损失函数的最小值", "计算导数", "数据归一化"], answer: 1 }] },
-{ title: "第三章：线性回归", knowledge: ["线性回归原理", "代价函数MSE", "梯度下降求解", "sklearn线性回归实现", "模型评估R²"], exercises: [{ q: "线性回归属于什么类型问题？", options: ["分类", "回归", "聚类", "降维"], answer: 1 }] },
-{ title: "第四章：逻辑回归", knowledge: ["逻辑回归原理", "Sigmoid函数", "代价函数交叉熵", "梯度下降求解", "多分类问题"], exercises: [{ q: "逻辑回归用于解决什么问题？", options: ["回归", "分类", "聚类", "关联规则"], answer: 1 }] },
-{ title: "第五章：决策树", knowledge: ["决策树构造原理", "信息增益与ID3", "CART算法", "剪枝处理", "sklearn决策树使用"], exercises: [{ q: "决策树如何防止过拟合？", options: ["增加树的深度", "剪枝", "减少特征", "增加数据量"], answer: 1 }] },
-{ title: "第六章：随机森林", knowledge: ["集成学习概念", "Bagging原理", "随机森林算法", "特征重要性", "sklearn随机森林使用"], exercises: [{ q: "随机森林是哪种集成方法？", options: ["Boosting", "Bagging", "Stacking", "Voting"], answer: 1 }] },
-{ title: "第七章：KNN算法", knowledge: ["KNN算法原理", "距离度量方法", "K值选择影响", "特征标准化", "sklearn KNN使用"], exercises: [{ q: "KNN算法的K值过大会导致？", options: ["过拟合", "计算量增大", "欠拟合", "无法计算"], answer: 1 }] },
-{ title: "第八章：聚类算法", knowledge: ["K-Means算法原理", "簇心初始化", "K值选择肘部法则", "层次聚类", "DBSCAN算法"], exercises: [{ q: "K-Means属于什么类型算法？", options: ["监督学习", "无监督学习", "强化学习", "迁移学习"], answer: 1 }] },
-{ title: "第九章：模型评估", knowledge: ["训练集/测试集划分", "交叉验证", "混淆矩阵", "精确率/召回率/F1", "ROC曲线与AUC"], exercises: [{ q: "混淆矩阵用于评估什么？", options: ["模型速度", "分类模型性能", "数据质量", "特征重要性"], answer: 1 }] },
-{ title: "第十章：实战项目", knowledge: ["房价预测项目", "客户分类项目", "鸢尾花分类项目", "手写数字识别", "模型部署入门"], exercises: [{ q: "机器学习项目的一般流程是？", options: ["建模→数据→评估", "数据→建模→评估→部署", "评估→建模→数据", "建模→评估→数据"], answer: 1 }] }
 { title: "第一章：机器学习概述", knowledge: [
 "机器学习定义：机器学习是计算机程序从经验（数据）中学习并改进性能的能力。核心思想：通过算法自动发现数据中的模式和规律，而不是通过明确编程实现。机器学习是人工智能的核心分支。",
 "机器学习分类监督/无监督/强化：监督学习（有标签数据，如分类、回归）、无监督学习（无标签数据，如聚类、降维）、强化学习（通过与环境交互学习最优策略）、半监督学习（少量标签+大量无标签数据）、自监督学习（用数据自身作为监督信号）。",
@@ -1813,16 +1773,6 @@ chapters: [
 name: "数据可视化",
 icon: "🖥️",
 chapters: [
-{ title: "第一章：可视化基础", knowledge: ["可视化定义与价值", "视觉感知原理", "色彩理论", "图表选择指南", "设计美学原则"], exercises: [{ q: "数据可视化的主要目的是？", options: ["让图表更漂亮", "让数据更易理解", "减少数据量", "加快计算"], answer: 1 }] },
-{ title: "第二章：Python可视化库", knowledge: ["matplotlib基础", "Seaborn统计图", "Plotly交互图", "Pyecharts中国风图表", "Altair声明式可视化"], exercises: [{ q: "哪个库适合做交互式图表？", options: ["matplotlib", "Seaborn", "Plotly", "PIL"], answer: 2 }] },
-{ title: "第三章：统计图表", knowledge: ["直方图与密度图", "箱线图", "小提琴图", "热力图", "相关系数矩阵图"], exercises: [{ q: "展示数据分布用什么图？", options: ["折线图", "直方图/箱线图", "饼图", "散点图"], answer: 1 }] },
-{ title: "第四章：关系图表", knowledge: ["散点图与气泡图", "折线图与面积图", "连接散点图", "网络图", "桑基图"], exercises: [{ q: "展示两个变量关系用什么图？", options: ["饼图", "柱状图", "散点图", "热力图"], answer: 2 }] },
-{ title: "第五章：构成图表", knowledge: ["饼图与环形图", "堆叠柱状图", "瀑布图", "旭日图", "树图"], exercises: [{ q: "展示部分与整体关系用什么图？", options: ["散点图", "折线图", "饼图/堆叠图", "箱线图"], answer: 2 }] },
-{ title: "第六章：分布图表", knowledge: ["直方图", "核密度估计图", "箱线图与小提琴图", "脊线图", "地图可视化"], exercises: [{ q: "展示数据分布形态用什么图？", options: ["折线图", "直方图+密度图", "饼图", "散点图"], answer: 1 }] },
-{ title: "第七章：交互可视化", knowledge: ["Plotly交互功能", "Bokeh服务器", "Pydeck地图可视化", "交互式仪表盘", "数据故事化"], exercises: [{ q: "交互式图表的优势是？", options: ["更漂亮", "用户可以探索数据", "加载更快", "不需要数据处理"], answer: 1 }] },
-{ title: "第八章：BI工具可视化", knowledge: ["Tableau基础", "Power BI基础", "FineBI操作", "图表类型选择", "仪表盘设计"], exercises: [{ q: "Tableau属于什么类型的工具？", options: ["编程可视化", "BI可视化工具", "数据库工具", "编程语言"], answer: 1 }] },
-{ title: "第九章：可视化优化", knowledge: ["配色方案优化", "图表留白与布局", "字体与标签优化", "动画与过渡效果", "无障碍设计"], exercises: [{ q: "可视化优化中配色应遵循什么原则？", options: ["越鲜艳越好", "颜色对比度适中、区分度高", "越多颜色越好", "使用彩虹色系"], answer: 1 }] },
-{ title: "第十章：实战项目", knowledge: ["电商数据看板", "运营数据大屏", "财务分析报告", "用户画像可视化", "数据新闻制作"], exercises: [{ q: "好的数据看板应该具备？", options: ["数据越多越好", "图表越复杂越好", "清晰、简洁、易读", "颜色越多越好"], answer: 2 }] }
 { title: "第一章：可视化基础", knowledge: [
 "可视化定义与价值：数据可视化是将抽象数据转化为图形、图表等视觉形式的过程。核心价值：1)帮助理解复杂数据关系；2)发现数据中的模式和趋势；3)高效传达数据洞察；4)支持数据驱动决策。可视化让数据说话，让分析结果更具说服力。",
 "视觉感知原理：人类大脑处理视觉信息比文字快60000倍。格式塔原则（邻近性、相似性、连续性、闭合性）指导视觉元素组织。颜色、形状、大小、位置等视觉通道传递不同信息维度。理解视觉感知能设计更有效的可视化。",
@@ -1909,16 +1859,6 @@ chapters: [
 name: "大数据技术概论",
 icon: "☁️",
 chapters: [
-{ title: "第一章：大数据概述", knowledge: ["大数据5V特征", "大数据技术生态", "大数据应用场景", "大数据发展趋势", "数据科学家技能"], exercises: [{ q: "大数据的5V特征不包括？", options: ["Volume速度", "Velocity容量", "Variety多样性", "Value价值"], answer: 1 }] },
-{ title: "第二章：Hadoop基础", knowledge: ["Hadoop架构", "HDFS分布式文件系统", "MapReduce编程模型", "YARN资源管理器", "Hadoop生态组件"], exercises: [{ q: "HDFS是什么的缩写？", options: ["High Data File System", "Hadoop Distributed File System", "High Density File System", "Hadoop Data File Storage"], answer: 1 }] },
-{ title: "第三章：HDFS操作", knowledge: ["HDFS架构原理", "Shell命令操作", "Java API操作", "数据读写流程", "副本机制与容错"], exercises: [{ q: "HDFS适合存储什么类型的文件？", options: ["小文件", "大文件", "频繁修改的文件", "实时性要求高的文件"], answer: 1 }] },
-{ title: "第四章：MapReduce", knowledge: ["MapReduce编程模型", "WordCount实例", "Combiner与Partitioner", "Shuffle过程", "性能优化"], exercises: [{ q: "MapReduce的核心思想是？", options: ["分而治之", "递归计算", "循环迭代", "顺序执行"], answer: 0 }] },
-{ title: "第五章：Hive数据仓库", knowledge: ["Hive架构原理", "HiveQL查询语言", "表类型与管理", "分区与桶", "数据导入导出"], exercises: [{ q: "Hive的作用是？", options: ["实时数据库", "数据仓库，基于Hadoop的SQL查询", "消息队列", "流处理引擎"], answer: 1 }] },
-{ title: "第六章：Spark基础", knowledge: ["Spark架构与组件", "RDD弹性分布式数据集", "DataFrame与Dataset", "Spark SQL", "Spark提交模式"], exercises: [{ q: "Spark相比MapReduce的优势是？", options: ["更慢但稳定", "基于内存计算，速度更快", "不需要编程", "只能处理小数据"], answer: 1 }] },
-{ title: "第七章：Spark编程", knowledge: ["Scala/Python API", "Transformation与Action", "广播变量与累加器", "SparkSQL查询", "Spark MLlib机器学习"], exercises: [{ q: "Spark中Transformation操作是？", options: ["立即执行", "延迟执行", "分布式执行", "串行执行"], answer: 1 }] },
-{ title: "第八章：NoSQL数据库", knowledge: ["NoSQL分类KV/文档/列式/图", "MongoDB文档数据库", "HBase列式数据库", "Redis内存数据库", "NoSQL与SQL对比"], exercises: [{ q: "MongoDB是什么类型的数据库？", options: ["关系型", "文档型", "键值型", "图数据库"], answer: 1 }] },
-{ title: "第九章：流处理技术", knowledge: ["批处理与流处理区别", "Apache Kafka消息队列", "Apache Flink实时处理", "Spark Streaming微批处理", "流处理应用场景"], exercises: [{ q: "Kafka主要用于什么场景？", options: ["离线处理", "消息队列/流数据管道", "批量计算", "数据存储"], answer: 1 }] },
-{ title: "第十章：实战案例", knowledge: ["日志分析系统", "实时推荐系统", "用户行为分析", "物联网数据处理", "大数据平台部署"], exercises: [{ q: "实时流处理框架不包括？", options: ["Flink", "Spark Streaming", "Hive", "Kafka Streams"], answer: 2 }] }
 { title: "第一章：大数据概述", knowledge: [
 "大数据5V特征：Volume（海量数据）、Velocity（高速产生）、Variety（多样类型）、Veracity（数据真实性）、Value（价值密度低）。这五个特征描述了大数据的本质特点，也是大数据技术需要解决的核心问题。理解5V特征是掌握大数据技术的基础。",
 "大数据技术生态：核心层包括分布式存储（HDFS、Ceph）、分布式计算（MapReduce、Spark）、NoSQL数据库（MongoDB、HBase、Redis）；管理层包括资源管理（YARN、Mesos）、调度系统（Airflow、Oozie）；分析层包括数据仓库（Hive、Impala）、流处理（Flink、Kafka Streams）；可视化层包括BI工具（Tableau、Power BI）。",
@@ -2005,16 +1945,6 @@ chapters: [
 name: "数据安全与伦理",
 icon: "🛡️",
 chapters: [
-{ title: "第一章：数据安全概述", knowledge: ["数据安全重要性", "数据安全威胁类型", "安全防护原则", "数据安全管理体系", "数据分类分级"], exercises: [{ q: "数据安全的三要素是？", options: ["保密性、完整性、可用性", "收集、存储、使用", "备份、恢复、加密", "访问、修改、删除"], answer: 0 }] },
-{ title: "第二章：隐私保护法规", knowledge: ["《个人信息保护法》要点", "《数据安全法》核心", "GDPR欧盟法规", "数据跨境传输", "合规审计要点"], exercises: [{ q: "我国《个人信息保护法》施行时间是？", options: ["2020年", "2021年", "2022年", "2023年"], answer: 1 }] },
-{ title: "第三章：数据加密", knowledge: ["对称加密AES/DES", "非对称加密RSA", "哈希算法MD5/SHA", "数字签名", "SSL/TLS加密传输"], exercises: [{ q: "HTTPS使用的是什么加密方式？", options: ["仅对称加密", "仅非对称加密", "对称+非对称混合", "不加密"], answer: 2 }] },
-{ title: "第四章：访问控制", knowledge: ["身份认证方式", "授权模型RBAC", "最小权限原则", "多因素认证", "单点登录SSO"], exercises: [{ q: "最小权限原则是指？", options: ["所有人权限一样", "按需分配最小必要权限", "权限越小越好", "不需要权限"], answer: 1 }] },
-{ title: "第五章：数据脱敏", knowledge: ["数据脱敏方法", "静态脱敏与动态脱敏", "掩码、替换、加密", "脱敏规则设计", "测试数据脱敏"], exercises: [{ q: "数据脱敏的主要目的是？", options: ["完全删除数据", "保护敏感数据", "加快数据处理", "增加数据价值"], answer: 1 }] },
-{ title: "第六章：数据备份", knowledge: ["备份策略全备/增量/差异", "备份存储介质", "异地备份", "备份恢复测试", "灾备方案设计"], exercises: [{ q: "增量备份的特点是？", options: ["备份所有数据", "只备份新增数据", "备份删除的数据", "不需要备份"], answer: 1 }] },
-{ title: "第七章：网络安全", knowledge: ["防火墙配置", "入侵检测与防御", "DDoS攻击防护", "Web应用安全", "安全审计与监控"], exercises: [{ q: "防火墙的作用是？", options: ["加快网络速度", "控制网络访问", "存储数据", "加密数据"], answer: 1 }] },
-{ title: "第八章：数据伦理", knowledge: ["数据伦理原则", "算法偏见与公平", "AI伦理问题", "数据知情同意", "数据最小化原则"], exercises: [{ q: "算法偏见可能导致？", options: ["算法更快", "对某些群体不公平", "数据更准确", "用户体验更好"], answer: 1 }] },
-{ title: "第九章：隐私计算", knowledge: ["联邦学习概念", "差分隐私技术", "同态加密", "安全多方计算", "隐私计算应用场景"], exercises: [{ q: "联邦学习的主要目的是？", options: ["加快模型训练", "保护数据隐私下的协同计算", "减少数据存储", "提高模型准确率"], answer: 1 }] },
-{ title: "第十章：安全实践", knowledge: ["企业数据安全建设", "数据安全制度建设", "员工安全意识培训", "应急响应流程", "安全合规认证"], exercises: [{ q: "数据安全建设中最重要的因素是？", options: ["技术工具", "制度建设与人员意识", "资金投入", "外部咨询"], answer: 1 }] }
 { title: "第一章：数据安全概述", knowledge: [
 "数据安全重要性：数据是企业核心资产，数据安全直接关系到企业生存和用户信任。数据泄露可能导致商业机密泄露、用户隐私侵犯、法律责任、品牌声誉受损。随着数字化转型加速，数据安全问题愈发重要，需要从技术、管理、法律多个层面保障。",
 "数据安全威胁类型：外部威胁（黑客攻击、恶意软件、DDoS攻击、APT攻击）、内部威胁（员工误操作、恶意内部人员、权限滥用）、物理威胁（设备丢失、自然灾害、硬件故障）。每种威胁都需要针对性的防护措施。",
@@ -2504,6 +2434,22 @@ if (target) {
 target.scrollIntoView({ behavior: 'smooth' });
 }
 });
+});
+ 
+// DOM加载完成后初始化课程卡片点击事件
+document.addEventListener('DOMContentLoaded', function() {
+const courseCards = document.querySelectorAll('.course-card');
+courseCards.forEach((card, index) => {
+// 移除内联onclick属性，避免重复绑定
+card.removeAttribute('onclick');
+card.addEventListener('click', function(e) {
+e.preventDefault();
+e.stopPropagation();
+console.log('课程卡片点击事件触发，索引:', index);
+openCourse(index);
+});
+});
+console.log('课程卡片点击事件初始化完成，共', courseCards.length, '张卡片');
 });
 </script>
 </body>
