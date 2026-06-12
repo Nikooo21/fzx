@@ -3,858 +3,2499 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>樊珍秀 - 商务数据分析专业学习主页</title>
-    <!-- 引入外部样式与图标库 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <title>樊珍秀 - 商务数据分析与应用 | 个人学习平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* 全局变量统一样式 */
-        :root {
-            --main-color: #165DFF;
-            --main-light: #E8F1FF;
-            --main-dark: #0E42D2;
-            --success-color: #00B42A;
-            --success-light: #ECFBF1;
-            --warning-color: #FF7D00;
-            --warning-light: #FFF7E8;
-            --danger-color: #F53F3F;
-            --danger-light: #FFEEEE;
-            --purple-color: #9B6ADE;
-            --purple-light: #FAF5FF;
-            --yellow-color: #F7BA1E;
-            --yellow-light: #FFFEF0;
-            --gray-bg: #F5F7FA;
-            --text-primary: #1D2129;
-            --text-secondary: #6C757D;
-            --card-shadow: 0 4px 18px rgba(22, 93, 255, 0.12);
-            --card-hover-shadow: 0 12px 32px rgba(22, 93, 255, 0.22);
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: var(--gray-bg);
-            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
-            color: var(--text-primary);
-            line-height: 1.8;
-        }
-        /* 顶部导航栏 吸顶固定 */
-        .top-nav {
-            background-color: #FFFFFF;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            padding: 12px 0;
-        }
-        .nav-logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--main-color);
-        }
-        .nav-item {
-            padding: 6px 18px;
-            border-radius: 20px;
-            margin: 0 8px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            border: 1px solid transparent;
-        }
-        .nav-item.active {
-            background-color: var(--main-color);
-            color: #fff;
-        }
-        .nav-item:hover:not(.active) {
-            background-color: var(--main-light);
-            border-color: var(--main-color);
-        }
-        /* 个人信息横幅 */
-        .hero-banner {
-            background: linear-gradient(135deg, var(--main-color), #4080FF);
-            color: #FFFFFF;
-            border-radius: 20px;
-            padding: 45px;
-            margin: 35px 0;
-            box-shadow: 0 8px 28px rgba(22, 93, 255, 0.28);
-        }
-        .stat-card {
-            background: #fff;
-            border-radius: 14px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: var(--card-shadow);
-            height: 100%;
-        }
-        .stat-num {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        /* 首页课程卡片样式 核心可点击区域 */
-        .course-card {
-            background: #FFFFFF;
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-            padding: 28px;
-            height: 100%;
-            cursor: pointer;
-            transition: all 0.35s ease;
-            border-left: 6px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-        .course-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--main-color), #4080FF);
-            opacity: 0;
-            transition: 0.3s ease;
-        }
-        .course-card:hover {
-            transform: translateY(-10px) scale(1.01);
-            box-shadow: var(--card-hover-shadow);
-            border-left-color: var(--main-color);
-        }
-        .course-card:hover::before {
-            opacity: 1;
-        }
-        .course-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-bottom: 16px;
-        }
-        .tag-label {
-            font-size: 12px;
-            padding: 4px 12px;
-            border-radius: 16px;
-            margin-right: 8px;
-            white-space: nowrap;
-        }
-        .tag-basic {background: var(--main-light); color: var(--main-color);}
-        .tag-middle {background: var(--warning-light); color: var(--warning-color);}
-        .tag-advanced {background: var(--danger-light); color: var(--danger-color);}
-        .progress {
-            height: 12px;
-            border-radius: 6px;
-            background: #E5E6EB;
-            margin: 15px 0;
-        }
-        .progress-bar {
-            background: linear-gradient(90deg, var(--main-color), #4080FF);
-            border-radius: 6px;
-        }
-        .course-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin: 12px 0;
-        }
-        .course-meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 10px;
-        }
-        /* 课程详情页面 整体容器 */
-        .course-detail {
-            display: none;
-            margin: 30px 0;
-        }
-        .back-btn {
-            margin-bottom: 25px;
-        }
-        /* 左侧章节目录 悬浮固定 */
-        .chapter-sidebar {
-            background: #fff;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: var(--card-shadow);
-            position: sticky;
-            top: 100px;
-        }
-        .sidebar-title {
-            font-weight: 700;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #E5E6EB;
-            margin-bottom: 15px;
-        }
-        .sidebar-chap-item {
-            padding: 10px 14px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 8px 0;
-            font-size: 14px;
-            transition: all 0.25s ease;
-        }
-        .sidebar-chap-item:hover {
-            background-color: var(--main-light);
-        }
-        .sidebar-chap-item.active {
-            background-color: var(--main-color);
-            color: #fff;
-        }
-        /* 章节内容模块 */
-        .chapter-box {
-            background: #fff;
-            border-radius: 18px;
-            padding: 24px;
-            margin-bottom: 22px;
-            box-shadow: var(--card-shadow);
-        }
-        .chapter-header {
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .chapter-content {
-            display: none;
-            margin-top: 22px;
-            padding-top: 22px;
-            border-top: 1px dashed #E5E6EB;
-        }
-        .chapter-content.show {
-            display: block;
-        }
-        /* 知识点面板 区分不同模块 */
-        .know-panel {
-            background: var(--main-light);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 18px 0;
-            border-left: 5px solid var(--main-color);
-        }
-        .hard-panel {
-            background: var(--warning-light);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 18px 0;
-            border-left: 5px solid var(--warning-color);
-        }
-        .extend-panel {
-            background: var(--success-light);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 18px 0;
-            border-left: 5px solid var(--success-color);
-        }
-        .think-panel {
-            background: var(--purple-light);
-            padding: 18px;
-            border-radius: 12px;
-            margin: 18px 0;
-            border-left: 5px solid var(--purple-color);
-        }
-        .exercise-panel {
-            background: var(--yellow-light);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 18px 0;
-            border-left: 5px solid var(--yellow-color);
-        }
-        .code-panel {
-            background: #F6F8FA;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 18px 0;
-        }
-        .tag-item {
-            display: inline-block;
-            background: #fff;
-            border: 1px solid var(--main-color);
-            color: var(--main-color);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            margin: 6px 5px;
-        }
-        /* 在线练习平台 核心实操区 */
-        .practice-platform {
-            background: #fff;
-            border-radius: 18px;
-            padding: 28px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 28px;
-        }
-        .code-editor {
-            width: 100%;
-            min-height: 220px;
-            padding: 16px;
-            border: 1px solid #DCDCDC;
-            border-radius: 12px;
-            font-family: "Consolas", "Monaco", monospace;
-            font-size: 14px;
-            resize: vertical;
-            outline: none;
-            transition: border 0.2s;
-        }
-        .code-editor:focus {
-            border-color: var(--main-color);
-        }
-        .run-result {
-            background: #161B22;
-            color: #58E182;
-            padding: 18px;
-            border-radius: 12px;
-            min-height: 130px;
-            margin-top: 16px;
-            white-space: pre-wrap;
-            font-family: "Consolas", monospace;
-        }
-        .btn-custom {
-            background-color: var(--main-color);
-            border-color: var(--main-color);
-            color: #fff;
-        }
-        .btn-custom:hover {
-            background-color: var(--main-dark);
-            border-color: var(--main-dark);
-            color: #fff;
-        }
+/* ================================
+   Global Reset & Variables
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #6366f1;
+    --color-primary-dark: #4f46e5;
+    --color-accent: #8b5cf6;
+    --color-secondary: #ec4899;
+    --color-dark: #0f172a;
+    --color-gray-900: #1e293b;
+    --color-gray-800: #334155;
+    --color-gray-700: #475569;
+    --color-gray-600: #64748b;
+    --color-gray-500: #94a3b8;
+    --color-gray-400: #cbd5e1;
+    --color-gray-300: #e2e8f0;
+    --color-gray-200: #f1f5f9;
+    --color-gray-100: #f8fafc;
+    --color-white: #ffffff;
+    --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+    --gradient-dark: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+    --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.3);
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-full: 9999px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-sans);
+    color: var(--color-dark);
+    background: var(--color-gray-100);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+/* ================================
+   Navigation
+================================ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+    transition: var(--transition);
+}
+
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.logo-sub {
+    font-size: 0.75rem;
+    color: var(--color-gray-500);
+    letter-spacing: 2px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-link {
+    position: relative;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-gray-700);
+    padding: 0.5rem 0;
+    transition: var(--transition);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: var(--transition);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-primary);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.nav-toggle span {
+    width: 24px;
+    height: 2px;
+    background: var(--color-dark);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+.nav-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* ================================
+   Hero Section
+================================ */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 2rem 4rem;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.gradient-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: float 20s ease-in-out infinite;
+}
+
+.circle-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #6366f1, transparent);
+    top: -10%;
+    left: -10%;
+}
+
+.circle-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #ec4899, transparent);
+    bottom: -10%;
+    right: -5%;
+    animation-delay: -5s;
+}
+
+.circle-3 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, #8b5cf6, transparent);
+    top: 40%;
+    right: 20%;
+    animation-delay: -10s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -30px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    width: 100%;
+}
+
+.hero-text {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1.25rem;
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+
+.badge-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-primary);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.title-line {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-gray-600);
+    margin-bottom: 0.5rem;
+}
+
+.title-name {
+    display: block;
+    color: var(--color-dark);
+    letter-spacing: -2px;
+}
+
+.title-gradient {
+    display: block;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    margin-top: 0.25rem;
+}
+
+.hero-description {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    margin-bottom: 2.5rem;
+    max-width: 540px;
+    line-height: 1.8;
+}
+
+.hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 2.25rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-top: 0.25rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+}
+
+.btn-primary i {
+    transition: var(--transition);
+}
+
+.btn-primary:hover i {
+    transform: translateX(4px);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.8);
+    color: var(--color-dark);
+    border: 2px solid var(--color-gray-300);
+    backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+/* Hero Visual */
+.hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+}
+
+.avatar-container {
+    position: relative;
+    width: 380px;
+    height: 380px;
+    animation: fadeInRight 1s ease-out 0.3s both;
+}
+
+.avatar-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    background: conic-gradient(from 0deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 8px;
+    animation: spin 15s linear infinite;
+}
+
+.avatar-ring-2 {
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+    border: 2px dashed rgba(99, 102, 241, 0.3);
+    animation: spin 30s linear infinite reverse;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.avatar-main {
+    position: absolute;
+    inset: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8rem;
+    color: var(--color-white);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.floating-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+    animation: floatCard 6s ease-in-out infinite;
+}
+
+.floating-card i {
+    font-size: 1.25rem;
+}
+
+.card-1 {
+    top: 10%;
+    left: -10%;
+    color: var(--color-primary);
+}
+
+.card-1 i {
+    color: var(--color-primary);
+}
+
+.card-2 {
+    bottom: 20%;
+    left: -5%;
+    color: var(--color-accent);
+    animation-delay: -2s;
+}
+
+.card-2 i {
+    color: var(--color-accent);
+}
+
+.card-3 {
+    top: 30%;
+    right: -10%;
+    color: var(--color-secondary);
+    animation-delay: -4s;
+}
+
+.card-3 i {
+    color: var(--color-secondary);
+}
+
+@keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-gray-500);
+    font-size: 0.875rem;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.scroll-arrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 10px); }
+}
+
+/* ================================
+   Section Headers
+================================ */
+section {
+    padding: 6rem 0;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-tag {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--color-primary);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #0f172a 0%, #4f46e5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-desc {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* ================================
+   About Section
+================================ */
+.about {
+    background: var(--color-white);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+.about-card {
+    padding: 2.5rem 2rem;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+}
+
+.about-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: var(--transition);
+}
+
+.about-card:hover {
+    background: var(--color-white);
+    border-color: var(--color-gray-200);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-8px);
+}
+
+.about-card:hover::before {
+    transform: scaleX(1);
+}
+
+.card-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 1.5rem;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: var(--color-white);
+    transition: var(--transition);
+}
+
+.about-card:hover .card-icon {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.about-card h3 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--color-dark);
+}
+
+.about-card p {
+    color: var(--color-gray-600);
+    line-height: 1.8;
+}
+
+/* ================================
+   Skills Section
+================================ */
+.skills {
+    background: var(--color-gray-100);
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.skill-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-full);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--color-gray-700);
+    transition: var(--transition);
+    cursor: default;
+}
+
+.skill-tag:hover {
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    border-color: transparent;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.skill-tag i {
+    color: var(--color-primary);
+    transition: var(--transition);
+}
+
+.skill-tag:hover i {
+    color: var(--color-white);
+}
+
+/* ================================
+   Courses Section
+================================ */
+.courses {
+    background: var(--color-white);
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.course-card {
+    position: relative;
+    padding: 2rem;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-200);
+    cursor: pointer;
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.course-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 0;
+}
+
+.course-card:hover {
+    transform: translateY(-12px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+}
+
+.course-card:hover::before {
+    opacity: 0.03;
+}
+
+.course-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.course-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+}
+
+.course-card:hover .course-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.course-card h3 {
+    font-size: 1.375rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--color-dark);
+    transition: var(--transition);
+}
+
+.course-card:hover h3 {
+    color: var(--color-primary-dark);
+}
+
+.course-card .course-desc {
+    color: var(--color-gray-600);
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-gray-200);
+    transition: var(--transition);
+}
+
+.course-card:hover .course-meta {
+    border-top-color: rgba(255,255,255,0.2);
+}
+
+.chapter-count {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--color-gray-500);
+}
+
+.course-arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-gray-600);
+    transition: var(--transition);
+}
+
+.course-card:hover .course-arrow {
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    transform: translateX(4px);
+}
+
+/* ================================
+   Modal
+================================ */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.modal.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    max-height: 85vh;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: var(--color-gray-700);
+    z-index: 10;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    background: var(--color-dark);
+    color: var(--color-white);
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    padding: 2.5rem 2.5rem 2rem;
+    color: var(--color-white);
+    position: relative;
+}
+
+.modal-header h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.modal-header .course-desc-full {
+    font-size: 1rem;
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+.modal-header .course-info-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    backdrop-filter: blur(4px);
+}
+
+.modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 2.5rem 2.5rem;
+}
+
+.chapters-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--color-dark);
+}
+
+.chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.chapter-item:hover {
+    background: var(--color-white);
+    border-color: var(--color-gray-200);
+    box-shadow: var(--shadow-md);
+    transform: translateX(8px);
+}
+
+.chapter-number {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--gradient-primary);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.chapter-info {
+    flex: 1;
+}
+
+.chapter-info h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-bottom: 0.25rem;
+}
+
+.chapter-info p {
+    font-size: 0.9rem;
+    color: var(--color-gray-500);
+}
+
+.chapter-open {
+    color: var(--color-gray-400);
+    transition: var(--transition);
+}
+
+.chapter-item:hover .chapter-open {
+    color: var(--color-primary);
+}
+
+/* ================================
+   Chapter Panel
+================================ */
+.chapter-panel {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.chapter-panel.active {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.chapter-panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.chapter-content {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    max-height: 90vh;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+    animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chapter-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--color-gray-100);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.125rem;
+    color: var(--color-gray-700);
+    z-index: 10;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chapter-close:hover {
+    background: var(--color-dark);
+    color: var(--color-white);
+    transform: rotate(90deg);
+}
+
+.chapter-detail-header {
+    padding: 2.5rem 2.5rem 1.5rem;
+    border-bottom: 1px solid var(--color-gray-200);
+}
+
+.chapter-detail-header .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-primary);
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.chapter-detail-header .back-btn:hover {
+    transform: translateX(-4px);
+}
+
+.chapter-detail-header h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-dark);
+    margin-bottom: 0.5rem;
+}
+
+.chapter-detail-header .chapter-subtitle {
+    color: var(--color-gray-500);
+    font-size: 1rem;
+}
+
+.chapter-detail-body {
+    padding: 2rem 2.5rem 2.5rem;
+}
+
+.detail-section {
+    margin-bottom: 2.5rem;
+}
+
+.detail-section:last-child {
+    margin-bottom: 0;
+}
+
+.detail-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-dark);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--color-gray-200);
+}
+
+.detail-section h3 i {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    font-size: 1rem;
+}
+
+.detail-section p {
+    color: var(--color-gray-700);
+    line-height: 1.9;
+    margin-bottom: 1rem;
+}
+
+.knowledge-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.knowledge-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--color-gray-100);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.knowledge-list li:hover {
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    transform: translateX(4px);
+}
+
+.knowledge-list li::before {
+    content: '✓';
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.knowledge-list li span {
+    flex: 1;
+    color: var(--color-gray-700);
+    line-height: 1.6;
+}
+
+.code-block {
+    background: var(--color-dark);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.code-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--color-gray-900);
+    border-bottom: 1px solid var(--color-gray-800);
+}
+
+.code-block-header span {
+    color: var(--color-gray-400);
+    font-size: 0.85rem;
+    font-family: 'Courier New', monospace;
+}
+
+.copy-btn {
+    background: none;
+    border: 1px solid var(--color-gray-700);
+    color: var(--color-gray-400);
+    padding: 0.375rem 0.75rem;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: var(--transition);
+}
+
+.copy-btn:hover {
+    background: var(--color-primary);
+    color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.code-block pre {
+    padding: 1.25rem;
+    margin: 0;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+}
+
+.code-block code {
+    display: block;
+}
+
+.code-keyword {
+    color: #c084fc;
+}
+
+.code-string {
+    color: #86efac;
+}
+
+.code-number {
+    color: #fbbf24;
+}
+
+.code-comment {
+    color: #64748b;
+    font-style: italic;
+}
+
+.code-func {
+    color: #60a5fa;
+}
+
+.practice-item {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    border-radius: var(--radius-md);
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.practice-item:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+    box-shadow: var(--shadow-sm);
+}
+
+.practice-item h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--color-dark);
+    margin-bottom: 0.75rem;
+}
+
+.practice-item h4 i {
+    color: var(--color-primary);
+}
+
+.practice-item p {
+    color: var(--color-gray-600);
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+}
+
+.practice-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.75rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--color-gray-500);
+}
+
+/* ================================
+   Contact Section
+================================ */
+.contact {
+    background: var(--gradient-dark);
+    color: var(--color-white);
+    padding: 5rem 0;
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.contact-info .section-tag {
+    background: rgba(99, 102, 241, 0.2);
+    color: #a5b4fc;
+}
+
+.contact-info h2 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    margin: 1rem 0 1rem;
+    line-height: 1.2;
+}
+
+.contact-info > p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+    max-width: 500px;
+}
+
+.contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+
+.contact-item:hover {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateX(8px);
+}
+
+.contact-item i {
+    font-size: 1.25rem;
+    color: #a5b4fc;
+}
+
+.contact-item span {
+    font-size: 1rem;
+}
+
+.contact-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.contact-orb {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 7rem;
+    color: var(--color-white);
+    box-shadow: 0 0 80px rgba(99, 102, 241, 0.4);
+    animation: orbFloat 6s ease-in-out infinite;
+}
+
+@keyframes orbFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* ================================
+   Footer
+================================ */
+.footer {
+    background: var(--color-dark);
+    color: var(--color-gray-400);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer-content p {
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+}
+
+.footer-motto {
+    color: var(--color-gray-500);
+    font-style: italic;
+}
+
+/* ================================
+   Scroll Reveal Animation
+================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================================
+   Custom Scrollbar
+================================ */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-gray-400);
+    border-radius: 5px;
+    transition: var(--transition);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+.modal-content::-webkit-scrollbar,
+.chapter-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb,
+.chapter-content::-webkit-scrollbar-thumb {
+    background: var(--color-gray-300);
+}
+
+/* ================================
+   Responsive Design
+================================ */
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-stats,
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        min-height: 400px;
+        margin-top: 2rem;
+    }
+
+    .avatar-container {
+        width: 320px;
+        height: 320px;
+    }
+
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .contact-items {
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1.25rem;
+    }
+
+    section {
+        padding: 4rem 0;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 72px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--color-white);
+        padding: 2rem;
+        gap: 1.5rem;
+        box-shadow: var(--shadow-md);
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: var(--transition);
+    }
+
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .hero {
+        padding: 6rem 1.25rem 3rem;
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: 2.25rem;
+    }
+
+    .title-line {
+        font-size: 1.125rem;
+    }
+
+    .hero-stats {
+        gap: 1.5rem;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+    }
+
+    .avatar-container {
+        width: 260px;
+        height: 260px;
+    }
+
+    .avatar-main {
+        font-size: 5rem;
+    }
+
+    .floating-card {
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+    }
+
+    .floating-card i {
+        font-size: 1rem;
+    }
+
+    .card-1 {
+        left: 0;
+    }
+
+    .card-2 {
+        left: 0;
+    }
+
+    .card-3 {
+        right: 0;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal {
+        padding: 1rem;
+    }
+
+    .modal-header {
+        padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .modal-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+    }
+
+    .chapter-panel {
+        padding: 1rem;
+    }
+
+    .chapter-detail-header {
+        padding: 2rem 1.5rem 1.25rem;
+    }
+
+    .chapter-detail-body {
+        padding: 1.5rem;
+    }
+
+    .contact-orb {
+        width: 200px;
+        height: 200px;
+        font-size: 5rem;
+    }
+
+    .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-stats {
+        gap: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    .avatar-container {
+        width: 220px;
+        height: 220px;
+    }
+
+    .chapter-item {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .chapter-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+/* ================================
+   Reduced Motion
+================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
     </style>
 </head>
 <body>
-    <!-- 顶部全局导航栏 -->
-    <div class="top-nav">
-        <div class="container d-flex align-items-center justify-content-between flex-wrap">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
             <div class="nav-logo">
-                <i class="bi bi-person-badge-fill me-2"></i>樊珍秀 | 个人学习主页
+                <span class="logo-text">樊珍秀</span>
+                <span class="logo-sub">商务数据分析</span>
             </div>
-            <div class="d-flex">
-                <div class="nav-item active" onclick="backToHome()">
-                    <i class="bi bi-house-door me-1"></i>课程首页
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">首页</a></li>
+                <li><a href="#about" class="nav-link">关于我</a></li>
+                <li><a href="#courses" class="nav-link">课程中心</a></li>
+                <li><a href="#skills" class="nav-link">技能</a></li>
+                <li><a href="#contact" class="nav-link">联系</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="gradient-circle circle-1"></div>
+            <div class="gradient-circle circle-2"></div>
+            <div class="gradient-circle circle-3"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span class="badge-dot"></span>
+                    <span>广东科学技术职业学院 · 商学院</span>
                 </div>
-                <div class="nav-item">
-                    <i class="bi bi-journal-check me-1"></i>学习档案
+                <h1 class="hero-title">
+                    <span class="title-line">你好，我是</span>
+                    <span class="title-name">樊珍秀</span>
+                    <span class="title-gradient">商务数据分析与应用</span>
+                </h1>
+                <p class="hero-description">
+                    专注于数据采集、处理、分析与可视化，用数据洞察商业价值。
+                    探索以下课程，了解我的学习路径与专业技能。
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" data-count="10">0</span>
+                        <span class="stat-label">核心课程</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" data-count="100">0</span>
+                        <span class="stat-label">章节知识</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" data-count="300">0</span>
+                        <span class="stat-label">练习项目</span>
+                    </div>
                 </div>
-                <div class="nav-item">
-                    <i class="bi bi-bar-chart-fill me-1"></i>进度统计
-                </div>
-                <div class="nav-item">
-                    <i class="bi bi-question-circle me-1"></i>使用帮助
+                <div class="hero-actions">
+                    <a href="#courses" class="btn btn-primary">
+                        <span>浏览课程</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#about" class="btn btn-secondary">
+                        <span>了解更多</span>
+                    </a>
                 </div>
             </div>
+            <div class="hero-visual">
+                <div class="avatar-container">
+                    <div class="avatar-ring"></div>
+                    <div class="avatar-ring-2"></div>
+                    <div class="avatar-main">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="floating-card card-1">
+                        <i class="fas fa-chart-line"></i>
+                        <span>数据分析</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <i class="fas fa-database"></i>
+                        <span>数据库</span>
+                    </div>
+                    <div class="floating-card card-3">
+                        <i class="fas fa-code"></i>
+                        <span>Python</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>向下滚动探索</span>
+            <div class="scroll-arrow"><i class="fas fa-chevron-down"></i></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">关于我</span>
+                <h2 class="section-title">用数据驱动决策</h2>
+                <p class="section-desc">专注于数据分析全流程，从数据采集到智能分析</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>专业背景</h3>
+                    <p>就读于广东科学技术职业学院商学院商务数据分析与应用专业，系统学习数据分析相关课程。</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>核心技能</h3>
+                    <p>熟练掌握Python、SQL、数据分析工具，具备数据采集、清洗、分析及可视化全流程能力。</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>学习目标</h3>
+                    <p>致力于成为一名优秀的商业数据分析师，用数据发现商业机会，为决策提供数据支持。</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>个人理念</h3>
+                    <p>数据是新时代的石油，分析是提炼的工艺。用严谨的数据分析，创造真实的商业价值。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">技能标签</span>
+                <h2 class="section-title">我的核心技能</h2>
+                <p class="section-desc">涵盖数据分析全栈技能，从编程到商业分析</p>
+            </div>
+            <div class="skills-container" id="skillsContainer"></div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="courses">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">课程中心</span>
+                <h2 class="section-title">我的学习课程</h2>
+                <p class="section-desc">10门核心课程，每门10章节，系统学习商务数据分析</p>
+            </div>
+            <div class="course-grid" id="courseGrid"></div>
+        </div>
+    </section>
+
+    <!-- Course Detail Modal -->
+    <div class="modal" id="courseModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div class="modal-header" id="modalHeader"></div>
+            <div class="modal-body" id="modalBody"></div>
         </div>
     </div>
 
-    <div class="container">
-        <!-- 个人信息 & 学习数据统计横幅 -->
-        <div class="hero-banner">
-            <div class="row align-items-center">
-                <div class="col-lg-7 mb-4 mb-lg-0">
-                    <h2 class="fw-bold mb-3">你好，我是樊珍秀 🎓</h2>
-                    <p class="fs-5 mb-2"><i class="bi bi-building me-2"></i>广东科学技术职业学院 商学院</p>
-                    <p class="fs-5 mb-3"><i class="bi bi-book me-2"></i>专业：商务数据分析与应用</p>
-                    <p class="opacity-90 fs-6">本页面为个人专业课程学习平台，包含<strong>10门核心专业课、100个学习章节</strong>，每章节配备完整知识点、思考题、分层练习与在线代码实操平台，实现学、练、测一体化学习。</p>
-                </div>
-                <div class="col-lg-5">
-                    <div class="row g-3">
-                        <div class="col-4">
-                            <div class="stat-card">
-                                <div class="stat-num" style="color: var(--main-color);">10</div>
-                                <div class="text-secondary">全部课程</div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="stat-card">
-                                <div class="stat-num" style="color: var(--success-color);">100</div>
-                                <div class="text-secondary">总章节数</div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="stat-card">
-                                <div class="stat-num" style="color: var(--warning-color);">0</div>
-                                <div class="text-secondary">已完成章节</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===================== 首页：10门课程卡片区域 ===================== -->
-        <div id="home-page">
-            <div class="d-flex justify-content-between align-items-center mb-5">
-                <h4 class="fw-bold mb-0">
-                    <i class="bi bi-grid-3x3-gap-fill text-primary me-2"></i>专业课程列表
-                </h4>
-                <span class="text-secondary">点击任意课程卡片，进入章节学习与实操练习</span>
-            </div>
-            <div class="row g-4">
-                <!-- 课程1：Python基础编程 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(1)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--main-light); color: var(--main-color);">
-                                <i class="bi bi-code-slash"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-basic">入门必修</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">1. Python基础编程</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 40%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：40%</small>
-                        <p class="course-desc">数据分析核心入门语言，讲解变量、分支、循环、函数、文件读写、异常处理等全量基础语法，全程代码实操。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>代码实操练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程2：商务数据分析技术 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(2)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--warning-light); color: var(--warning-color);">
-                                <i class="bi bi-bar-chart-line"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-middle">专业核心</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">2. 商务数据分析技术</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 30%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：30%</small>
-                        <p class="course-desc">系统学习数据分析全流程、指标体系、统计分析、数据清洗、对比/趋势/相关性分析、商业报告撰写。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>案例分析练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程3：数据采集与处理 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(3)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--danger-light); color: var(--danger-color);">
-                                <i class="bi bi-download"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-advanced">进阶必修</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">3. 数据采集与处理</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 20%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：20%</small>
-                        <p class="course-desc">学习多渠道数据采集、网页爬虫、正则表达式、数据规整、缺失/重复/异常数据清洗、批量数据处理实战。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>爬虫清洗练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程4：供应链数据分析 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(4)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--success-light); color: var(--success-color);">
-                                <i class="bi bi-truck"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-middle">方向课程</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">4. 供应链数据分析</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 25%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：25%</small>
-                        <p class="course-desc">围绕采购、仓储、物流、库存四大模块，学习供应链指标、需求预测、库存预警、风险分析与行业实战案例。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>业务分析练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程5：数据库原理与应用 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(5)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--main-light); color: var(--main-color);">
-                                <i class="bi bi-database"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-basic">入门必修</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">5. 数据库原理与应用</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 35%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：35%</small>
-                        <p class="course-desc">讲解关系型数据库、E-R模型、数据表设计，熟练掌握SQL增删改查、分组聚合、多表关联、索引与视图。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>SQL语句练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程6：Excel高级数据应用 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(6)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--warning-light); color: var(--warning-color);">
-                                <i class="bi bi-table"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-basic">办公必修</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">6. Excel高级数据应用</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 50%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：50%</small>
-                        <p class="course-desc">精通高级函数、查找引用、文本处理、数据透视表、条件格式、动态图表、自动化商务报表制作。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>报表制作练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程7：统计学基础 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(7)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--danger-light); color: var(--danger-color);">
-                                <i class="bi bi-calculator"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-middle">理论基础</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">7. 统计学基础</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 30%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：30%</small>
-                        <p class="course-desc">数据分析理论根基，包含描述统计、概率分布、抽样、参数估计、假设检验，支撑所有高阶分析工作。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>数理计算练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程8：数据可视化设计 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(8)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--success-light); color: var(--success-color);">
-                                <i class="bi bi-pie-chart"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-middle">实操专项</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">8. 数据可视化设计</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 28%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：28%</small>
-                        <p class="course-desc">学习图表选型、视觉配色、页面布局，使用Python绘图库制作专业图表、数据看板与可视化大屏。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>绘图实操练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程9：商务智能BI应用 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(9)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--main-light); color: var(--main-color);">
-                                <i class="bi bi-speedometer2"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-advanced">企业拓展</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">9. 商务智能BI应用</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 22%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：22%</small>
-                        <p class="course-desc">讲解BI架构、数据建模、多源数据整合、交互式报表、切片联动、企业运营看板搭建与发布。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>BI看板练习
-                        </div>
-                    </div>
-                </div>
-                <!-- 课程10：大数据导论 -->
-                <div class="col-md-6 col-xl-4">
-                    <div class="course-card" onclick="openCourse(10)">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="course-icon" style="background: var(--warning-light); color: var(--warning-color);">
-                                <i class="bi bi-cloud"></i>
-                            </div>
-                            <div>
-                                <span class="tag-label tag-middle">前沿认知</span>
-                            </div>
-                        </div>
-                        <h5 class="fw-bold mt-3">10. 大数据导论</h5>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 18%"></div>
-                        </div>
-                        <small class="text-secondary">学习进度：18%</small>
-                        <p class="course-desc">认识大数据4V特征、技术生态、分布式存储与计算、流式数据采集、行业应用与未来发展趋势。</p>
-                        <div class="course-meta">
-                            <i class="bi bi-book me-1"></i>共10章节
-                            <span class="mx-2">|</span>
-                            <i class="bi bi-pencil-square me-1"></i>概念理解练习
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===================== 课程详情页：章节+练习平台 ===================== -->
-        <div class="course-detail" id="course-detail">
-            <div class="back-btn">
-                <button class="btn btn-outline-primary btn-lg" onclick="backToHome()">
-                    <i class="bi bi-arrow-left-circle me-2"></i>返回课程首页
-                </button>
-            </div>
-            <h4 id="course-title" class="fw-bold mb-5 fs-4"></h4>
-
-            <div class="row g-4">
-                <!-- 左侧：固定章节目录 -->
-                <div class="col-lg-3">
-                    <div class="chapter-sidebar">
-                        <h6 class="sidebar-title">
-                            <i class="bi bi-list-ul text-primary me-2"></i>章节目录
-                        </h6>
-                        <div id="sidebar-chap-list"></div>
-                    </div>
-                </div>
-                <!-- 右侧：练习平台 + 章节内容 -->
-                <div class="col-lg-9">
-                    <!-- 在线实操练习平台（全局常驻，可真实运行代码） -->
-                    <div class="practice-platform">
-                        <h5 class="fw-bold mb-4">
-                            <i class="bi bi-code-square text-primary me-2"></i>在线代码实操练习平台
-                        </h5>
-                        <p class="text-secondary mb-3">在下方编辑器编写 Python 代码，点击【运行代码】即可执行，支持实时查看运行结果与报错信息</p>
-                        <textarea id="main-code-editor" class="code-editor" placeholder="请在此编写代码..."></textarea>
-                        <div class="mt-4">
-                            <button class="btn btn-custom px-4" onclick="runCode()">
-                                <i class="bi bi-play-fill me-1"></i>运行代码
-                            </button>
-                            <button class="btn btn-outline-secondary ms-3 px-4" onclick="clearCode()">
-                                <i class="bi bi-trash me-1"></i>清空编辑器
-                            </button>
-                        </div>
-                        <div class="mt-4">
-                            <p class="mb-2 fw-medium">运行输出结果：</p>
-                            <div id="code-result" class="run-result">等待代码执行...</div>
-                        </div>
-                    </div>
-
-                    <!-- 所有章节详细内容区域 -->
-                    <div id="all-chapter-content"></div>
-                </div>
-            </div>
+    <!-- Chapter Detail Panel -->
+    <div class="chapter-panel" id="chapterPanel">
+        <div class="chapter-content">
+            <button class="chapter-close" id="chapterClose"><i class="fas fa-times"></i></button>
+            <div id="chapterDetail"></div>
         </div>
     </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <span class="section-tag">联系我</span>
+                    <h2>让我们一起探索数据的力量</h2>
+                    <p>欢迎交流数据分析学习心得，共同成长。</p>
+                    <div class="contact-items">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>fan@example.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-university"></i>
+                            <span>广东科学技术职业学院</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>中国·广东</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-visual">
+                    <div class="contact-orb">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 樊珍秀 · 商务数据分析与应用 | 保留所有权利</p>
+                <p class="footer-motto">用数据发现价值，用分析创造未来</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // 全局数据：10门课程，每门10个完整章节（知识点、练习、代码全覆盖）
-        const courseData = {
-            // 课程1：Python基础编程（10章节完整版）
-            1: {
-                title: "1. Python基础编程",
-                chapters: [
-                    {
-                        title: "第1章 Python环境搭建与入门认知",
-                        core: ["Python属于解释型高级脚本语言，语法简洁、跨平台、开源免费", "CPython官方解释器是代码执行核心", "Anaconda集成环境：一键配置Python+数据分析第三方库", "主流编辑器：VS Code、PyCharm功能区分", "PEP8编码规范：缩进、命名、换行统一标准"],
-                        hard: ["交互式终端与脚本文件两种运行模式的区别", "多版本Python共存的环境管理方法", "新手常见语法报错快速定位与排查"],
-                        extend: ["Python发展历史与版本迭代", "数据分析三大核心库：NumPy、Pandas、Matplotlib简介"],
-                        think: "为什么数据分析领域优先选择Python，而非其他编程语言？",
-                        baseExercise: "使用print()函数分行输出你的姓名、学校、专业",
-                        advanceExercise: "分别编写单行注释和多行注释，理解注释在程序中的作用",
-                        demoCode: "print('姓名：樊珍秀')\nprint('学校：广东科学技术职业学院')\nprint('专业：商务数据分析与应用')\n# 单行注释：用于单行说明\n'''多行注释：\n用于大段文字说明\n'''"
-                    },
-                    {
-                        title: "第2章 变量、数据类型与运算符",
-                        core: ["变量是内存数据容器，Python无需提前声明类型", "四大基础数据类型：int整型、float浮点型、str字符串、bool布尔型", "算术运算符：加减乘除、取余、幂运算、整除", "比较运算符：大于、小于、等于、不等于，结果均为布尔值", "逻辑运算符：and、or、not，实现多条件组合判断", "数据类型强制转换语法与使用场景"],
-                        hard: ["不同数据类型混合运算的规则与报错原因", "布尔值隐式转换逻辑", "字符串与数字无法直接运算的底层原因"],
-                        extend: ["使用id()函数查看变量内存地址", "Python系统关键字列表与使用禁忌"],
-                        think: "已知商品单价和购买数量，如何通过代码计算总金额？",
-                        baseExercise: "定义两个整型变量，完成加减乘除四则运算并逐行输出结果",
-                        advanceExercise: "实现字符串拼接，再将字符串转为数字进行数学运算",
-                        demoCode: "price = 25\ncount = 10\nprint('加法运算：', price + count)\nprint('减法运算：', price - count)\nprint('乘法运算：', price * count)\nprint('除法运算：', price / count)"
-                    },
-                    {
-                        title: "第3章 条件分支 if 语句",
-                        core: ["程序三大基本结构：顺序结构、分支结构、循环结构", "单分支if语句：条件成立则执行代码块", "双分支if-else语句：二选一执行逻辑", "多分支if-elif-else语句：多区间逐级判断", "Python强制缩进规则：缩进决定代码从属关系", "复合条件：结合比较运算符与逻辑运算符实现复杂判断"],
-                        hard: ["if语句多层嵌套的逻辑梳理", "运算符优先级：括号 > 比较运算 > 逻辑运算", "数值区间临界值判断的易错点"],
-                        extend: ["三元表达式：简化简单二分支代码", "实战场景：成绩评级、用户权限判断、数据状态筛选"],
-                        think: "如何编写代码判断一个数字处于 50 ~ 100 的区间范围内？",
-                        baseExercise: "根据输入的分数划分等级：90分及以上为优秀，60-89分为及格，60分以下为不及格",
-                        advanceExercise: "细化为五级评分：优秀、良好、中等、及格、不及格，完成多分支判断",
-                        demoCode: "score = 85\nif score >= 90:\n    print('成绩：优秀')\nelif score >= 60:\n    print('成绩：及格')\nelse:\n    print('成绩：不及格')"
-                    },
-                    {
-                        title: "第4章 循环结构 for 与 while",
-                        core: ["循环的作用：重复执行相同逻辑，精简代码、提升效率", "while循环：基于条件判断，条件为真则持续循环", "for循环：专门用于遍历可迭代对象", "range()函数：生成连续整数序列，循环高频工具", "break语句：强制终止整个循环", "continue语句：跳过当前单次循环，进入下一轮循环"],
-                        hard: ["while死循环的产生原因与规避方案", "嵌套循环（外层循环+内层循环）的执行顺序", "break和continue在嵌套循环中的作用范围"],
-                        extend: ["循环+分支组合综合应用", "三大经典循环算法：累加、累乘、计数统计"],
-                        think: "使用循环输出1~20的所有数字，如何只保留其中的偶数？",
-                        baseExercise: "利用for循环输出1~10之间全部偶数",
-                        advanceExercise: "使用while循环计算 1 ~ 100 所有整数的累加和",
-                        demoCode: "for i in range(1, 11):\n    if i % 2 == 0:\n        print('偶数：', i)"
-                    },
-                    {
-                        title: "第5章 序列：列表与元组",
-                        core: ["序列概念：有序数据集合，支持下标访问、切片操作", "列表list[]：可变序列，支持增、删、改、查所有操作", "下标规则：正下标从0开始，负下标从末尾倒序访问", "切片语法 [起始:结束:步长]，截取部分数据", "列表常用方法：append()、pop()、remove()", "元组tuple()：不可变序列，定义后元素无法修改", "列表与元组基础遍历方式"],
-                        hard: ["列表浅拷贝与深拷贝的区别与使用场景", "切片越界的运行规则", "元组内部嵌套列表时的特殊可变特性"],
-                        extend: ["列表推导式：快速生成、筛选列表数据", "内置函数：len()、max()、min()、sorted() 用法"],
-                        think: "列表和元组功能高度相似，分别适用于哪些业务场景？",
-                        baseExercise: "创建商品价格列表，筛选出价格大于50的元素并组成新列表",
-                        advanceExercise: "对列表数据排序，并去除列表中的重复元素",
-                        demoCode: "price_list = [12, 66, 34, 78, 22]\nnew_list = [x for x in price_list if x > 50]\nprint('筛选后价格：', new_list)"
-                    },
-                    {
-                        title: "第6章 映射与集合：字典、集合",
-                        core: ["字典dict{}：键值对映射结构，键唯一不可重复，适合存储关联数据", "字典基础操作：增、删、改、查，遍历键、值、键值对", "集合set：无序集合，自动去重，常用于数据对比", "集合四大运算：交集、并集、差集、对称差集", "三大数据结构选型：列表存有序数据、字典存关联数据、集合做去重对比"],
-                        hard: ["字典键的类型限制：仅不可变数据类型可作为键", "集合无序特性，不支持下标访问", "字典、集合嵌套结构的使用规则"],
-                        extend: ["字典推导式用法", "利用集合快速对比两组数据的异同"],
-                        think: "使用字典存储学生姓名和对应成绩，如何快速查询指定学生的分数？",
-                        baseExercise: "用字典存储个人信息，遍历输出所有键和值",
-                        advanceExercise: "定义两个列表，利用集合找出两个列表中相同的元素",
-                        demoCode: "user_info = {'name':'樊珍秀','major':'商务数据分析与应用'}\nfor key, value in user_info.items():\n    print(key, '：', value)"
-                    },
-                    {
-                        title: "第7章 自定义函数",
-                        core: ["函数核心作用：封装重复代码，实现模块化开发与代码复用", "def 关键字：定义自定义函数", "形参（形式参数）、实参（实际参数）概念与传递规则", "return 语句：函数返回结果，并终止函数执行", "函数调用格式与执行流程", "变量作用域：局部变量、全局变量的划分"],
-                        hard: ["全局变量与局部变量重名时的优先级规则", "多参数、默认参数的使用规范", "有返回值函数与无返回值函数的区别"],
-                        extend: ["函数文档注释编写规范", "函数嵌套调用逻辑"],
-                        think: "将两数求和的代码封装为函数，相比直接编写代码有哪些优势？",
-                        baseExercise: "封装一个两数求和函数，传入参数并调用执行",
-                        advanceExercise: "封装函数，接收一组数据并计算平均值",
-                        demoCode: "def add_num(a, b):\n    return a + b\nresult = add_num(3, 5)\nprint('两数之和：', result)"
-                    },
-                    {
-                        title: "第8章 文件读写 IO 操作",
-                        core: ["文件操作三大步骤：打开文件 → 读写内容 → 关闭文件", "open()函数：打开文件，指定路径、打开模式、编码格式", "常用打开模式：r只读、w清空写入、a追加写入", "with上下文管理器：自动关闭文件，避免资源占用", "读写方法：read()读取全文、readline()逐行读取、write()写入内容"],
-                        hard: ["绝对路径与相对路径的写法区别", "编码错误导致中文乱码的解决方案", "大文件逐行读取的优化方案"],
-                        extend: ["二进制文件读写基础", "代码判断文件是否存在"],
-                        think: "w模式和a模式都可以写入文件，最终效果有什么区别？",
-                        baseExercise: "将一段文本写入本地txt文件，再重新读取内容并打印",
-                        advanceExercise: "逐行读取文件内容，并统计文件总行数",
-                        demoCode: "# 写入文件\nwith open('study.txt', 'w', encoding='utf-8') as f:\n    f.write('商务数据分析学习记录')\n# 读取文件\nwith open('study.txt', 'r', encoding='utf-8') as f:\n    print(f.read())"
-                    },
-                    {
-                        title: "第9章 异常捕获 try-except",
-                        core: ["程序异常：代码运行时出现错误，会直接终止程序", "try-except 异常捕获语法，拦截错误并给出友好提示", "常见异常类型：ValueError值错误、TypeError类型错误、IndexError下标错误", "else分支：无异常时执行", "finally分支：无论是否报错，必定执行"],
-                        hard: ["同时捕获多种异常的写法", "精准捕获异常的编写原则", "raise 关键字主动抛出异常"],
-                        extend: ["异常日志记录思路", "项目通用异常处理模板"],
-                        think: "用户手动输入内容极易出现格式错误，为什么必须添加异常捕获？",
-                        baseExercise: "实现字符串转数字功能，并捕获类型转换错误",
-                        advanceExercise: "结合循环与异常捕获，循环接收输入，直到用户输入合法数字为止",
-                        demoCode: "try:\n    num = int('abc123')\nexcept ValueError:\n    print('错误：字符串无法转为数字')"
-                    },
-                    {
-                        title: "第10章 Python综合数据项目实战",
-                        core: ["综合运用变量、分支、循环、函数、列表、字典全语法", "小型Python项目开发完整流程：需求分析 → 逻辑梳理 → 编码 → 测试调试", "基础数据统计逻辑：求和、计数、最大值、最小值、平均值", "input()函数接收用户交互式输入"],
-                        hard: ["复杂业务逻辑拆分为多个函数，实现模块化设计", "批量数据处理思路", "项目整体BUG排查与修复"],
-                        extend: ["数据格式化输出", "将运行结果持久化保存到本地文件"],
-                        think: "开发一款学生成绩统计工具，需要分哪些步骤梳理逻辑？",
-                        baseExercise: "录入5名学生成绩，计算总分、平均分、最高分、最低分",
-                        advanceExercise: "统计不及格人数，并将所有成绩数据写入本地文件",
-                        demoCode: "scores = [88, 92, 79, 85, 66]\ntotal = sum(scores)\navg = total / len(scores)\nprint('总分：', total)\nprint('平均分：', avg)"
-                    }
-                ]
-            },
-            // 课程2：商务数据分析技术（10章节）
-            2: {
-                title: "2. 商务数据分析技术",
-                chapters: [
-                    {
-                        title: "第1章 数据分析流程与行业认知",
-                        core: ["数据分析定义：对原始数据加工、挖掘价值，辅助商业决策", "五大标准流程：数据采集 → 数据清洗 → 数据分析 → 数据可视化 → 分析报告", "岗位划分：数据运营、数据分析师、大数据分析师工作侧重", "商务数据分析特点：紧密结合业务，目标为降本、增效、增收"],
-                        hard: ["全流程各环节衔接标准与质量要求", "将业务需求转化为可落地的数据需求", "不同行业数据分析流程的差异化调整"],
-                        extend: ["数据分析行业发展现状与就业方向", "数据分析主流工具栈组合"],
-                        think: "结合电商行业，简述数据分析五大流程分别需要完成哪些工作？",
-                        baseExercise: "逐条写出数据分析五大流程，并简单解释每个流程的作用",
-                        advanceExercise: "以校园超市为场景，设计一套完整的数据分析执行流程",
-                        demoCode: "print('1.数据采集 2.数据清洗 3.数据分析 4.数据可视化 5.分析报告')"
-                    },
-                    {
-                        title: "第2章 业务指标与维度体系搭建",
-                        core: ["指标：衡量业务状态的量化数值，分为绝对指标、相对指标", "维度：对数据进行分类拆分的角度（时间、地区、人群、产品）", "电商四大核心指标板块：流量指标、转化指标、营收指标、用户指标", "KPI关键绩效指标：企业核心考核数据", "指标统计口径：统一计算公式、统计范围、统计周期"],
-                        hard: ["指标与维度组合使用技巧", "复合指标拆解方法", "企业多层级指标体系设计原则"],
-                        extend: ["数据指标看板搭建规范", "全行业通用指标库参考"],
-                        think: "区分概念：「访客数」（指标）和「按日期统计」（维度）",
-                        baseExercise: "列举3个电商流量指标、2个电商转化指标",
-                        advanceExercise: "为线下实体门店设计8个核心KPI考核指标",
-                        demoCode: "print('流量指标：访客数、浏览量、新用户数')\nprint('转化指标：下单转化率、付款转化率')"
-                    },
-                    {
-                        title: "第3章 描述性统计分析",
-                        core: ["描述统计：用指标概括数据整体特征，是分析基础", "集中趋势指标：均值、中位数、众数", "离散趋势指标：极差、方差、标准差", "四分位数：划分数据分布区间，识别异常值"],
-                        hard: ["三类平均指标的适用业务场景", "方差、标准差的业务解读", "偏态数据的指标选择方案"],
-                        extend: ["频数、频率统计", "统计指标结合业务解读方法"],
-                        think: "数据中存在极端大值/小值时，为什么优先使用中位数而非平均值？",
-                        baseExercise: "计算一组数据的平均值、最大值、最小值",
-                        advanceExercise: "计算数据的方差与标准差，并解读数据波动程度",
-                        demoCode: "import statistics\ndata = [12, 15, 18, 20, 22]\nprint('平均值：', statistics.mean(data))"
-                    },
-                    {
-                        title: "第4章 数据清洗技术",
-                        core: ["脏数据四大类型：缺失数据、重复数据、异常数据、格式错误数据", "缺失值处理方案：直接删除、均值填充、固定值填充", "重复值：去重规则与批量去重方法", "异常值：阈值筛选、修正、剔除三种处理方式"],
-                        hard: ["不同业务场景下清洗方案的选择", "海量数据批量清洗优化", "清洗规则复用与标准化"],
-                        extend: ["数据格式标准化处理", "数据清洗质量验收标准"],
-                        think: "用户手机号大量缺失，应该选择删除数据还是填充数据？",
-                        baseExercise: "对列表中的重复数据进行去重处理",
-                        advanceExercise: "模拟缺失数据，分别使用均值、固定值两种方式填充",
-                        demoCode: "data_list = [1, 2, 2, 3, 3, 4, 5]\ndistinct_list = list(set(data_list))\nprint('去重后数据：', distinct_list)"
-                    },
-                    {
-                        title: "第5章 分组聚合与透视分析",
-                        core: ["分组分析：按照维度拆分数据，对比不同组别差异", "聚合运算：求和、计数、求平均、求最值", "数据透视表原理：多维度灵活分组、快速汇总", "单层分组、多层分组应用场景"],
-                        hard: ["多层分组的维度优先级", "分组后数据筛选", "大数据量分组性能优化"],
-                        extend: ["交叉表分析", "分组结果的横向对比解读"],
-                        think: "按照「地区+产品」两层分组，可以分析哪些商业问题？",
-                        baseExercise: "模拟销售数据，按照产品类别分组并求和",
-                        advanceExercise: "实现双层分组，并按照汇总数值降序排列",
-                        demoCode: "print('已完成按类别分组求和统计')"
-                    },
-                    {
-                        title: "第6章 对比与结构分析",
-                        core: ["对比分析法：数据分析最常用方法，横向、纵向对比", "同比：本期与去年同期对比，消除季节影响", "环比：本期与上一周期对比，反映短期变化", "结构分析：计算单项占总体比例，分析内部构成"],
-                        hard: ["同比、环比的适用场景区分", "多组数据对比的图表选型", "结构占比变化趋势分析"],
-                        extend: ["标杆对比法", "数据差异原因分析思路"],
-                        think: "商品月度销量的同比、环比，分别能反映什么经营状态？",
-                        baseExercise: "计算单项数据在整体中的占比",
-                        advanceExercise: "模拟三个月销量数据，计算月度环比增长率",
-                        demoCode: "total_sale = 1000\npart_sale = 250\nrate = part_sale / total_sale\nprint('单项占比：', rate)"
-                    },
-                    {
-                       
+const courses = [
+  { id: 1, name: "Python基础", desc: "从零开始学习Python编程语言，掌握编程基础语法和核心概念", icon: "fa-code", color: "#3776AB",
+    chapters: [
+      { id: 1, title: "第一章：Python简介与环境搭建", content: "Python是一种高级通用编程语言，以简洁优雅的语法著称。本章介绍Python的发展历程、特点以及如何在不同操作系统上安装Python环境。", keyPoints: ["Python的历史与特点", "Python解释器安装", "开发环境选择", "第一个Python程序"], code: "print('Hello, World!')\nname = 'Python'\nversion = 3.11\nprint(f'{name} version {version}')", exercises: ["安装Python并配置开发环境", "编写输出个人信息的程序", "理解print函数的用法"] },
+      { id: 2, title: "第二章：变量与数据类型", content: "变量是程序中存储数据的容器。Python支持多种数据类型，包括数值类型、字符串、布尔值等。理解数据类型是编程的基础。", keyPoints: ["变量命名规则", "数值类型(int, float)", "字符串操作", "布尔类型"], code: "age = 20\nheight = 1.75\nname = '樊珍秀'\nmessage = f'姓名: {name}, 年龄: {age}'\nprint(message)", exercises: ["声明不同类型的变量", "练习类型转换操作", "使用f-string格式化输出"] },
+      { id: 3, title: "第三章：运算符与表达式", content: "运算符用于对数据进行操作。Python支持算术运算、比较运算、逻辑运算等多种运算符。", keyPoints: ["算术运算符", "比较运算符", "逻辑运算符", "运算符优先级"], code: "a, b = 10, 3\nprint(f'加法: {a + b}')\nprint(f'除法: {a / b}')\nprint(f'整除: {a // b}')\nprint(f'幂运算: {a ** b}')\nx, y = True, False\nprint(f'x and y: {x and y}')", exercises: ["计算圆的面积和周长", "判断年份是否为闰年", "使用逻辑运算判断成绩等级"] },
+      { id: 4, title: "第四章：流程控制语句", content: "流程控制允许程序根据条件执行不同的代码路径。主要包括条件判断和循环语句。", keyPoints: ["if-elif-else条件判断", "for循环遍历", "while循环", "break和continue"], code: "score = 85\nif score >= 90:\n    grade = '优秀'\nelif score >= 80:\n    grade = '良好'\nelif score >= 60:\n    grade = '及格'\nelse:\n    grade = '不及格'\nprint(f'成绩等级: {grade}')\n\nfor i in range(1, 6):\n    print(f'第{i}次循环')", exercises: ["判断学生成绩等级", "打印九九乘法表", "计算1到100的累加和"] },
+      { id: 5, title: "第五章：列表与元组", content: "列表和元组是Python中常用的序列数据结构，用于存储多个元素。", keyPoints: ["列表的创建与访问", "列表的增删改查", "元组的特点", "序列切片操作"], code: "fruits = ['apple', 'banana', 'cherry']\nprint(f'列表长度: {len(fruits)}')\nprint(f'第一个元素: {fruits[0]}')\nfruits.append('date')\nprint(f'前两个: {fruits[:2]}')\n\ncoordinates = (3, 4)\nx, y = coordinates\nprint(f'坐标: ({x}, {y})')", exercises: ["创建学生成绩列表并排序", "实现列表去重功能", "使用元组存储坐标点"] },
+      { id: 6, title: "第六章：字典", content: "字典是Python中重要的数据结构，用于存储键值对映射关系。", keyPoints: ["字典的创建与访问", "字典的增删改查", "字典遍历", "常用字典方法"], code: "student = {'name': '樊珍秀', 'age': 20, 'major': '商务数据分析'}\nprint(f'姓名: {student[\"name\"]}')\nfor key, value in student.items():\n    print(f'{key}: {value}')", exercises: ["创建学生信息字典", "统计字符串中字符出现次数", "合并两个字典"] },
+      { id: 7, title: "第七章：函数", content: "函数是组织代码的基本单元，用于封装可重用的代码块。", keyPoints: ["函数定义与调用", "参数传递", "返回值", "lambda匿名函数"], code: "def calculate_area(radius):\n    pi = 3.14159\n    return pi * radius ** 2\nprint(f'面积: {calculate_area(5):.2f}')\nadd = lambda x, y: x + y\nprint(f'3 + 5 = {add(3, 5)}')", exercises: ["定义计算BMI的函数", "实现阶乘计算函数", "使用lambda对列表排序"] },
+      { id: 8, title: "第八章：文件操作", content: "文件操作是程序与外部数据交互的重要方式，包括读取和写入文件。", keyPoints: ["文件打开模式", "读取文件内容", "写入文件", "with语句"], code: "with open('data.txt', 'w', encoding='utf-8') as f:\n    f.write('第一行内容\\n')\n    f.write('第二行内容\\n')\nwith open('data.txt', 'r', encoding='utf-8') as f:\n    for line in f:\n        print(line.strip())", exercises: ["创建并写入学生信息文件", "读取文件并统计行数", "复制文件内容"] },
+      { id: 9, title: "第九章：模块与包", content: "模块是组织Python代码的方式，包是模块的集合。", keyPoints: ["import语句", "创建自定义模块", "使用标准库模块", "包的结构"], code: "import math\nprint(f'pi的值: {math.pi}')\nprint(f'sin(pi/2) = {math.sin(math.pi/2)}')\nfrom random import randint, choice\nprint(f'随机数: {randint(1, 100)}')\nprint(f'随机选择: {choice([\"A\", \"B\", \"C\"])}')", exercises: ["使用math模块计算平方根", "使用random模块生成随机密码", "创建自定义模块"] },
+      { id: 10, title: "第十章：面向对象编程", content: "面向对象编程是一种编程范式，将数据和操作封装在对象中。", keyPoints: ["类的定义", "对象实例化", "属性和方法", "继承"], code: "class Student:\n    def __init__(self, name, age, major):\n        self.name = name\n        self.age = age\n        self.major = major\n    def introduce(self):\n        return f'我叫{self.name},今年{self.age}岁'\n\nstudent = Student('樊珍秀', 20, '商务数据分析')\nprint(student.introduce())", exercises: ["定义Person类并实例化", "创建Car类包含行驶方法", "实现类的继承"] }
+    ] },
+  { id: 2, name: "数据分析技术", desc: "掌握数据分析的核心方法与工具，学会用数据解决实际问题", icon: "fa-chart-line", color: "#2ECC71",
+    chapters: [
+      { id: 1, title: "第一章：数据分析概述", content: "数据分析是指用适当的统计分析方法对收集来的大量数据进行分析，提取有用信息并形成结论的过程。", keyPoints: ["数据分析的定义", "数据分析流程", "数据分析类型", "常用分析方法"], code: "import pandas as pd\ndf = pd.read_csv('sales_data.csv')\nprint('数据基本信息:')\nprint(df.info())\nprint('描述统计:')\nprint(df.describe())", exercises: ["了解数据分析的完整流程", "识别数据分析的应用场景", "分析一个简单的数据集"] },
+      { id: 2, title: "第二章：Pandas基础", content: "Pandas是Python中用于数据处理和分析的核心库，提供DataFrame数据结构。", keyPoints: ["DataFrame创建", "数据读取与写入", "数据查看与筛选", "缺失值处理"], code: "import pandas as pd\ndata = {'姓名': ['樊珍秀', '张三'], '年龄': [20, 21]}\ndf = pd.DataFrame(data)\nprint(df.head())\nprint(df['姓名'])\nprint(df[df['年龄'] > 20])", exercises: ["创建包含学生信息的DataFrame", "读取CSV文件并查看基本信息", "筛选特定条件的数据"] },
+      { id: 3, title: "第三章：数据清洗", content: "数据清洗是数据分析的重要步骤，包括处理缺失值、异常值和重复数据。", keyPoints: ["缺失值检测与处理", "异常值识别", "重复数据处理", "数据类型转换"], code: "import pandas as pd\ndf = pd.read_csv('data.csv')\nprint('缺失值数量:')\nprint(df.isnull().sum())\ndf['age'] = df['age'].fillna(df['age'].mean())\ndf = df.drop_duplicates()\ndf['date'] = pd.to_datetime(df['date'])", exercises: ["检测并处理数据集中的缺失值", "识别并处理异常值", "删除重复数据"] },
+      { id: 4, title: "第四章：数据探索分析", content: "探索性数据分析(EDA)是通过可视化和统计方法理解数据特征的过程。", keyPoints: ["描述性统计", "相关性分析", "分布分析", "可视化探索"], code: "import pandas as pd\ndf = pd.read_csv('sales.csv')\nprint(df[['sales', 'profit']].describe())\nprint('相关系数:')\nprint(df[['sales', 'profit']].corr())", exercises: ["计算数据集的描述性统计", "分析变量之间的相关性", "绘制数据分布图"] },
+      { id: 5, title: "第五章：数据聚合与分组", content: "数据分组和聚合是数据分析中常用的操作，用于按特定条件汇总数据。", keyPoints: ["groupby分组", "聚合函数", "透视表", "多维度分析"], code: "import pandas as pd\ndf = pd.read_csv('sales.csv')\nregional = df.groupby('region')['sales'].sum()\nprint('各地区销售额:')\nprint(regional)\nagg = df.groupby('region').agg({'sales': ['sum', 'mean'], 'profit': 'sum'})\nprint(agg)", exercises: ["按类别分组统计销售额", "使用agg进行多指标聚合", "创建数据透视表"] },
+      { id: 6, title: "第六章：Matplotlib可视化", content: "Matplotlib是Python中最常用的数据可视化库，支持多种图表类型。", keyPoints: ["折线图", "柱状图", "散点图", "直方图", "子图布局"], code: "import matplotlib.pyplot as plt\nimport pandas as pd\ndf = pd.DataFrame({'月份': ['1月','2月','3月'], '销售额': [120, 150, 180]})\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))\nax1.plot(df['月份'], df['销售额'], marker='o')\nax1.set_title('销售趋势')\nax2.bar(df['月份'], df['销售额'])\nax2.set_title('柱状图')\nplt.show()", exercises: ["绘制销售趋势折线图", "创建多数据系列柱状图", "绘制散点图分析相关性"] },
+      { id: 7, title: "第七章：Seaborn高级可视化", content: "Seaborn是基于Matplotlib的高级可视化库，提供更美观的统计图表。", keyPoints: ["分布图", "关系图", "分类图", "热力图"], code: "import seaborn as sns\nimport matplotlib.pyplot as plt\ntips = sns.load_dataset('tips')\nplt.figure(figsize=(12, 5))\nplt.subplot(1, 2, 1)\nsns.histplot(data=tips, x='total_bill', kde=True)\nplt.subplot(1, 2, 2)\nsns.scatterplot(data=tips, x='total_bill', y='tip')\nplt.show()", exercises: ["使用Seaborn绘制分布图", "创建分类数据可视化", "绘制相关性热力图"] },
+      { id: 8, title: "第八章：假设检验", content: "假设检验是统计推断的重要方法，用于判断样本数据是否支持某种假设。", keyPoints: ["假设检验概念", "t检验", "方差分析", "相关性检验"], code: "from scipy import stats\nimport pandas as pd\ndf = pd.read_csv('scores.csv')\nmale = df[df['gender'] == '男']['score']\nfemale = df[df['gender'] == '女']['score']\nt_stat, p_value = stats.ttest_ind(male, female)\nprint(f't统计量: {t_stat:.4f}, p值: {p_value:.4f}')\nif p_value < 0.05:\n    print('存在显著差异')", exercises: ["进行独立样本t检验", "使用方差分析比较多组数据", "分析变量间的相关性"] },
+      { id: 9, title: "第九章：回归分析", content: "回归分析是用于研究变量之间关系的统计方法，可用于预测和解释。", keyPoints: ["线性回归", "多元回归", "回归诊断", "预测应用"], code: "import pandas as pd\nfrom sklearn.linear_model import LinearRegression\ndf = pd.read_csv('sales.csv')\nX = df[['advertising', 'price']]\ny = df['sales']\nmodel = LinearRegression()\nmodel.fit(X, y)\nprint(f'R²: {model.score(X, y):.4f}')\nprediction = model.predict([[1000, 50]])\nprint(f'预测: {prediction[0]:.2f}')", exercises: ["建立简单线性回归模型", "进行多元线性回归分析", "使用回归模型进行预测"] },
+      { id: 10, title: "第十章：项目实战", content: "综合运用所学知识完成一个完整的数据分析项目。", keyPoints: ["项目流程", "需求分析", "数据处理", "报告撰写"], code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndf = pd.read_csv('ecommerce.csv')\ndf = df.dropna()\ndf['order_date'] = pd.to_datetime(df['order_date'])\nmonthly = df.resample('M', on='order_date')['sales'].sum()\nplt.figure(figsize=(12, 6))\nmonthly.plot(kind='line')\nplt.title('月度销售趋势')\nplt.show()", exercises: ["完成一个完整的数据分析项目", "撰写数据分析报告", "制作数据可视化看板"] }
+    ] },
+  { id: 3, name: "数据采集与处理", desc: "学习网络爬虫技术和数据预处理方法，掌握数据采集的核心技能", icon: "fa-spider", color: "#9B59B6",
+    chapters: [
+      { id: 1, title: "第一章：网络爬虫概述", content: "网络爬虫是一种自动化获取网页内容的程序，是数据采集的重要手段。", keyPoints: ["爬虫概念", "爬虫分类", "robots协议", "爬虫伦理"], code: "import requests\nurl = 'https://example.com'\nresponse = requests.get(url)\nif response.status_code == 200:\n    print('请求成功')\n    print('内容长度:', len(response.text))\nelse:\n    print(f'状态码: {response.status_code}')", exercises: ["了解爬虫的工作原理", "理解robots协议的作用", "使用requests发送简单请求"] },
+      { id: 2, title: "第二章：HTML解析基础", content: "HTML是网页的结构语言，解析HTML是提取数据的关键步骤。", keyPoints: ["HTML结构", "标签与属性", "CSS选择器", "BeautifulSoup使用"], code: "from bs4 import BeautifulSoup\nimport requests\nurl = 'https://example.com'\nresponse = requests.get(url)\nsoup = BeautifulSoup(response.text, 'html.parser')\ntitle = soup.title\nprint(f'标题: {title.string}')\nlinks = soup.select('a')\nprint(f'链接数: {len(links)}')", exercises: ["使用BeautifulSoup解析HTML", "练习CSS选择器语法", "提取网页中的链接"] },
+      { id: 3, title: "第三章：BeautifulSoup进阶", content: "深入学习BeautifulSoup库，掌握复杂HTML结构的解析技巧。", keyPoints: ["标签遍历", "属性提取", "正则匹配", "数据清洗"], code: "from bs4 import BeautifulSoup\nimport re\nhtml = '<div class=\"product\"><h3>Python编程</h3><span class=\"price\">99.00</span></div>'\nsoup = BeautifulSoup(html, 'html.parser')\nproduct = soup.find('div', class_='product')\nprint(f'产品名称: {product.find(\"h3\").text}')\nprice = product.find('span', class_='price').text\nprint(f'价格: {price}')", exercises: ["解析复杂HTML结构", "使用正则提取数据", "清理HTML标签获取纯文本"] },
+      { id: 4, title: "第四章：XPath解析", content: "XPath是一种在XML文档中定位节点的语言，也适用于HTML解析。", keyPoints: ["XPath语法", "节点选择", "谓语表达式", "lxml库使用"], code: "from lxml import etree\nhtml = '<div id=\"content\"><ul class=\"items\"><li>Item 1</li><li>Item 2</li></ul></div>'\ntree = etree.HTML(html)\nitems = tree.xpath('//ul[@class=\"items\"]/li/text()')\nprint('列表项:', items)\nfirst = tree.xpath('//li[1]/text()')\nprint('第一个:', first)", exercises: ["使用XPath选择节点", "练习谓语表达式", "提取表格数据"] },
+      { id: 5, title: "第五章：动态网页爬取", content: "许多现代网页使用JavaScript动态加载内容，需要特殊处理。", keyPoints: ["动态网页特点", "Selenium使用", "模拟浏览器", "等待机制"], code: "from selenium import webdriver\nfrom selenium.webdriver.common.by import By\ndriver = webdriver.Chrome()\ndriver.get('https://example.com')\nelement = driver.find_element(By.ID, 'content')\nprint(element.text)\ndriver.quit()", exercises: ["使用Selenium打开网页", "等待动态元素加载", "模拟用户交互"] },
+      { id: 6, title: "第六章：爬虫反爬策略", content: "网站会采取各种反爬措施，需要了解相应的应对策略。", keyPoints: ["请求头伪装", "IP代理", "请求频率控制", "Cookie处理"], code: "import requests\nimport time\nheaders = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0)...', 'Accept': 'text/html'}\ndef get_with_delay(url, delay=2):\n    time.sleep(delay)\n    return requests.get(url, headers=headers)\nsession = requests.Session()\nsession.headers.update(headers)\nresponse = session.get('https://example.com')", exercises: ["使用随机User-Agent", "实现请求频率控制", "使用Session保持会话"] },
+      { id: 7, title: "第七章：数据存储", content: "爬取的数据需要妥善存储，常用格式包括CSV、JSON、数据库等。", keyPoints: ["CSV文件存储", "JSON文件存储", "SQLite数据库", "数据持久化"], code: "import pandas as pd\nimport json\nimport sqlite3\ndata = [{'name': '樊珍秀', 'age': 20}, {'name': '张三', 'age': 21}]\ndf = pd.DataFrame(data)\ndf.to_csv('students.csv', index=False, encoding='utf-8')\nwith open('students.json', 'w', encoding='utf-8') as f:\n    json.dump(data, f, ensure_ascii=False, indent=2)\nconn = sqlite3.connect('students.db')\ndf.to_sql('students', conn, if_exists='replace')\nconn.close()", exercises: ["将数据保存为CSV文件", "使用JSON格式存储数据", "将数据存入SQLite数据库"] },
+      { id: 8, title: "第八章：数据预处理", content: "原始数据通常存在质量问题，需要进行清洗和转换。", keyPoints: ["数据清洗", "数据转换", "特征工程", "标准化与归一化"], code: "import pandas as pd\nimport numpy as np\nfrom sklearn.preprocessing import StandardScaler\ndf = pd.read_csv('raw_data.csv')\ndf['age'] = df['age'].fillna(df['age'].median())\ndf = df[(df['income'] > 0) & (df['income'] < 100000)]\ndf['gender'] = df['gender'].map({'男': 1, '女': 0})\ndf['bmi'] = df['weight'] / (df['height'] / 100) ** 2\nscaler = StandardScaler()\ndf[['age', 'income']] = scaler.fit_transform(df[['age', 'income']])", exercises: ["处理数据中的缺失值", "识别并处理异常值", "进行数据标准化"] },
+      { id: 9, title: "第九章：正则表达式", content: "正则表达式是处理文本数据的强大工具，用于模式匹配和文本提取。", keyPoints: ["正则语法", "模式匹配", "文本替换", "数据提取"], code: "import re\nemail_pattern = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}'\ntext = '联系我们: fan@example.com 或 support@company.org'\nemails = re.findall(email_pattern, text)\nprint('邮箱:', emails)\nphone_pattern = r'1[3-9]\\d{9}'\ntext = '电话: 13812345678, 手机: 15987654321'\nphones = re.findall(phone_pattern, text)\nprint('手机号:', phones)", exercises: ["使用正则提取邮箱地址", "匹配电话号码", "提取URL链接"] },
+      { id: 10, title: "第十章：爬虫项目实战", content: "综合运用所学知识完成一个完整的爬虫项目。", keyPoints: ["项目规划", "目标网站分析", "数据采集", "数据存储"], code: "import requests\nfrom bs4 import BeautifulSoup\nimport pandas as pd\ndef crawl_product(url):\n    headers = {'User-Agent': 'Mozilla/5.0...'}\n    response = requests.get(url, headers=headers)\n    soup = BeautifulSoup(response.text, 'html.parser')\n    products = []\n    items = soup.find_all('div', class_='product')\n    for item in items:\n        name = item.find('h3').text.strip()\n        price = item.find('span').text.strip()\n        products.append({'name': name, 'price': price})\n    return products\nall_products = []\nfor page in range(1, 6):\n    products = crawl_product(f'https://example.com?page={page}')\n    all_products.extend(products)\ndf = pd.DataFrame(all_products)\ndf.to_csv('products.csv', index=False)", exercises: ["爬取一个电商网站的商品数据", "实现分页爬取", "将数据保存并分析"] }
+    ] },
+  { id: 4, name: "供应链数据分析", desc: "掌握供应链管理中的数据分析方法，优化供应链运营效率", icon: "fa-truck", color: "#F39C12",
+    chapters: [
+      { id: 1, title: "第一章：供应链管理概述", content: "供应链管理是对产品从原材料采购到最终交付的整个流程进行规划和控制。", keyPoints: ["供应链概念", "供应链流程", "供应链指标", "供应链挑战"], code: "import pandas as pd\ndata = {'产品ID': ['P001','P002','P003'], '供应商': ['A','B','C'], '采购成本': [100,80,120]}\ndf = pd.DataFrame(data)\nprint('供应链数据:')\nprint(df)\nprint(f'平均采购成本: {df[\"采购成本\"].mean():.2f}')", exercises: ["了解供应链的基本概念", "识别供应链关键指标", "分析简单的供应链数据"] },
+      { id: 2, title: "第二章：需求预测", content: "需求预测是供应链管理的核心，准确的预测可以优化库存和生产计划。", keyPoints: ["预测方法", "时间序列分析", "移动平均", "指数平滑"], code: "import pandas as pd\ndata = pd.DataFrame({'月份': ['1月','2月','3月','4月','5月','6月'], '销量': [120,145,132,168,155,180]})\ndata['MA3'] = data['销量'].rolling(window=3).mean()\nprint('需求预测结果:')\nprint(data)", exercises: ["计算移动平均值", "实现加权移动平均", "绘制预测趋势图"] },
+      { id: 3, title: "第三章：库存管理", content: "库存管理是平衡供应与需求的关键，目标是在满足需求的同时最小化库存成本。", keyPoints: ["库存分类", "库存成本", "安全库存", "EOQ模型"], code: "import pandas as pd\ndata = {'产品': ['A','B','C','D'], '当前库存': [500,200,800,150], '平均销量/周': [80,60,120,40], '采购提前期': [2,3,1,4]}\ndf = pd.DataFrame(data)\ndf['再订购点'] = df['平均销量/周'] * df['采购提前期']\ndf['库存周转天数'] = (df['当前库存'] / df['平均销量/周']) * 7\nprint('库存分析:')\nprint(df)", exercises: ["计算再订购点", "分析库存周转情况", "使用EOQ模型计算最优订购量"] },
+      { id: 4, title: "第四章：供应商评估", content: "供应商评估是选择和管理供应商的重要环节，涉及多个维度的评价。", keyPoints: ["评估指标", "供应商评分", "绩效分析", "供应商分类"], code: "import pandas as pd\ndata = {'供应商': ['A','B','C','D'], '产品质量': [95,88,92,90], '交付准时率': [98,95,96,94], '价格竞争力': [85,92,88,90], '服务水平': [90,85,95,88]}\ndf = pd.DataFrame(data)\ndf['综合得分'] = df['产品质量']*0.3 + df['交付准时率']*0.3 + df['价格竞争力']*0.2 + df['服务水平']*0.2\nprint('供应商评估:')\nprint(df.sort_values('综合得分', ascending=False))", exercises: ["设计供应商评估指标体系", "使用加权法计算综合得分", "对供应商进行分类"] },
+      { id: 5, title: "第五章：物流配送优化", content: "物流配送优化旨在降低运输成本，提高配送效率和客户满意度。", keyPoints: ["配送路线优化", "运输成本分析", "配送效率", "配送模式"], code: "import pandas as pd\ndata = {'路线': ['A','B','C','D'], '距离(km)': [45,60,38,52], '时间(h)': [1.2,1.8,1.0,1.5], '成本': [180,240,152,208], '配送量': [25,30,20,28]}\ndf = pd.DataFrame(data)\ndf['单位成本'] = df['成本'] / df['配送量']\ndf['效率'] = df['配送量'] / df['时间(h)']\nprint('配送分析:')\nprint(df)\nbest = df.loc[df['单位成本'].idxmin()]\nprint(f'最优路线: {best[\"路线\"]}')", exercises: ["分析配送路线成本", "计算配送效率指标", "选择最优配送方案"] },
+      { id: 6, title: "第六章：供应链风险分析", content: "识别和评估供应链中的潜在风险，制定应对策略。", keyPoints: ["风险类型", "风险评估", "风险量化", "应对策略"], code: "import pandas as pd\ndata = {'风险类型': ['供应商中断','运输延迟','原材料涨价','需求波动'], '概率': [0.15,0.25,0.20,0.30], '影响': [0.85,0.60,0.70,0.75]}\ndf = pd.DataFrame(data)\ndf['风险评分'] = df['概率'] * df['影响']\ndf_sorted = df.sort_values('风险评分', ascending=False)\nprint('风险评估:')\nprint(df_sorted)", exercises: ["识别供应链风险类型", "量化风险评分", "制定风险应对策略"] },
+      { id: 7, title: "第七章：供应链可视化", content: "通过可视化工具直观展示供应链数据，辅助决策。", keyPoints: ["流程图", "网络图", "仪表盘", "实时监控"], code: "import pandas as pd\nimport matplotlib.pyplot as plt\ndata = {'月份': ['1月','2月','3月','4月','5月','6月'], '周转率': [4.2,4.5,4.8,4.3,5.0,5.2], '满足率': [95,96,94,97,98,96]}\ndf = pd.DataFrame(data)\nprint('供应链绩效数据:')\nprint(df)", exercises: ["创建供应链绩效仪表盘", "可视化库存周转率", "展示多指标趋势"] },
+      { id: 8, title: "第八章：供应链协同", content: "供应链协同是指供应链各环节之间的信息共享和协作。", keyPoints: ["信息共享", "协同计划", "VMI模式", "协同评估"], code: "import pandas as pd\ndata = {'伙伴': ['供应商A','供应商B','物流商C','零售商D'], '信息共享': [85,72,90,78], '满意度': [88,75,92,80], '响应时间(h)': [2,8,1,4]}\ndf = pd.DataFrame(data)\ndf['协同评分'] = df['信息共享']*0.3 + df['满意度']*0.4 + (24 - df['响应时间(h)'])*1.5\nprint('协同分析:')\nprint(df.sort_values('协同评分', ascending=False))", exercises: ["评估供应链协同水平", "分析信息共享程度", "设计协同优化方案"] },
+      { id: 9, title: "第九章：绿色供应链", content: "绿色供应链强调在供应链运营中考虑环境因素，实现可持续发展。", keyPoints: ["环保指标", "碳排放计算", "可持续采购", "循环经济"], code: "import pandas as pd\ndata = {'供应商': ['A','B','C','D'], '碳排放': [120,85,200,65], '能源效率': [85,92,78,95], '回收率': [70,85,60,90]}\ndf = pd.DataFrame(data)\nmax_carbon = df['碳排放'].max()\ndf['绿色指数'] = ((1 - df['碳排放'] / max_carbon)*0.4 + df['能源效率']/100*0.3 + df['回收率']/100*0.3)*100\nprint('绿色供应链评估:')\nprint(df.sort_values('绿色指数', ascending=False))", exercises: ["计算碳排放指标", "评估供应商的环保水平", "设计绿色供应链改进方案"] },
+      { id: 10, title: "第十章：供应链项目实战", content: "综合运用供应链知识完成一个实际项目。", keyPoints: ["需求分析", "数据建模", "优化分析", "结果呈现"], code: "import pandas as pd\ndf = pd.read_csv('supply_chain.csv')\ndf['order_date'] = pd.to_datetime(df['order_date'])\ndf['month'] = df['order_date'].dt.month\nmonthly_sales = df.groupby('month')['quantity'].sum()\nprint('月度销量:')\nprint(monthly_sales)\ndf['turnover_days'] = df['inventory'] / (df['sales'] / 30)\nprint(f'平均周转天数: {df[\"turnover_days\"].mean():.1f}天')", exercises: ["分析供应链销售数据", "计算库存周转率", "提出供应链优化建议"] }
+    ] },
+  { id: 5, name: "数据库原理与应用", desc: "掌握数据库设计、SQL查询和数据管理的核心技能", icon: "fa-database", color: "#E74C3C",
+    chapters: [
+      { id: 1, title: "第一章：数据库概述", content: "数据库是存储、管理和检索数据的系统。了解数据库的基本概念和类型。", keyPoints: ["数据库概念", "数据库类型", "关系型数据库", "NoSQL数据库"], code: "-- 连接数据库示例\n-- mysql -u root -p\nSHOW DATABASES;\nSHOW TABLES FROM students_db;", exercises: ["了解数据库的发展历史", "区分关系型和非关系型数据库", "安装并配置数据库环境"] },
+      { id: 2, title: "第二章：SQL基础查询", content: "SQL(结构化查询语言)是用于管理关系型数据库的标准语言。", keyPoints: ["SELECT语句", "WHERE条件", "ORDER BY排序", "LIMIT限制"], code: "SELECT * FROM students;\nSELECT name, age FROM students WHERE age >= 18;\nSELECT name, score FROM students WHERE score >= 80 AND major = '商务数据分析'\nORDER BY score DESC LIMIT 10;", exercises: ["编写简单SELECT查询", "使用WHERE筛选数据", "排序并限制结果数量"] },
+      { id: 3, title: "第三章：SQL数据操作", content: "SQL支持数据的增删改操作，用于维护数据库中的数据。", keyPoints: ["INSERT插入", "UPDATE更新", "DELETE删除", "事务控制"], code: "INSERT INTO students (name, age, major, score)\nVALUES ('樊珍秀', 20, '商务数据分析', 90);\nUPDATE students SET score = 95 WHERE name = '樊珍秀';\nDELETE FROM students WHERE age < 16;\nSTART TRANSACTION;\nCOMMIT;", exercises: ["向表中插入新数据", "更新特定记录", "删除不需要的数据"] },
+      { id: 4, title: "第四章：多表查询", content: "实际业务中经常需要从多个表中联合查询数据，需要掌握JOIN操作。", keyPoints: ["INNER JOIN", "LEFT JOIN", "RIGHT JOIN", "子查询"], code: "SELECT s.name, c.course_name, sc.score\nFROM students s\nINNER JOIN student_courses sc ON s.id = sc.student_id\nINNER JOIN courses c ON sc.course_id = c.id;\nSELECT name FROM students WHERE score > (SELECT AVG(score) FROM students);", exercises: ["使用JOIN连接两张表", "使用子查询筛选数据", "理解不同连接类型的区别"] },
+      { id: 5, title: "第五章：聚合函数与分组", content: "聚合函数用于对数据进行统计计算，分组查询用于按类别统计。", keyPoints: ["COUNT/SUM/AVG", "GROUP BY", "HAVING条件", "窗口函数"], code: "SELECT COUNT(*) as total, AVG(score) as avg_score,\nMAX(score) as max_score, MIN(score) as min_score\nFROM students;\nSELECT major, COUNT(*) as num, AVG(score) as avg_score\nFROM students GROUP BY major\nHAVING AVG(score) > 80 ORDER BY avg_score DESC;", exercises: ["使用聚合函数统计数据", "按类别分组查询", "使用HAVING筛选分组结果"] },
+      { id: 6, title: "第六章：数据库设计", content: "良好的数据库设计是应用性能和可维护性的基础。", keyPoints: ["表设计原则", "主键与外键", "范式设计", "ER图"], code: "CREATE TABLE students (\n    id INT PRIMARY KEY AUTO_INCREMENT,\n    name VARCHAR(100) NOT NULL,\n    age INT,\n    major VARCHAR(100),\n    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP\n);\nCREATE TABLE courses (\n    id INT PRIMARY KEY AUTO_INCREMENT,\n    course_name VARCHAR(200) NOT NULL\n);", exercises: ["设计学生课程数据库", "创建带主键外键的表", "理解第三范式设计原则"] },
+      { id: 7, title: "第七章：索引与优化", content: "索引是提高查询性能的重要手段，正确使用索引可以大幅提升数据库效率。", keyPoints: ["索引原理", "创建索引", "查询优化", "执行计划"], code: "CREATE INDEX idx_student_name ON students(name);\nCREATE INDEX idx_student_major_score ON students(major, score);\nSHOW INDEX FROM students;\nEXPLAIN SELECT * FROM students WHERE name = '樊珍秀';\nDROP INDEX idx_student_name ON students;", exercises: ["创建合适的索引", "使用EXPLAIN分析查询", "优化慢查询语句"] },
+      { id: 8, title: "第八章：视图与存储过程", content: "视图和存储过程是数据库中常用的高级功能，可以简化查询和实现业务逻辑。", keyPoints: ["视图创建", "视图使用", "存储过程", "触发器"], code: "CREATE VIEW student_summary AS\nSELECT s.name, s.major, COUNT(sc.course_id) as course_count,\nAVG(sc.score) as avg_score FROM students s\nLEFT JOIN student_courses sc ON s.id = sc.student_id\nGROUP BY s.id;\nSELECT * FROM student_summary WHERE avg_score > 85;", exercises: ["创建简化查询的视图", "编写带参数的存储过程", "使用视图进行报表统计"] },
+      { id: 9, title: "第九章：Python与数据库交互", content: "使用Python连接和操作数据库，实现数据的自动化处理。", keyPoints: ["数据库连接", "SQL执行", "数据读写", "参数化查询"], code: "import sqlite3\nimport pandas as pd\nconn = sqlite3.connect('students.db')\ncursor = conn.cursor()\ncursor.execute('CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)')\ncursor.execute('INSERT INTO students (name, age) VALUES (?, ?)', ('樊珍秀', 20))\nconn.commit()\ncursor.execute('SELECT * FROM students')\nfor row in cursor.fetchall():\n    print(row)\ndf = pd.read_sql_query('SELECT * FROM students', conn)\nprint(df)\nconn.close()", exercises: ["连接SQLite数据库", "使用Python执行SQL", "将Pandas数据写入数据库"] },
+      { id: 10, title: "第十章：数据库项目实战", content: "综合运用数据库知识完成一个完整的项目。", keyPoints: ["需求分析", "数据建模", "功能实现", "性能优化"], code: "SELECT s.major, COUNT(*) as student_count,\nAVG(sc.score) as avg_score, MAX(sc.score) as max_score\nFROM students s\nLEFT JOIN student_courses sc ON s.id = sc.student_id\nGROUP BY s.major ORDER BY avg_score DESC;", exercises: ["设计完整的数据库表结构", "实现学生信息增删改查", "生成成绩统计报表"] }
+    ] },
+  { id: 6, name: "数据可视化", desc: "掌握各类图表的设计与制作，将数据转化为直观的视觉呈现", icon: "fa-chart-pie", color: "#3498DB",
+    chapters: [
+      { id: 1, title: "第一章：数据可视化概述", content: "数据可视化是将数据通过图表的方式呈现，帮助人们快速理解数据中的信息和规律。", keyPoints: ["可视化重要性", "图表类型选择", "设计原则", "常用工具"], code: "import matplotlib.pyplot as plt\nimport numpy as np\nx = np.linspace(0, 10, 100)\ny = np.sin(x)\nplt.figure(figsize=(10, 6))\nplt.plot(x, y)\nplt.title('Sine Wave')\nplt.xlabel('X轴')\nplt.ylabel('Y轴')\nplt.grid(True)\nplt.show()", exercises: ["了解数据可视化的价值", "学习选择合适的图表类型", "创建第一个可视化图表"] },
+      { id: 2, title: "第二章：柱状图与条形图", content: "柱状图是最常用的图表类型，适用于展示分类数据的对比。", keyPoints: ["柱状图设计", "条形图应用", "分组柱状图", "堆叠柱状图"], code: "import matplotlib.pyplot as plt\nimport pandas as pd\ndata = {'课程': ['Python','数据分析','数据库','爬虫','可视化'], '学生数': [45,38,32,28,42]}\ndf = pd.DataFrame(data)\nplt.figure(figsize=(10, 5))\nplt.bar(df['课程'], df['学生数'])\nplt.title('学生分布柱状图')\nplt.xticks(rotation=45)\nplt.show()", exercises: ["创建基本柱状图", "设计分组柱状图", "使用条形图展示排名"] },
+      { id: 3, title: "第三章：折线图与面积图", content: "折线图适用于展示数据随时间变化的趋势，是时间序列数据的常用可视化方式。", keyPoints: ["折线图设计", "多系列折线图", "面积图", "双Y轴图表"], code: "import matplotlib.pyplot as plt\nimport pandas as pd\ndata = {'月份': ['1月','2月','3月','4月','5月','6月'], '销售额': [120,150,132,168,180,200], '利润': [30,45,40,55,60,70]}\ndf = pd.DataFrame(data)\nplt.figure(figsize=(12, 6))\nplt.plot(df['月份'], df['销售额'], 'b-o', label='销售额')\nplt.plot(df['月份'], df['利润'], 'r-s', label='利润')\nplt.title('销售与利润趋势')\nplt.legend()\nplt.show()", exercises: ["绘制销售趋势折线图", "创建多系列对比图", "设计双Y轴图表"] },
+      { id: 4, title: "第四章：饼图与环形图", content: "饼图用于展示各部分占整体的比例关系，但需要注意使用场景。", keyPoints: ["饼图设计", "环形图", "突出显示", "注意事项"], code: "import matplotlib.pyplot as plt\nsizes = [35, 25, 20, 15, 5]\nlabels = ['Python', '数据分析', '数据库', '爬虫', '其他']\ncolors = ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99', '#c2c2f0']\nplt.figure(figsize=(8, 8))\nplt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%', startangle=90)\nplt.title('课程分布饼图')\nplt.show()", exercises: ["创建展示比例的饼图", "设计带突出显示的图表", "使用环形图展示数据"] },
+      { id: 5, title: "第五章：散点图与气泡图", content: "散点图用于展示两个变量之间的关系，气泡图可以展示第三个维度。", keyPoints: ["散点图应用", "相关性展示", "气泡图", "回归曲线"], code: "import matplotlib.pyplot as plt\nimport numpy as np\nnp.random.seed(42)\nstudy_hours = np.random.uniform(1, 10, 100)\nscores = 50 + 5 * study_hours + np.random.normal(0, 5, 100)\nplt.figure(figsize=(10, 6))\nplt.scatter(study_hours, scores, alpha=0.6, color='#2E86AB')\nplt.xlabel('学习时间(小时)')\nplt.ylabel('成绩(分)')\nplt.title('学习时间与成绩关系')\nplt.grid(True, alpha=0.3)\nplt.show()", exercises: ["创建分析相关性的散点图", "设计带第三维度的气泡图", "添加回归趋势线"] },
+      { id: 6, title: "第六章：热力图与矩阵图", content: "热力图用颜色深浅展示数值大小，适合展示相关性矩阵等数据。", keyPoints: ["热力图原理", "相关性热力图", "自定义配色", "数据矩阵"], code: "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\nimport numpy as np\nnp.random.seed(42)\ndata = pd.DataFrame({'A': np.random.randn(100), 'B': np.random.randn(100), 'C': np.random.randn(100), 'D': np.random.randn(100), 'E': np.random.randn(100)})\ncorr_matrix = data.corr()\nplt.figure(figsize=(10, 8))\nsns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='coolwarm', center=0)\nplt.title('相关性热力图')\nplt.show()", exercises: ["计算并展示相关性矩阵", "设计自定义配色的热力图", "使用热力图展示矩阵数据"] },
+      { id: 7, title: "第七章：箱线图与小提琴图", content: "箱线图用于展示数据分布和异常值，小提琴图结合了箱线图和密度图的特点。", keyPoints: ["箱线图解读", "多组对比", "小提琴图", "分布识别"], code: "import seaborn as sns\nimport matplotlib.pyplot as plt\nimport pandas as pd\nimport numpy as np\nnp.random.seed(42)\ndata = pd.DataFrame({'班级A': np.random.normal(80, 10, 50), '班级B': np.random.normal(75, 15, 50), '班级C': np.random.normal(85, 8, 50)})\ndf = data.melt(var_name='班级', value_name='成绩')\nplt.figure(figsize=(10, 6))\nsns.boxplot(data=df, x='班级', y='成绩')\nplt.title('成绩分布箱线图')\nplt.show()", exercises: ["创建单组数据箱线图", "对比多组数据分布", "使用小提琴图展示密度"] },
+      { id: 8, title: "第八章：地理数据可视化", content: "地理数据可视化用于展示带有地理位置信息的数据，在商业分析中有广泛应用。", keyPoints: ["地图数据", "热力地图", "区域标记", "交互地图"], code: "import matplotlib.pyplot as plt\nimport pandas as pd\nregions = ['华北', '华东', '华南', '西南', '西北', '东北']\nsales = [850, 1200, 950, 680, 520, 450]\nfig, ax = plt.subplots(figsize=(12, 6))\ncolors = plt.cm.Reds([0.3, 0.5, 0.6, 0.7, 0.8, 0.9])\nbars = ax.barh(regions, sales, color=colors, edgecolor='darkred')\nfor bar, value in zip(bars, sales):\n    ax.text(value + 10, bar.get_y() + bar.get_height()/2, f'{value}万', va='center')\nax.set_xlabel('销售额(万元)')\nax.set_title('各区域销售分布')\nax.invert_yaxis()\nplt.tight_layout()\nplt.show()", exercises: ["展示区域销售数据", "设计带颜色渐变的图表", "为地图添加数据标签"] },
+      { id: 9, title: "第九章：仪表盘设计", content: "仪表盘是整合多个可视化图表的综合展示，用于监控关键业务指标。", keyPoints: ["KPI卡片", "仪表盘布局", "指标联动", "实时更新"], code: "import matplotlib.pyplot as plt\nimport pandas as pd\nimport numpy as np\nfig = plt.figure(figsize=(20, 12))\nfig.suptitle('业务数据仪表盘', fontsize=20, fontweight='bold')\nax1 = plt.subplot2grid((3, 3), (0, 0))\nax1.text(0.5, 0.6, '¥1,250万', ha='center', fontsize=24, fontweight='bold', color='#2E86AB')\nax1.text(0.5, 0.3, '总销售额', ha='center', fontsize=14, color='#666')\nax1.axis('off')\nax4 = plt.subplot2grid((3, 3), (1, 0), colspan=2)\nmonths = [f'{i}月' for i in range(1, 7)]\nsales = [800, 950, 1100, 1050, 1200, 1250]\nax4.plot(months, sales, marker='o', linewidth=2, color='#E63946')\nax4.set_title('月度销售趋势', fontsize=12)\nax4.grid(True, alpha=0.3)\nplt.tight_layout(rect=[0, 0, 1, 0.95])\nplt.show()", exercises: ["设计KPI指标卡片", "创建多图表组合仪表盘", "添加图表标题和注释"] },
+      { id: 10, title: "第十章：可视化项目实战", content: "综合运用可视化知识完成一个完整的数据报告项目。", keyPoints: ["数据故事", "图表搭配", "配色方案", "报告排版"], code: "import matplotlib.pyplot as plt\nimport pandas as pd\nimport numpy as np\nnp.random.seed(42)\ndata = pd.DataFrame({'日期': pd.date_range('2024-01-01', periods=30), '销售额': np.random.randint(5000, 20000, 30), '订单数': np.random.randint(50, 200, 30)})\nprint('=== 销售数据分析报告 ===')\nprint(f'总销售额: {data[\"销售额\"].sum():,}元')\nprint(f'平均订单数: {data[\"订单数\"].mean():.0f}')\nplt.figure(figsize=(12, 6))\ndata['销售额'].plot(kind='line', color='#E63946')\nplt.title('30天销售趋势')\nplt.ylabel('销售额(元)')\nplt.show()", exercises: ["创建综合数据可视化报告", "设计统一的配色方案", "编写数据解读说明"] }
+    ] },
+  { id: 7, name: "统计学基础", desc: "掌握统计分析的基本原理和方法，为数据分析打下坚实基础", icon: "fa-chart-area", color: "#16A085",
+    chapters: [
+      { id: 1, title: "第一章：统计学概述", content: "统计学是收集、分析、展示和解释数据的科学。本章介绍统计学的基本概念和应用场景。", keyPoints: ["统计学概念", "描述统计与推断统计", "数据类型", "统计应用领域"], code: "import numpy as np\nimport pandas as pd\ndata = [23, 45, 67, 34, 56, 78, 45, 32, 54, 65]\nprint('=== 描述统计 ===')\nprint(f'数据: {data}')\nprint(f'样本数: {len(data)}')\nprint(f'均值: {np.mean(data):.2f}')\nprint(f'中位数: {np.median(data):.2f}')\nprint(f'标准差: {np.std(data):.2f}')", exercises: ["了解统计学的基本概念", "识别描述统计与推断统计", "计算基本统计指标"] },
+      { id: 2, title: "第二章：数据的描述性统计", content: "描述性统计通过数值和图表来总结数据的主要特征。", keyPoints: ["集中趋势度量", "离散程度度量", "分布形态度量", "分位数分析"], code: "import numpy as np\nimport pandas as pd\ndata = np.random.normal(80, 10, 200)\ndf = pd.Series(data)\nprint('=== 描述性统计 ===')\nprint(f'均值: {df.mean():.2f}')\nprint(f'中位数: {df.median():.2f}')\nprint(f'标准差: {df.std():.2f}')\nprint(f'偏度: {df.skew():.4f}')\nprint(f'峰度: {df.kurtosis():.4f}')\nprint('分位数:')\nprint(df.quantile([0.25, 0.5, 0.75]))", exercises: ["计算数据的集中趋势", "度量数据的离散程度", "分析数据的分布形态"] },
+      { id: 3, title: "第三章：概率基础", content: "概率是衡量事件发生可能性的数值，是统计学的核心概念。", keyPoints: ["概率定义", "条件概率", "贝叶斯定理", "常见概率分布"], code: "import numpy as np\nfrom scipy import stats\nprint('=== 概率分布 ===')\nn, p = 10, 0.5\nbinom = np.random.binomial(n, p, 1000)\nprint(f'二项分布 均值: {binom.mean():.2f}')\nprint(f'二项分布 标准差: {binom.std():.2f}')\nnormal = np.random.normal(0, 1, 1000)\nprint(f'标准正态分布 68%范围: [{normal.mean()-normal.std():.2f}, {normal.mean()+normal.std():.2f}]')", exercises: ["理解概率的基本概念", "计算条件概率", "识别常见概率分布"] },
+      { id: 4, title: "第四章：概率分布", content: "概率分布描述随机变量取值的概率规律，是统计分析的基础。", keyPoints: ["正态分布", "二项分布", "泊松分布", "指数分布"], code: "import numpy as np\nfrom scipy import stats\nprint('=== 正态分布 ===')\nmu, sigma = 0, 1\nprint(f'P(-1<Z<1) = {stats.norm.cdf(1) - stats.norm.cdf(-1):.4f}')\nprint(f'P(-2<Z<2) = {stats.norm.cdf(2) - stats.norm.cdf(-2):.4f}')\nprint(f'P(-3<Z<3) = {stats.norm.cdf(3) - stats.norm.cdf(-3):.4f}')\nprint(f'P(Z>1.96) = {1 - stats.norm.cdf(1.96):.4f}')", exercises: ["理解正态分布的特征", "计算标准正态分布概率", "识别不同分布的应用场景"] },
+      { id: 5, title: "第五章：抽样与估计", content: "抽样是从总体中选取样本进行研究，估计是用样本统计量推断总体参数。", keyPoints: ["抽样方法", "样本统计量", "点估计", "区间估计"], code: "import numpy as np\nfrom scipy import stats\nnp.random.seed(42)\npopulation = np.random.normal(100, 15, 10000)\nsample = np.random.choice(population, 500)\nprint('=== 抽样估计 ===')\nprint(f'总体均值: {population.mean():.2f}')\nprint(f'样本均值: {sample.mean():.2f}')\nconf_level = 0.95\nmean = sample.mean()\nstd_err = stats.sem(sample)\nci = stats.t.interval(conf_level, len(sample)-1, mean, std_err)\nprint(f'95%置信区间: [{ci[0]:.2f}, {ci[1]:.2f}]')", exercises: ["理解抽样原理", "计算样本统计量", "构造置信区间"] },
+      { id: 6, title: "第六章：假设检验", content: "假设检验是根据样本数据来判断关于总体的某种假设是否成立。", keyPoints: ["原假设与备择假设", "显著性水平", "p值解读", "t检验应用"], code: "from scipy import stats\nimport numpy as np\nnp.random.seed(42)\nsample = np.random.normal(85, 10, 30)\npop_mean = 80\nt_stat, p_value = stats.ttest_1samp(sample, pop_mean)\nprint('=== 单样本t检验 ===')\nprint(f't统计量: {t_stat:.4f}')\nprint(f'p值: {p_value:.4f}')\nif p_value < 0.05:\n    print('拒绝原假设: 存在显著差异')\nelse:\n    print('接受原假设: 无显著差异')", exercises: ["理解假设检验原理", "计算p值并解读结果", "进行独立样本t检验"] },
+      { id: 7, title: "第七章：方差分析", content: "方差分析(ANOVA)用于比较三个或多个总体均值是否存在显著差异。", keyPoints: ["单因素ANOVA", "方差分解", "F统计量", "事后检验"], code: "from scipy import stats\nimport numpy as np\nnp.random.seed(42)\ng1 = np.random.normal(75, 10, 20)\ng2 = np.random.normal(80, 12, 20)\ng3 = np.random.normal(78, 8, 20)\nf_stat, p_value = stats.f_oneway(g1, g2, g3)\nprint('=== 单因素方差分析 ===')\nprint(f'F统计量: {f_stat:.4f}')\nprint(f'p值: {p_value:.4f}')\nif p_value < 0.05:\n    print('结论: 各组均值存在显著差异')\nelse:\n    print('结论: 各组均值无显著差异')", exercises: ["理解方差分析原理", "执行单因素ANOVA", "解读F统计量和p值"] },
+      { id: 8, title: "第八章：相关性分析", content: "相关性分析研究两个或多个变量之间的关系强度和方向。", keyPoints: ["皮尔逊相关系数", "斯皮尔曼相关", "相关性检验", "相关与因果"], code: "import numpy as np\nfrom scipy import stats\nnp.random.seed(42)\nx = np.random.normal(50, 10, 100)\ny = 2 * x + np.random.normal(0, 10, 100)\npearson_r, p_value = stats.pearsonr(x, y)\nspearman_r, p_val2 = stats.spearmanr(x, y)\nprint('=== 相关性分析 ===')\nprint(f'皮尔逊相关系数 r = {pearson_r:.4f} (p={p_value:.4f})')\nprint(f'斯皮尔曼相关系数 rho = {spearman_r:.4f} (p={p_val2:.4f})')", exercises: ["计算皮尔逊相关系数", "进行相关性显著性检验", "理解相关与因果的区别"] },
+      { id: 9, title: "第九章：回归分析", content: "回归分析用于建模变量之间的关系，可用于预测和解释。", keyPoints: ["简单线性回归", "回归方程", "R平方解读", "残差分析"], code: "import numpy as np\nfrom scipy import stats\nnp.random.seed(42)\nx = np.random.uniform(1, 10, 50)\ny = 20 + 3 * x + np.random.normal(0, 5, 50)\nslope, intercept, r_value, p_value, std_err = stats.linregress(x, y)\nprint('=== 线性回归 ===')\nprint(f'回归方程: Y = {intercept:.2f} + {slope:.2f}X')\nprint(f'R² = {r_value**2:.4f}')\nprint(f'p值 = {p_value:.4f}')\nif p_value < 0.05:\n    print('回归系数显著')", exercises: ["建立简单线性回归模型", "解读R平方指标", "分析回归残差"] },
+      { id: 10, title: "第十章：统计项目实战", content: "综合运用统计方法完成一个完整的数据分析项目。", keyPoints: ["项目流程", "数据探索", "假设检验", "结果呈现"], code: "import pandas as pd\nimport numpy as np\nfrom scipy import stats\nnp.random.seed(42)\ndata = pd.DataFrame({'ID': range(1, 101), '成绩': np.random.normal(75, 12, 100), '学习时间': np.random.uniform(2, 15, 100), '班级': np.random.choice(['A', 'B', 'C'], 100)})\nprint('=== 统计分析报告 ===')\nprint(f'样本量: {len(data)}')\nprint(f'平均成绩: {data[\"成绩\"].mean():.2f}')\nprint(f'成绩标准差: {data[\"成绩\"].std():.2f}')\ncorr, p_val = stats.pearsonr(data['学习时间'], data['成绩'])\nprint(f'学习时间与成绩相关系数: {corr:.4f} (p={p_val:.4f})')\ngroups = [data[data['班级']==c]['成绩'] for c in ['A','B','C']]\nf_stat, p_val = stats.f_oneway(*groups)\nprint(f'班级成绩差异F检验: F={f_stat:.4f}, p={p_val:.4f}')", exercises: ["进行完整的统计分析项目", "设计统计检验方案", "撰写统计分析报告"] }
+    ] },
+  { id: 8, name: "机器学习入门", desc: "掌握机器学习的基本概念和常用算法，构建预测模型", icon: "fa-brain", color: "#8E44AD",
+    chapters: [
+      { id: 1, title: "第一章：机器学习概述", content: "机器学习是人工智能的重要分支，使计算机能够从数据中学习规律并做出预测。", keyPoints: ["机器学习定义", "监督/无监督/强化学习", "机器学习流程", "应用场景"], code: "import numpy as np\nfrom sklearn.datasets import load_iris\niris = load_iris()\nX, y = iris.data, iris.target\nprint('=== 机器学习概述 ===')\nprint(f'样本数量: {X.shape[0]}')\nprint(f'特征数量: {X.shape[1]}')\nprint(f'类别数量: {len(np.unique(y))}')\nprint(f'特征名称: {iris.feature_names}')\nprint(f'目标名称: {iris.target_names}')", exercises: ["理解机器学习的基本概念", "识别不同类型的学习任务", "了解机器学习的应用领域"] },
+      { id: 2, title: "第二章：数据预处理", content: "数据预处理是机器学习建模的重要步骤，包括数据清洗、转换和特征工程。", keyPoints: ["缺失值处理", "数据标准化", "类别编码", "训练集/测试集划分"], code: "import pandas as pd\nimport numpy as np\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.impute import SimpleImputer\ndata = pd.DataFrame({'age': [25, 30, np.nan, 35, 40], 'income': [50000, 60000, 75000, np.nan, 80000]})\nprint('=== 数据预处理 ===')\nprint('原始数据:')\nprint(data)\nimputer = SimpleImputer(strategy='mean')\ndata[['age', 'income']] = imputer.fit_transform(data[['age', 'income']])\nscaler = StandardScaler()\ndata_scaled = scaler.fit_transform(data)\nprint('\\n预处理后:')\nprint(pd.DataFrame(data_scaled, columns=['age', 'income']))", exercises: ["处理数据中的缺失值", "进行特征标准化", "划分训练集和测试集"] },
+      { id: 3, title: "第三章：线性回归", content: "线性回归是最基础的机器学习算法，用于建模自变量与因变量的线性关系。", keyPoints: ["线性回归原理", "最小二乘法", "模型评估指标", "多元线性回归"], code: "import numpy as np\nfrom sklearn.linear_model import LinearRegression\nfrom sklearn.metrics import mean_squared_error, r2_score\nfrom sklearn.model_selection import train_test_split\nnp.random.seed(42)\nX = np.random.uniform(1, 10, (100, 1))\ny = 20 + 3 * X[:, 0] + np.random.normal(0, 5, 100)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\nprint('=== 线性回归 ===')\nprint(f'系数: {model.coef_[0]:.4f}')\nprint(f'截距: {model.intercept_:.4f}')\nprint(f'MSE: {mean_squared_error(y_test, y_pred):.4f}')\nprint(f'R²: {r2_score(y_test, y_pred):.4f}')", exercises: ["理解线性回归原理", "实现简单线性回归", "评估模型预测性能"] },
+      { id: 4, title: "第四章：逻辑回归", content: "逻辑回归是用于二分类问题的经典算法，预测样本属于某一类别的概率。", keyPoints: ["sigmoid函数", "逻辑回归原理", "分类评估指标", "多分类扩展"], code: "from sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, classification_report, confusion_matrix\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import train_test_split\nX, y = make_classification(n_samples=200, n_features=4, n_classes=2, random_state=42)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)\nmodel = LogisticRegression()\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\nprint('=== 逻辑回归 ===')\nprint(f'准确率: {accuracy_score(y_test, y_pred):.4f}')\nprint('混淆矩阵:')\nprint(confusion_matrix(y_test, y_pred))\nprint('分类报告:')\nprint(classification_report(y_test, y_pred))", exercises: ["理解sigmoid函数的作用", "构建二分类模型", "计算准确率、精确率、召回率"] },
+      { id: 5, title: "第五章：决策树", content: "决策树是一种基于树形结构的分类和回归算法，具有良好的可解释性。", keyPoints: ["决策树构建", "信息增益/基尼系数", "决策树可视化", "过拟合与剪枝"], code: "from sklearn.tree import DecisionTreeClassifier\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import accuracy_score\niris = load_iris()\nX_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.3)\nmodel = DecisionTreeClassifier(max_depth=4, random_state=42)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\nprint('=== 决策树 ===')\nprint(f'训练集准确率: {model.score(X_train, y_train):.4f}')\nprint(f'测试集准确率: {accuracy_score(y_test, y_pred):.4f}')\nprint('特征重要性:')\nfor name, importance in zip(iris.feature_names, model.feature_importances_):\n    print(f'  {name}: {importance:.4f}')", exercises: ["理解决策树构建原理", "训练决策树模型", "分析特征重要性"] },
+      { id: 6, title: "第六章：随机森林", content: "随机森林是集成学习方法，通过组合多棵决策树来提高预测性能。", keyPoints: ["集成学习原理", "Bagging方法", "随机森林算法", "参数调优"], code: "from sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split, cross_val_score\nfrom sklearn.metrics import accuracy_score\niris = load_iris()\nX_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.3)\nmodel = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)\nmodel.fit(X_train, y_train)\ny_pred = model.predict(X_test)\nprint('=== 随机森林 ===')\nprint(f'测试集准确率: {accuracy_score(y_test, y_pred):.4f}')\ncv_scores = cross_val_score(model, X_train, y_train, cv=5)\nprint(f'交叉验证得分: {cv_scores.mean():.4f} (+/- {cv_scores.std()*2:.4f})')", exercises: ["理解集成学习原理", "训练随机森林模型", "使用交叉验证评估模型"] },
+      { id: 7, title: "第七章：K近邻算法", content: "K近邻(KNN)是一种基于实例的学习算法，通过邻近样本的标签进行预测。", keyPoints: ["KNN原理", "距离度量", "K值选择", "优缺点分析"], code: "import numpy as np\nfrom sklearn.neighbors import KNeighborsClassifier\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.metrics import accuracy_score\nX, y = make_classification(n_samples=300, n_features=5, random_state=42)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)\nscaler = StandardScaler()\nX_train_s = scaler.fit_transform(X_train)\nX_test_s = scaler.transform(X_test)\nprint('=== K近邻 ===')\nfor k in [3, 5, 7, 9, 15]:\n    knn = KNeighborsClassifier(n_neighbors=k)\n    knn.fit(X_train_s, y_train)\n    acc = accuracy_score(y_test, knn.predict(X_test_s))\n    print(f'K={k:2d}: 准确率 = {acc:.4f}')", exercises: ["理解KNN的工作原理", "选择合适的K值", "进行特征缩放的对比"] },
+      { id: 8, title: "第八章：聚类算法", content: "聚类是无监督学习的重要任务，用于发现数据中的天然分组结构。", keyPoints: ["K-means算法", "聚类评估指标", "层次聚类", "DBSCAN算法"], code: "import numpy as np\nfrom sklearn.cluster import KMeans\nfrom sklearn.datasets import make_blobs\nfrom sklearn.metrics import silhouette_score\nX, y_true = make_blobs(n_samples=300, centers=4, cluster_std=0.6, random_state=42)\nprint('=== K-Means聚类 ===')\nfor k in range(2, 7):\n    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)\n    labels = kmeans.fit_predict(X)\n    sil_score = silhouette_score(X, labels)\n    print(f'K={k}: 轮廓系数 = {sil_score:.4f}')\nbest_kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)\nlabels = best_kmeans.fit_predict(X)\nprint(f'\\n聚类中心数量: {len(best_kmeans.cluster_centers_)}')", exercises: ["实现K-means聚类", "使用轮廓系数评估聚类", "对比不同K值的效果"] },
+      { id: 9, title: "第九章：模型评估与选择", content: "模型评估是机器学习的重要环节，用于衡量模型性能并进行优化。", keyPoints: ["交叉验证", "评估指标", "过拟合与欠拟合", "模型选择"], code: "from sklearn.model_selection import cross_val_score, GridSearchCV\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.datasets import load_iris\niris = load_iris()\nX, y = iris.data, iris.target\nprint('=== 模型评估 ===')\nrf_scores = cross_val_score(RandomForestClassifier(random_state=42), X, y, cv=5)\nprint(f'随机森林: 平均准确率={rf_scores.mean():.4f}')\nparam_grid = {'n_estimators': [50, 100], 'max_depth': [5, 10, None]}\ngrid_search = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=5)\ngrid_search.fit(X, y)\nprint(f'最佳参数: {grid_search.best_params_}')\nprint(f'最佳得分: {grid_search.best_score_:.4f}')", exercises: ["使用交叉验证评估模型", "进行网格搜索调参", "对比不同算法的性能"] },
+      { id: 10, title: "第十章：机器学习项目实战", content: "综合运用机器学习算法完成一个完整的分类或预测项目。", keyPoints: ["项目流程", "特征工程", "模型训练", "结果呈现"], code: "import numpy as np\nfrom sklearn.datasets import load_iris\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.metrics import accuracy_score, classification_report\niris = load_iris()\nX, y = iris.data, iris.target\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)\nscaler = StandardScaler()\nX_train_s = scaler.fit_transform(X_train)\nX_test_s = scaler.transform(X_test)\nmodel = RandomForestClassifier(n_estimators=100, random_state=42)\nmodel.fit(X_train_s, y_train)\ny_pred = model.predict(X_test_s)\nprint('=== 机器学习项目实战 ===')\nprint(f'测试集准确率: {accuracy_score(y_test, y_pred):.4f}')\nprint('\\n分类报告:')\nprint(classification_report(y_test, y_pred, target_names=iris.target_names))", exercises: ["完成一个完整的机器学习项目", "进行特征工程处理", "评估并对比多个模型"] }
+    ] },
+  { id: 9, name: "商务智能", desc: "掌握商业智能(BI)的概念和工具，进行数据驱动的业务决策", icon: "fa-briefcase", color: "#D35400",
+    chapters: [
+      { id: 1, title: "第一章：商务智能概述", content: "商务智能(BI)是将企业数据转化为有价值的商业洞察，辅助决策的技术和方法。", keyPoints: ["BI的定义与作用", "BI发展历程", "BI应用场景", "BI工具生态"], code: "import pandas as pd\nimport numpy as np\n# 模拟企业销售数据\nnp.random.seed(42)\ndata = pd.DataFrame({'月份': pd.date_range('2024-01', periods=12, freq='M'), '销售额': np.random.randint(100, 300, 12) * 10000, '利润': np.random.randint(20, 80, 12) * 1000, '订单数': np.random.randint(500, 2000, 12)})\nprint('=== 商务智能数据概览 ===')\nprint(f'数据时间范围: {data[\"月份\"].min().strftime(\"%Y-%m\")} 至 {data[\"月份\"].max().strftime(\"%Y-%m\")}')\nprint(f'总销售额: ¥{data[\"销售额\"].sum():,.0f}')\nprint(f'总利润: ¥{data[\"利润\"].sum():,.0f}')\nprint(f'平均利润率: {data[\"利润\"].sum()/data[\"销售额\"].sum()*100:.1f}%')", exercises: ["理解商务智能的概念", "识别BI的应用场景", "分析企业业务数据"] },
+      { id: 2, title: "第二章：数据仓库与ETL", content: "数据仓库是存储企业历史数据的核心系统，ETL是数据抽取、转换和加载的过程。", keyPoints: ["数据仓库概念", "ETL流程", "数据建模", "维度建模"], code: "import pandas as pd\nimport numpy as np\nfrom datetime import datetime\n# 模拟ETL流程\nnp.random.seed(42)\nraw_data = pd.DataFrame({'customer_id': np.random.randint(1, 1000, 100), 'product_id': np.random.randint(1, 50, 100), 'amount': np.random.randint(50, 500, 100), 'date': pd.date_range('2024-01-01', periods=100)})\nprint('=== ETL流程 ===')\nprint(f'原始数据量: {len(raw_data)} 条')\n# 清洗数据\ncleaned = raw_data.dropna()\nprint(f'清洗后数据量: {len(cleaned)} 条')\n# 转换\ntransformed = cleaned.groupby([cleaned['date'].dt.month, 'product_id'])['amount'].sum().reset_index()\ntransformed.columns = ['月份', '产品', '销售额']\nprint(f'聚合后记录数: {len(transformed)}')\nprint('\\n前5条转换后数据:')\nprint(transformed.head())", exercises: ["理解数据仓库的概念", "设计ETL流程", "进行数据转换与聚合"] },
+      { id: 3, title: "第三章：KPI指标体系", content: "关键绩效指标(KPI)是衡量企业业务表现的量化指标，是BI的核心内容。", keyPoints: ["KPI的定义与选择", "财务类KPI", "运营类KPI", "客户类KPI"], code: "import pandas as pd\nimport numpy as np\nnp.random.seed(42)\ndata = pd.DataFrame({'月份': ['1月','2月','3月','4月','5月','6月'], '销售额': np.random.randint(100, 300, 6) * 10000, '利润': np.random.randint(20, 80, 6) * 1000, '客户数': np.random.randint(500, 2000, 6), '订单数': np.random.randint(1000, 3000, 6)})\ndata['利润率%'] = (data['利润'] / data['销售额'] * 100).round(2)\ndata['客单价'] = (data['销售额'] / data['订单数']).round(2)\ndata['客户转化率%'] = (data['订单数'] / data['客户数'] * 100).round(2)\nprint('=== KPI指标体系 ===')\nprint('月度KPI数据:')\nfor _, row in data.iterrows():\n    print(f'{row[\"月份\"]}: 销售额={row[\"销售额\"]:,}, 利润率={row[\"利润率%\"]}%, 客单价={row[\"客单价\"]}, 转化率={row[\"客户转化率%\"]}%')\nprint(f'\\nKPI目标完成度:')\nprint(f'销售额目标(200万): {data[\"销售额\"].sum()/6/10000:.0f}万/月')", exercises: ["设计业务KPI指标", "计算关键绩效指标", "分析KPI趋势"] },
+      { id: 4, title: "第四章：销售数据分析", content: "销售数据分析通过分析销售数据发现业务规律，优化销售策略。", keyPoints: ["销售趋势分析", "产品销售分析", "区域销售分析", "销售预测"], code: "import pandas as pd\nimport numpy as np\nnp.random.seed(42)\ndata = pd.DataFrame({'月份': [f'{i}月' for i in range(1, 13)], '产品A': np.random.randint(50, 150, 12), '产品B': np.random.randint(40, 120, 12), '产品C': np.random.randint(30, 100, 12)})\nprint('=== 销售数据分析 ===')\ntotal = data[['产品A', '产品B', '产品C']].sum()\nprint('各产品总销量:')\nfor product, sales in total.items():\n    print(f'  {product}: {sales} ({sales/total.sum()*100:.1f}%)')\nmonthly = data[['产品A', '产品B', '产品C']].sum(axis=1)\nprint(f'\\n月度销售趋势:')\nfor i, (month, sales) in enumerate(zip(data['月份'], monthly)):\n    growth = (monthly[i] / monthly[i-1] - 1) * 100 if i > 0 else 0\n    print(f'  {month}: {sales} ({growth:+.1f}%)')", exercises: ["分析销售趋势变化", "对比产品销售表现", "进行区域销售对比"] },
+      { id: 5, title: "第五章：客户分析", content: "客户分析通过研究客户行为和特征，支持精准营销和客户关系管理。", keyPoints: ["客户画像", "RFM分析", "客户生命周期", "客户留存分析"], code: "import pandas as pd\nimport numpy as np\nnp.random.seed(42)\n# RFM分析\nrfm_data = pd.DataFrame({'customer_id': range(1, 101), 'Recency': np.random.randint(1, 100, 100), 'Frequency': np.random.randint(1, 50, 100), 'Monetary': np.random.randint(100, 5000, 100)})\n# RFM评分\nrfm_data['R_score'] = pd.qcut(rfm_data['Recency'], 5, labels=[5,4,3,2,1], duplicates='drop')\nrfm_data['F_score'] = pd.qcut(rfm_data['Frequency'], 5, labels=[1,2,3,4,5], duplicates='drop')\nrfm_data['M_score'] = pd.qcut(rfm_data['Monetary'], 5, labels=[1,2,3,4,5], duplicates='drop')\nrfm_data['RFM'] = rfm_data['R_score'].astype(str) + rfm_data['F_score'].astype(str) + rfm_data['M_score'].astype(str)\nprint('=== RFM客户分析 ===')\nprint(f'客户总数: {len(rfm_data)}')\nprint(f'重要价值客户(RFM>=444): {len(rfm_data[rfm_data[\"RFM\"] >= \"444\"])}')\nprint(f'客户平均消费: ¥{rfm_data[\"Monetary\"].mean():.0f}')\nprint(f'客户平均购买次数: {rfm_data[\"Frequency\"].mean():.1f}')", exercises: ["构建RFM分析模型", "识别高价值客户", "分析客户生命周期"] },
+      { id: 6, title: "第六章：市场分析", content: "市场分析研究市场规模、市场份额、竞争态势等关键商业指标。", keyPoints: ["市场规模分析", "市场份额分析", "竞争对手分析", "市场趋势预测"], code: "import pandas as pd\nimport numpy as np\n# 市场份额数据\nmarket_data = pd.DataFrame({'公司': ['本公司', '竞品A', '竞品B', '竞品C', '其他'], '市场份额%': [35, 25, 20, 12, 8], '同比增长%': [12, 8, 15, 5, 3]})\nprint('=== 市场分析 ===')\nprint('\\n市场份额排名:')\nfor _, row in market_data.iterrows():\n    bar = '█' * int(row['市场份额%'] / 2)\n    print(f'  {row[\"公司\"]}: {row[\"市场份额%\"]}% ({row[\"同比增长%\"]:+d}%) {bar}')\n# 市场规模预测\nmarket_size = pd.DataFrame({'年份': [2020, 2021, 2022, 2023, 2024], '市场规模(亿)': [800, 920, 1050, 1180, 1320]})\nprint(f'\\n市场规模趋势:')\nfor _, row in market_size.iterrows():\n    print(f'  {int(row[\"年份\"])}年: {row[\"市场规模(亿)\"]}亿')\nprint(f'  年均复合增长率: {(1320/800)**(1/4)-1:.1%}')", exercises: ["分析市场份额变化", "评估竞争态势", "预测市场趋势"] },
+      { id: 7, title: "第七章：财务分析", content: "财务分析通过财务数据评估企业的财务状况、经营成果和现金流量。", keyPoints: ["财务报表分析", "比率分析", "趋势分析", "偿债/盈利/营运能力"], code: "import pandas as pd\nimport numpy as np\n# 财务比率分析\nfinancial_data = pd.DataFrame({'年份': ['2021', '2022', '2023', '2024'], '营业收入(亿)': [100, 120, 150, 180], '净利润(亿)': [15, 18, 25, 30], '总资产(亿)': [200, 230, 280, 320], '总负债(亿)': [80, 90, 110, 120]})\nfinancial_data['毛利率%'] = (financial_data['净利润(亿)'] / financial_data['营业收入(亿)'] * 100).round(2)\nfinancial_data['资产负债率%'] = (financial_data['总负债(亿)'] / financial_data['总资产(亿)'] * 100).round(2)\nfinancial_data['ROE%'] = (financial_data['净利润(亿)'] / (financial_data['总资产(亿)'] - financial_data['总负债(亿)']) * 100).round(2)\nprint('=== 财务分析 ===')\nprint('财务比率趋势:')\nfor _, row in financial_data.iterrows():\n    print(f'  {row[\"年份\"]}: 毛利率={row[\"毛利率%\"]}%, 资产负债率={row[\"资产负债率%\"]}%, ROE={row[\"ROE%\"]}%')\nprint(f'\\n营收复合增长率: {(180/100)**(1/3)-1:.1%}')\nprint(f'净利润复合增长率: {(30/15)**(1/3)-1:.1%}')", exercises: ["计算关键财务比率", "分析财务趋势变化", "评估企业财务健康度"] },
+      { id: 8, title: "第八章：仪表盘设计", content: "BI仪表盘是将关键指标可视化展示的重要工具，帮助决策者快速了解业务状态。", keyPoints: ["仪表盘布局", "图表选型", "交互设计", "实时数据展示"], code: "import pandas as pd\nimport numpy as np\nnp.random.seed(42)\ndata = pd.DataFrame({'指标': ['总销售额', '月订单数', '活跃用户', '转化率', '客户满意度'], '当前值': [f'¥{2580000:,}', '12,450', '8,920', '12.8%', '4.5/5.0'], '目标值': ['¥2,500,000', '12,000', '8,500', '12.0%', '4.5/5.0'], '状态': ['达标', '达标', '达标', '超标', '达标']})\nprint('=== BI仪表盘 ===')\nprint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')\nprint('                    📊 业务概览')\nprint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')\nfor _, row in data.iterrows():\n    status_icon = '✅' if row['状态'] == '达标' or row['状态'] == '超标' else '⚠️'\n    print(f'  {row[\"指标\"]}: {row[\"当前值\"]} (目标: {row[\"目标值\"]}) {status_icon}')\nprint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')", exercises: ["设计业务仪表盘", "选择合适的图表类型", "设计交互式数据展示"] },
+      { id: 9, title: "第九章：数据驱动决策", content: "数据驱动决策是基于数据分析做出商业决策，提高决策的科学性和准确性。", keyPoints: ["决策框架", "A/B测试", "决策树分析", "情景分析"], code: "import pandas as pd\nimport numpy as np\nfrom scipy import stats\n# A/B测试分析\nnp.random.seed(42)\nversion_A = np.random.binomial(1000, 0.12, 10)  # 转化率12%\nversion_B = np.random.binomial(1000, 0.15, 10)  # 转化率15%\nt_stat, p_value = stats.ttest_ind(version_A, version_B)\nprint('=== 数据驱动决策 ===')\nprint('A/B测试结果:')\nprint(f'  版本A平均转化率: {version_A.mean()/10:.1f}%')\nprint(f'  版本B平均转化率: {version_B.mean()/10:.1f}%')\nprint(f'  t统计量: {t_stat:.4f}')\nprint(f'  p值: {p_value:.4f}')\nif p_value < 0.05:\n    print('\\n结论: 版本B显著优于版本A，建议采用版本B')\nelse:\n    print('\\n结论: 两版本无显著差异，需进一步测试')\n# 情景分析\nscenarios = pd.DataFrame({'情景': ['悲观', '中性', '乐观'], '销售额(万)': [1800, 2500, 3200], '概率%': [20, 60, 20]})\nprint('\\n情景分析:')\nfor _, row in scenarios.iterrows():\n    print(f'  {row[\"情景\"]}: {row[\"销售额(万)\"]}万 (概率: {row[\"概率%\"]}%)')\nexpected_value = (scenarios['销售额(万)'] * scenarios['概率%'] / 100).sum()\nprint(f'期望销售额: {expected_value:.0f}万')", exercises: ["设计A/B测试方案", "进行情景分析", "构建决策框架"] },
+      { id: 10, title: "第十章：BI项目实战", content: "综合运用BI工具和分析方法完成一个完整的商业分析项目。", keyPoints: ["业务需求分析", "数据采集整合", "指标体系设计", "报告撰写"], code: "import pandas as pd\nimport numpy as np\nnp.random.seed(42)\n# 综合业务数据\nmonths = [f'{i}月' for i in range(1, 13)]\ndata = pd.DataFrame({'月份': months, '销售收入': np.random.randint(80, 200, 12) * 10000, '新增客户': np.random.randint(50, 200, 12), '订单完成率%': np.random.uniform(90, 98, 12).round(2), '客户满意度': np.random.uniform(4.0, 4.8, 12).round(2)})\nprint('=== BI分析报告 ===')\nprint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')\nprint('                    📈 2024年度业务分析')\nprint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')\nprint(f'\\n📊 年度总览:')\nprint(f'  · 全年销售收入: ¥{data[\"销售收入\"].sum():,.0f}')\nprint(f'  · 新增客户总数: {data[\"新增客户\"].sum()}')\nprint(f'  · 平均订单完成率: {data[\"订单完成率%\"].mean():.1f}%')\nprint(f'  · 平均客户满意度: {data[\"客户满意度\"].mean():.2f}/5.0')\nprint(f'\\n📈 季度对比:')\nfor q, months_in_q in enumerate(['1-3月', '4-6月', '7-9月', '10-12月'], 1):\n    q_data = data.iloc[(q-1)*3:q*3]\n    print(f'  Q{q}({months_in_q}): 销售额¥{q_data[\"销售收入\"].sum():,}, 新增客户{q_data[\"新增客户\"].sum()}人')\nprint(f'\\n📌 关键洞察:')\nprint(f'  · 月度销售波动幅度: {data[\"销售收入\"].std()/10000:.1f}万')\nprint(f'  · 最高销售月份: {data.loc[data[\"销售收入\"].idxmax(), \"月份\"]}')\nprint(f'  · 最低销售月份: {data.loc[data[\"销售收入\"].idxmin(), \"月份\"]}')", exercises: ["完成一个完整的BI分析项目", "撰写商业分析报告", "设计数据可视化方案"] }
+    ] },
+  { id: 10, name: "大数据技术", desc: "了解大数据的基本概念和技术栈，掌握Hadoop、Spark等大数据处理框架", icon: "fa-server", color: "#27AE60",
+    chapters: [
+      { id: 1, title: "第一章：大数据概述", content: "大数据是指无法在可承受的时间范围内用常规软件工具进行捕捉、管理和处理的数据集合。", keyPoints: ["大数据的5V特征", "大数据应用场景", "大数据技术栈", "大数据发展趋势"], code: "import pandas as pd\nimport numpy as np\n# 大数据特征展示\nprint('=== 大数据概述 ===')\nprint('\\n五大特征 (5Vs):')\nfeatures = [('Volume(体量)', '数据量巨大，从TB到PB级别'), ('Velocity(速度)', '数据产生和处理速度快，实时流式处理'), ('Variety(多样)', '数据类型多样，结构化、半结构化、非结构化'), ('Value(价值)', '数据价值密度低，但总体价值巨大'), ('Veracity(真实)', '数据的真实性和质量保证')]\nfor code, desc in features:\n    print(f'  ● {code}: {desc}')\n# 模拟数据规模\nprint('\\n数据规模对比:')\ndata_sizes = [('传统数据库', 'GB级', '1,000'), ('数据仓库', 'TB级', '1,000,000'), ('大数据', 'PB级', '1,000,000,000'), ('超大规模', 'EB级', '1,000,000,000,000')]\nfor name, size, records in data_sizes:\n    print(f'  {name}: {size} (约{records}条记录)')", exercises: ["理解大数据的基本概念", "识别大数据的应用场景", "了解大数据技术栈"] },
+      { id: 2, title: "第二章：Hadoop生态", content: "Hadoop是Apache基金会的开源分布式计算平台，是大数据生态的基础。", keyPoints: ["HDFS分布式存储", "MapReduce计算模型", "YARN资源管理", "Hadoop生态组件"], code: "# Hadoop的核心组件\nhadoop_components = [('HDFS', '分布式文件系统', '提供高吞吐量的文件存储'), ('MapReduce', '分布式计算模型', '并行处理大规模数据集'), ('YARN', '资源管理平台', '管理和调度集群资源'), ('HBase', '分布式NoSQL数据库', '实时读写大规模数据'), ('Hive', '数据仓库工具', 'SQL查询处理结构化数据'), ('Spark', '内存计算框架', '快速的批处理和流处理')]\nprint('=== Hadoop生态 ===')\nprint('\\n核心组件:')\nfor name, category, desc in hadoop_components:\n    print(f'  ● {name:15} ({category}): {desc}')\nprint('\\nHDFS文件操作示例:')\nprint('  $ hdfs dfs -put local_file /user/data/  # 上传文件')\nprint('  $ hdfs dfs -ls /user/data/           # 列出目录')\nprint('  $ hdfs dfs -cat /user/data/file.txt  # 查看文件')\nprint('  $ hdfs dfs -get /user/data/file.txt  # 下载文件')", exercises: ["了解Hadoop的核心组件", "理解HDFS的存储原理", "掌握基本的Hadoop操作"] },
+      { id: 3, title: "第三章：Spark基础", content: "Spark是一个快速、通用的大数据处理框架，支持批处理、流处理、机器学习等多种场景。", keyPoints: ["Spark核心概念", "RDD编程", "DataFrame API", "Spark部署模式"], code: "from pyspark.sql import SparkSession\n# 创建SparkSession\nspark = SparkSession.builder.appName('BasicExample').getOrCreate()\nprint('=== Spark基础 ===')\nprint(f'Spark版本: {spark.version}')\n# RDD操作\ndata = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nrdd = spark.sparkContext.parallelize(data)\nprint(f'\\n原始数据: {rdd.collect()}')\nprint(f'数据数量: {rdd.count()}')\nprint(f'数据求和: {rdd.sum()}')\nprint(f'数据均值: {rdd.mean()}')\n# 转换操作\nfiltered = rdd.filter(lambda x: x % 2 == 0)\nprint(f'偶数: {filtered.collect()}')\nmapped = rdd.map(lambda x: x * 2)\nprint(f'每个元素×2: {mapped.collect()}')\nspark.stop()", exercises: ["理解Spark核心概念", "编写基本的RDD操作", "了解Spark部署模式"] },
+      { id: 4, title: "第四章：Spark SQL", content: "Spark SQL是Spark处理结构化数据的模块，支持使用SQL语句查询数据。", keyPoints: ["DataFrame操作", "SQL查询", "数据源读写", "聚合分析"], code: "from pyspark.sql import SparkSession\nfrom pyspark.sql.functions import sum, avg, count, col\nspark = SparkSession.builder.appName('SQLExample').getOrCreate()\nprint('=== Spark SQL ===')\n# 创建DataFrame\ndata = [('张三', '销售部', 8500, 32), ('李四', '技术部', 12000, 28), ('王五', '销售部', 9200, 35), ('赵六', '技术部', 15000, 40), ('钱七', '市场部', 7800, 25)]\ndf = spark.createDataFrame(data, ['name', 'department', 'salary', 'age'])\nprint('\\n员工数据:')\ndf.show()\n# SQL查询\ndf.createOrReplaceTempView('employees')\nresult = spark.sql('SELECT department, COUNT(*) as count, AVG(salary) as avg_salary FROM employees GROUP BY department')\nprint('\\n按部门统计:')\nresult.show()\n# DataFrame API\nprint('\\n高薪员工(薪资>10000):')\ndf.filter(col('salary') > 10000).show()\nspark.stop()", exercises: ["使用DataFrame API处理数据", "编写SQL查询", "进行数据聚合分析"] },
+      { id: 5, title: "第五章：数据处理与清洗", content: "大数据处理中，数据清洗和转换是非常重要的环节，直接影响分析结果的质量。", keyPoints: ["数据质量评估", "缺失值处理", "数据去重", "格式标准化"], code: "from pyspark.sql import SparkSession\nfrom pyspark.sql.functions import when, count, col, lit, sum as _sum, avg as _avg\nimport pandas as pd\nimport numpy as np\nspark = SparkSession.builder.appName('DataCleaning').getOrCreate()\nprint('=== 数据处理与清洗 ===')\n# 创建示例数据\nnp.random.seed(42)\npandas_df = pd.DataFrame({'id': range(1, 101), 'name': [f'用户{i}' for i in range(1, 101)], 'age': np.random.choice([25, 30, 35, 40, None], 100), 'income': np.random.choice([50000, 60000, 70000, None, -100], 100), 'department': np.random.choice(['销售', '技术', '市场', None], 100)})\ndf = spark.createDataFrame(pandas_df)\nprint(f'\\n原始数据量: {df.count()} 条')\nprint('\\n缺失值统计:')\ndf.select([count(when(col(c).isNull() | col(c).isin(['']), c)).alias(c) for c in df.columns]).show()\n# 数据清洗\ncleaned_df = df.na.drop(subset=['name', 'department'])\ncleaned_df = cleaned_df.filter(col('income') > 0)\ncleaned_df = cleaned_df.na.fill({'age': 30})\nprint(f'\\n清洗后数据量: {cleaned_df.count()} 条')\ncleaned_df.groupBy('department').agg(_avg('age').alias('平均年龄'), _avg('income').alias('平均收入'), count('*').alias('人数')).show()\nspark.stop()", exercises: ["评估数据质量", "处理缺失值和异常值", "进行数据标准化"] },
+      { id: 6, title: "第六章：大数据分析", content: "大数据分析利用分布式计算框架处理海量数据，提取有价值的信息和洞察。", keyPoints: ["大规模数据统计", "用户行为分析", "推荐系统原理", "实时数据分析"], code: "from pyspark.sql import SparkSession\nfrom pyspark.sql.functions import sum, avg, count, col, date_format, month\nspark = SparkSession.builder.appName('BigDataAnalysis').getOrCreate()\nprint('=== 大数据分析 ===')\n# 模拟大规模销售数据\nprint('\\n销售数据分析 (模拟100万条记录):')\nprint('  ● 按地区聚合: 分析华北、华东、华南销售占比')\nprint('  ● 按品类聚合: 识别热销和滞销产品')\nprint('  ● 按时间聚合: 发现销售季节性和趋势')\nprint('  ● 按客户聚合: 识别高价值客户')\nprint('\\n核心分析指标:')\nmetrics = [('总销售额', 'sum(sales_amount)'), ('订单数量', 'count(DISTINCT order_id)'), ('客户数量', 'count(DISTINCT customer_id)'), ('平均订单金额', 'avg(sales_amount)'), ('销售TOP10产品', 'ORDER BY sales DESC LIMIT 10')]\nfor metric, formula in metrics:\n    print(f'  ● {metric:15}: {formula}')\nprint('\\nSpark SQL示例:')\nprint('  SELECT product_category, SUM(sales) as total_sales')\nprint('  FROM sales_table')\nprint('  WHERE order_date >= \"2024-01-01\"')\nprint('  GROUP BY product_category')\nprint('  ORDER BY total_sales DESC')\nspark.stop()", exercises: ["设计大规模数据分析方案", "进行多维度数据聚合", "编写Spark分析脚本"] },
+      { id: 7, title: "第七章：实时流处理", content: "实时流处理是对实时产生的数据流进行即时处理和分析，支持实时决策。", keyPoints: ["流处理原理", "Spark Streaming", "Structured Streaming", "实时数据处理"], code: "from pyspark.sql import SparkSession\nfrom pyspark.sql.functions import window, count, avg, col\nspark = SparkSession.builder.appName('StreamingExample').getOrCreate()\nprint('=== 实时流处理 ===')\nprint('\\n流处理 vs 批处理:')\nprint('  ● 批处理: 定期处理积累的数据 (小时/日级)')\nprint('  ● 流处理: 实时处理连续的数据流 (秒/毫秒级)')\nprint('\\n流处理应用场景:')\nscenarios = [('实时监控', '服务器日志、系统指标实时监控'), ('实时推荐', '根据用户实时行为推荐产品'), ('实时预警', '异常检测和告警通知'), ('实时统计', '实时数据统计和仪表盘更新')]\nfor name, desc in scenarios:\n    print(f'  ● {name}: {desc}')\nprint('\\nStructured Streaming 示例:')\nprint('  # 读取流数据')\nprint('  stream_df = spark.readStream.format(\"kafka\")')\nprint('    .option(\"kafka.bootstrap.servers\", \"localhost:9092\")')\nprint('    .option(\"subscribe\", \"events\").load()')\nprint('  # 窗口统计')\nprint('  stream_df.groupBy(window(\"event_time\", \"10 minutes\"))')\nprint('    .count().writeStream.format(\"console\").start()')\nspark.stop()", exercises: ["理解流处理的原理", "设计实时数据处理方案", "了解Spark Streaming"] },
+      { id: 8, title: "第八章：NoSQL数据库", content: "NoSQL(Not Only SQL)数据库是为处理大规模数据和特定场景设计的非关系型数据库。", keyPoints: ["NoSQL的类型", "MongoDB文档存储", "Redis键值存储", "HBase列式存储"], code: "# NoSQL数据库类型\nprint('=== NoSQL数据库 ===')\nnosql_types = [('键值存储', 'Redis, DynamoDB', '简单的键值对，高性能缓存'), ('文档存储', 'MongoDB, CouchDB', '存储JSON文档，灵活的schema'), ('列式存储', 'HBase, Cassandra', '按列存储，适合分析型查询'), ('图数据库', 'Neo4j, JanusGraph', '存储节点和关系，适合图分析'), ('时序数据库', 'InfluxDB, TimescaleDB', '存储时间序列数据')]\nprint('\\nNoSQL数据库类型:')\nfor db_type, examples, desc in nosql_types:\n    print(f'  ● {db_type:8} ({examples}): {desc}')\nprint('\\nMongoDB 操作示例:')\nprint('  db.users.insertOne({name: \"张三\", age: 25})  # 插入文档')\nprint('  db.users.find({age: {$gt: 30}})             # 查询文档')\nprint('  db.users.updateOne({name: \"张三\"}, {$set: {age: 26}})  # 更新')\nprint('  db.users.deleteOne({name: \"张三\"})         # 删除文档')\nprint('\\nRedis 操作示例:')\nprint('  SET user:1:name \"张三\"   # 设置字符串')\nprint('  GET user:1:name           # 获取字符串')\nprint('  LPUSH mylist \"item1\"     # 列表左端添加')\nprint('  HSET user:1 age 25       # 哈希表字段')", exercises: ["了解不同类型的NoSQL数据库", "掌握MongoDB基本操作", "使用Redis进行缓存"] },
+      { id: 9, title: "第九章：大数据可视化", content: "大数据可视化将海量数据的分析结果以直观的图表形式展示，帮助理解和决策。", keyPoints: ["大数据可视化挑战", "可视化工具选择", "BI工具集成", "交互式仪表盘"], code: "print('=== 大数据可视化 ===')\nprint('\\n大数据可视化的挑战:')\nchallenges = [('数据规模', '千万/亿级数据点的渲染性能'), ('实时性', '流式数据的实时更新展示'), ('多维度', '高维数据的降维和可视化'), ('交互性', '支持缩放、筛选、钻取等操作')]\nfor name, desc in challenges:\n    print(f'  ● {name}: {desc}')\nprint('\\n主流可视化工具:')\ntools = [('Tableau', '商业BI工具，强大的可视化能力'), ('Power BI', '微软BI平台，与Office集成'), ('Superset', 'Apache开源BI工具'), ('Grafana', '开源监控和指标可视化'), ('ECharts', '百度开源JS图表库')]\nfor tool, desc in tools:\n    print(f'  ● {tool:10}: {desc}')\nprint('\\n大数据分析仪表盘结构:')\nprint('  ┌──────────────────────────────────────┐')\nprint('  │  📊 业务概览     总销售额 ¥12.8M   │')\nprint('  ├──────────────────────────────────────┤')\nprint('  │  📈 销售趋势图  📋 产品分类饼图    │')\nprint('  │  🗺️  区域热力图  📋 KPI指标卡       │')\nprint('  └──────────────────────────────────────┘')", exercises: ["了解大数据可视化的挑战", "选择合适的可视化工具", "设计大数据仪表盘"] },
+      { id: 10, title: "第十章：大数据项目实战", content: "综合运用大数据技术完成一个完整的大数据分析项目。", keyPoints: ["项目架构设计", "数据采集存储", "数据处理分析", "结果展示交付"], code: "print('=== 大数据项目实战 ===')\nprint('\\n项目: 电商用户行为分析平台')\nprint('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')\nprint('\\n📋 项目目标:')\nprint('  ● 分析亿级用户行为日志')\nprint('  ● 实时计算用户活跃度')\nprint('  ● 识别高价值用户群体')\nprint('  ● 为精准营销提供数据支持')\nprint('\\n🏗️ 技术架构:')\nprint('  ┌─────────────────────────────────────────┐')\nprint('  │  数据采集: Kafka (消息队列)             │')\nprint('  │  数据存储: HDFS + HBase                 │')\nprint('  │  数据处理: Spark (批处理 + 流处理)      │')\nprint('  │  数据查询: Hive + Spark SQL             │')\nprint('  │  数据可视化: Superset / Tableau         │')\nprint('  └─────────────────────────────────────────┘')\nprint('\\n📊 核心分析任务:')\ntasks = [('用户活跃度分析', '计算DAU/MAU/留存率'), ('购买转化分析', '浏览→加购→下单的转化率'), ('商品热销排行', '按品类/时间统计销量Top100'), ('用户价值分析', 'RFM模型进行用户分群'), ('实时监控', '异常访问和刷单行为检测')]\nfor task, desc in tasks:\n    print(f'  ● {task}: {desc}')\nprint('\\n📌 项目成果:')\nprint('  · 处理数据量: 每日500GB+，总规模10TB+')\nprint('  · 分析用户数: 1000万+')\nprint('  · 分析维度: 10+')\nprint('  · 报告产出: 每周分析报告 + 实时仪表盘')", exercises: ["设计大数据项目架构", "规划数据处理流程", "完成大数据分析项目"] }
+    ] }
+]
+
+
+
+/* ========================================
+   Personal Learning Platform - Main JS
+   ======================================== */
+
+// Skill data
+const skills = [
+    { name: 'Python', icon: 'fab fa-python' },
+    { name: '数据分析', icon: 'fas fa-chart-line' },
+    { name: 'SQL', icon: 'fas fa-database' },
+    { name: '数据可视化', icon: 'fas fa-chart-bar' },
+    { name: '数据采集', icon: 'fas fa-cloud-download-alt' },
+    { name: '数据清洗', icon: 'fas fa-filter' },
+    { name: '统计学', icon: 'fas fa-square-root-alt' },
+    { name: 'Excel', icon: 'fas fa-file-excel' },
+    { name: '机器学习', icon: 'fas fa-brain' },
+    { name: '供应链分析', icon: 'fas fa-truck' },
+    { name: '商业智能', icon: 'fas fa-lightbulb' },
+    { name: '项目管理', icon: 'fas fa-tasks' },
+    { name: 'Tableau', icon: 'fas fa-chart-pie' },
+    { name: 'Power BI', icon: 'fas fa-chart-area' },
+    { name: 'Git', icon: 'fab fa-git-alt' }
+];
+
+// ============================================
+// DOM Elements
+// ============================================
+const navbar = document.querySelector('.navbar');
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.querySelector('.nav-menu');
+const navLinks = document.querySelectorAll('.nav-link');
+const courseGrid = document.getElementById('courseGrid');
+const skillsContainer = document.getElementById('skillsContainer');
+const modal = document.getElementById('courseModal');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+const modalHeader = document.getElementById('modalHeader');
+const modalBody = document.getElementById('modalBody');
+const chapterPanel = document.getElementById('chapterPanel');
+const chapterClose = document.getElementById('chapterClose');
+const chapterDetail = document.getElementById('chapterDetail');
+
+let currentCourse = null;
+
+// ============================================
+// Navigation
+// ============================================
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+    updateActiveNavLink();
+    checkReveal();
+});
+
+navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('active');
+    navMenu.classList.toggle('active');
+});
+
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navMenu.classList.remove('active');
+    });
+});
+
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]');
+    const scrollPos = window.scrollY + 150;
+
+    sections.forEach(section => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        const id = section.getAttribute('id');
+        const link = document.querySelector(`.nav-link[href="#${id}"]`);
+
+        if (link) {
+            if (scrollPos >= top && scrollPos < top + height) {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            }
+        }
+    });
+}
+
+// ============================================
+// Render Skills
+// ============================================
+function renderSkills() {
+    skillsContainer.innerHTML = skills.map(skill => `
+        <span class="skill-tag">
+            <i class="${skill.icon}"></i>
+            <span>${skill.name}</span>
+        </span>
+    `).join('');
+}
+
+// ============================================
+// Render Courses
+// ============================================
+function renderCourses() {
+    courseGrid.innerHTML = courses.map((course, index) => `
+        <div class="course-card reveal" style="transition-delay: ${index * 0.1}s" data-course-id="${course.id}">
+            <div class="course-icon" style="background: ${course.color}20; color: ${course.color}">
+                <i class="${course.icon}"></i>
+            </div>
+            <h3>${course.name}</h3>
+            <p class="course-desc">${course.desc}</p>
+            <div class="course-meta">
+                <div class="chapter-count">
+                    <i class="fas fa-book-open"></i>
+                    <span>${course.chapters.length} 个章节</span>
+                </div>
+                <div class="course-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    document.querySelectorAll('.course-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const courseId = parseInt(card.dataset.courseId);
+            openCourseModal(courseId);
+        });
+    });
+}
+
+// ============================================
+// Open Course Modal
+// ============================================
+function openCourseModal(courseId) {
+    const course = courses.find(c => c.id === courseId);
+    if (!course) return;
+
+    currentCourse = course;
+
+    modalHeader.style.background = course.color;
+    modalHeader.innerHTML = `
+        <h2>${course.name}</h2>
+        <p class="course-desc-full">${course.desc}</p>
+        <div class="course-info-row">
+            <span class="info-badge"><i class="fas fa-book-open"></i> ${course.chapters.length} 章节</span>
+            <span class="info-badge"><i class="fas fa-graduation-cap"></i> 完整课程</span>
+            <span class="info-badge"><i class="fas fa-code"></i> 实战练习</span>
+        </div>
+    `;
+
+    modalBody.innerHTML = `
+        <h3 class="chapters-title"><i class="fas fa-list-ol"></i> 课程章节</h3>
+        <div class="chapter-list">
+            ${course.chapters.map((chapter, idx) => `
+                <div class="chapter-item" data-chapter-id="${chapter.id}">
+                    <div class="chapter-number" style="background: ${course.color}">${idx + 1}</div>
+                    <div class="chapter-info">
+                        <h4>${chapter.title}</h4>
+                        <p>${chapter.content.substring(0, 60)}...</p>
+                    </div>
+                    <div class="chapter-open"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+
+    document.querySelectorAll('.chapter-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const chapterId = parseInt(item.dataset.chapterId);
+            openChapterPanel(chapterId);
+        });
+    });
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// ============================================
+// Open Chapter Panel
+// ============================================
+function openChapterPanel(chapterId) {
+    const chapter = currentCourse.chapters.find(c => c.id === chapterId);
+    if (!chapter) return;
+
+    const chapterIndex = currentCourse.chapters.findIndex(c => c.id === chapterId);
+
+    chapterDetail.innerHTML = `
+        <div class="chapter-detail-header" style="background: ${currentCourse.color}15">
+            <span class="back-btn" id="backToCourse"><i class="fas fa-arrow-left"></i> 返回章节列表</span>
+            <h2>第 ${chapterIndex + 1} 章：${chapter.title}</h2>
+            <p class="chapter-subtitle">${currentCourse.name} · 核心知识与实战练习</p>
+        </div>
+        <div class="chapter-detail-body">
+            <div class="detail-section">
+                <h3><i class="fas fa-book"></i> 章节内容</h3>
+                <p>${formatContent(chapter.content)}</p>
+            </div>
+
+            ${chapter.knowledge && chapter.knowledge.length > 0 ? `
+            <div class="detail-section">
+                <h3><i class="fas fa-lightbulb"></i> 核心知识点</h3>
+                <ul class="knowledge-list">
+                    ${chapter.knowledge.map(k => `<li><span>${k}</span></li>`).join('')}
+                </ul>
+            </div>
+            ` : ''}
+
+            ${chapter.code ? `
+            <div class="detail-section">
+                <h3><i class="fas fa-code"></i> 代码示例</h3>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span>Python</span>
+                        <button class="copy-btn" onclick="copyCode(this)"><i class="fas fa-copy"></i> 复制</button>
+                    </div>
+                    <pre><code>${highlightCode(chapter.code)}</code></pre>
+                </div>
+            </div>
+            ` : ''}
+
+            ${chapter.practice && chapter.practice.length > 0 ? `
+            <div class="detail-section">
+                <h3><i class="fas fa-pencil-alt"></i> 练习题</h3>
+                ${chapter.practice.map((p, idx) => `
+                    <div class="practice-item">
+                        <h4><i class="fas fa-question-circle"></i> 练习 ${idx + 1}</h4>
+                        <p>${p}</p>
+                        <span class="practice-hint"><i class="fas fa-lightbulb"></i> 动手实践，加深理解</span>
+                    </div>
+                `).join('')}
+            </div>
+            ` : ''}
+        </div>
+    `;
+
+    document.getElementById('backToCourse').addEventListener('click', () => {
+        chapterPanel.classList.remove('active');
+        setTimeout(() => {
+            document.body.style.overflow = 'hidden';
+        }, 100);
+    });
+
+    chapterPanel.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// ============================================
+// Helper Functions
+// ============================================
+function formatContent(text) {
+    return text.split('\n').filter(line => line.trim()).map(line =>
+        line.trim()
+    ).join('</p><p style="margin-bottom: 1rem;">');
+}
+
+function highlightCode(code) {
+    const keywords = ['def', 'import', 'from', 'return', 'if', 'else', 'elif', 'for', 'while', 'in', 'as', 'class', 'True', 'False', 'None', 'print', 'and', 'or', 'not', 'with', 'try', 'except', 'lambda', 'pass', 'break', 'continue'];
+    const functions = ['range', 'len', 'str', 'int', 'float', 'list', 'dict', 'set', 'tuple', 'open', 'input', 'type', 'isinstance', 'sum', 'max', 'min', 'abs', 'round', 'sorted', 'reversed', 'enumerate', 'zip', 'map', 'filter'];
+
+    let result = code;
+    result = result.replace(/#[^\n]*/g, match => `<span class="code-comment">${match}</span>`);
+    result = result.replace(/"[^"]*"|'[^']*'/g, match => `<span class="code-string">${match}</span>`);
+    result = result.replace(/\b\d+\.?\d*\b/g, match => `<span class="code-number">${match}</span>`);
+
+    keywords.forEach(kw => {
+        const regex = new RegExp(`\\b${kw}\\b`, 'g');
+        result = result.replace(regex, `<span class="code-keyword">${kw}</span>`);
+    });
+
+    functions.forEach(fn => {
+        const regex = new RegExp(`\\b${fn}(?=\\()`, 'g');
+        result = result.replace(regex, `<span class="code-func">${fn}</span>`);
+    });
+
+    return result;
+}
+
+function copyCode(btn) {
+    const codeBlock = btn.closest('.code-block').querySelector('code');
+    const text = codeBlock.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> 已复制';
+        btn.style.background = 'var(--color-primary)';
+        btn.style.color = 'var(--color-white)';
+        setTimeout(() => {
+            btn.innerHTML = original;
+            btn.style.background = '';
+            btn.style.color = '';
+        }, 2000);
+    });
+}
+
+// Make copyCode available globally
+window.copyCode = copyCode;
+
+// ============================================
+// Close Modals
+// ============================================
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', closeModal);
+
+function closeModal() {
+    modal.classList.remove('active');
+    if (!chapterPanel.classList.contains('active')) {
+        document.body.style.overflow = '';
+    }
+}
+
+chapterClose.addEventListener('click', () => {
+    chapterPanel.classList.remove('active');
+    if (!modal.classList.contains('active')) {
+        document.body.style.overflow = '';
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (chapterPanel.classList.contains('active')) {
+            chapterPanel.classList.remove('active');
+        }
+        if (modal.classList.contains('active')) {
+            modal.classList.remove('active');
+        }
+        document.body.style.overflow = '';
+    }
+});
+
+// ============================================
+// Scroll Reveal Animation
+// ============================================
+function checkReveal() {
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if (top < windowHeight - 100) {
+            el.classList.add('visible');
+        }
+    });
+}
+
+// ============================================
+// Counter Animation
+// ============================================
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-value');
+    counters.forEach(counter => {
+        const target = parseInt(counter.dataset.count);
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+
+        const updateCounter = () => {
+            current += step;
+            if (current < target) {
+                counter.textContent = Math.floor(current) + '+';
+                requestAnimationFrame(updateCounter);
+            } else {
+                counter.textContent = target + '+';
+            }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    updateCounter();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        observer.observe(counter);
+    });
+}
+
+// ============================================
+// Initialize
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    renderSkills();
+    renderCourses();
+    animateCounters();
+    checkReveal();
+    updateActiveNavLink();
+});
+    </script>
+</body>
+</html>
