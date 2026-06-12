@@ -1,804 +1,547 @@
-#!/usr/bin/env python3
-"""Generate the enhanced single-file learning platform HTML"""
- 
-import json
- 
-# ==================== COURSES DATA ====================
- 
-def ch(id_num, title, content, knowledge, code_template, exercises):
-return {"id": id_num, "title": title, "content": content,
-"knowledge": knowledge, "code": code_template, "exercises": exercises}
- 
-course_python = {
-"id": 1, "name": "Python基础", "icon": "fa-code", "color": "#3776AB",
-"desc": "从零开始学习Python编程语言，掌握编程基础语法和核心概念",
-"chapters": [
-ch(1, "第一章：Python简介与环境搭建",
-"Python是一种简洁优雅的高级通用编程语言。本章介绍Python的发展历程、特点以及如何在不同操作系统上安装和使用Python环境。",
-["Python的历史与特点", "解释型语言 vs 编译型语言", "开发环境选择", "第一个Python程序"],
-"print('Hello, World!')\nname = 'Fan Zhenxiu'\nversion = 3.11\nprint(f'{name} uses Python {version}')",
-[
-{"type": "mcq", "q": "Python是由谁创造的？", "opts": ["Guido van Rossum", "Linus Torvalds", "Bill Gates", "Mark Zuckerberg"], "ans": 0},
-{"type": "fill", "q": "在屏幕上输出文字使用的函数是 ____('内容')", "ans": "print"},
-{"type": "run", "q": "编写代码：输出你的姓名、年龄，并计算 1+2+3+...+10 的结果",
-"hint": "使用 print() 输出；用 sum(range(1, 11)) 计算累加",
-"template": "# 输出个人信息\nname = \"樊珍秀\"\nage = 20\nprint(f\"姓名: {name}\")\nprint(f\"年龄: {age}\")\n\n# 计算 1+2+...+10\ntotal = sum(range(1, 11))\nprint(f\"1+2+...+10 = {total}\")\n"}
-]),
-ch(2, "第二章：变量与数据类型",
-"变量是程序中存储数据的容器。Python支持多种数据类型，包括数值类型(int, float)、字符串(str)、布尔值(bool)等。理解数据类型是编程的基础。",
-["变量命名规则(字母/数字/下划线,不能以数字开头)", "整数(int)与浮点数(float)", "字符串(str)操作", "布尔类型(bool)和类型检测type()"],
-"age = 20\nheight = 1.75\nname = '樊珍秀'\nmessage = f'姓名: {name}, 年龄: {age}'\nprint(message)",
-[
-{"type": "mcq", "q": "下列哪个是合法的变量名？", "opts": ["1name", "my-name", "my_name", "class"], "ans": 2},
-{"type": "fill", "q": "type(3.14) 的返回结果是 <class '____'>", "ans": "float"},
-{"type": "run", "q": "定义三个变量：姓名、年龄、成绩，使用 f-string 格式化输出，检测各变量类型，并演示类型转换",
-"hint": "使用 f\"文本 {变量}\"；用 type() 检测类型；用 int()/str()/float() 转换",
-"template": "name = \"樊珍秀\"\nage = 20\nscore = 95\n\nprint(f\"姓名: {name}\")\nprint(f\"年龄: {age}\")\nprint(f\"成绩: {score}\")\nprint(f\"年龄+成绩 = {age + score}\")\n\nprint(f\"\\nname 的类型: {type(name)}\")\nprint(f\"age 的类型: {type(age)}\")\nprint(f\"score 的类型: {type(score)}\")\nprint(f\"True 的类型: {type(True)}\")\n\nprint(f\"\\nstr(age) = '{str(age)}' (转字符串)\")\nprint(f\"int('123') = {int('123')} (转整数)\")\nprint(f\"float('3.14') = {float('3.14')} (转浮点)\")\n"}
-]),
-ch(3, "第三章：运算符与表达式",
-"运算符用于对数据进行操作。Python支持算术运算(+,-,*,/,//,%,**)、比较运算(==,!=,>,<)、逻辑运算(and,or,not)等多种运算符。",
-["算术运算符: + - * / // % **", "比较运算符: == != > < >= <=", "逻辑运算符: and or not", "运算符优先级和括号使用"],
-"a, b = 10, 3\nprint(f'加: {a+b}, 除: {a/b}')\nprint(f'整除: {a//b}, 取模: {a%b}')\nprint(f'幂: {a**b}')",
-[
-{"type": "mcq", "q": "表达式 17 // 5 的结果是？", "opts": ["3.4", "3", "4", "2"], "ans": 1},
-{"type": "fill", "q": "2 的 10 次方用 Python 表达式写为 ____", "ans": "2**10"},
-{"type": "run", "q": "给定圆的半径 r=7，计算并输出圆的周长和面积(π取3.14159)；判断 r 是否在 5-10 之间",
-"hint": "周长=2*π*r，面积=π*r²；使用比较运算符",
-"template": "r = 7\npi = 3.14159\n\ncircumference = 2 * pi * r\narea = pi * r ** 2\n\nprint(f\"半径 r = {r}\")\nprint(f\"周长 = {circumference:.4f}\")\nprint(f\"面积 = {area:.4f}\")\n\nprint(f\"\\nr 是否在 5-10 之间? {5 <= r <= 10}\")\nprint(f\"r 的平方 = {r**2}\")\nprint(f\"r 的平方根 = {r**0.5:.4f}\")\nprint(f\"r / 2 (整除) = {r // 2}\")\nprint(f\"r % 2 (取模) = {r % 2}\")\n"}
-]),
-ch(4, "第四章：流程控制语句",
-"流程控制允许程序根据条件执行不同的代码路径。主要包括 if-elif-else 条件判断、for 循环、while 循环以及 break 和 continue 语句。",
-["if-elif-else 多分支条件判断", "for 循环遍历序列与 range()", "while 循环及退出条件", "break/continue 控制循环流程"],
-"score = 85\nif score >= 90:\n    grade = '优秀'\nelif score >= 80:\n    grade = '良好'\nelif score >= 60:\n    grade = '及格'\nelse:\n    grade = '不及格'\nprint(f'成绩 {score} = {grade}')\n\nfor i in range(1, 6):\n    print(f'第 {i} 次循环')",
-[
-{"type": "mcq", "q": "for 循环中用于生成整数序列的函数是？", "opts": ["range()", "seq()", "list()", "numbers()"], "ans": 0},
-{"type": "fill", "q": "跳出当前循环使用 ____ 关键字；跳过当前迭代继续下次循环使用 ____", "ans": "break continue"},
-{"type": "run", "q": "用循环输出1-100中所有能被7整除的数字；判断数字列表中每个数的奇偶性；打印九九乘法表；演示break和continue",
-"hint": "for + range + if；% 求模；嵌套 for",
-"template": "print(\"【1】1-100 中能被 7 整除的数:\")\nresults = [n for n in range(1, 101) if n % 7 == 0]\nprint(f\"共 {len(results)} 个: {results}\")\n\nprint(\"\\n【2】奇偶判断:\")\nfor n in [23, 45, 68, 100, 7, 15, 36, 99]:\n    print(f\"  {n}: {'偶数' if n % 2 == 0 else '奇数'}\")\n\nprint(\"\\n【3】九九乘法表:\")\nfor i in range(1, 10):\n    for j in range(1, i+1):\n        print(f\"{j}x{i}={i*j}\", end=\"\\t\")\n    print()\n\nprint(\"\\n【4】break/continue:\")\nfor n in range(1, 11):\n    if n % 3 == 0: continue\n    if n == 8: break\n    print(f\"  n = {n}\")\n"}
-]),
-ch(5, "第五章：列表与元组",
-"列表(list)和元组(tuple)是Python中常用的序列数据结构。列表可变，元组不可变。掌握索引、切片和常用方法是数据处理的基础。",
-["列表的创建与访问(索引从0开始)", "列表的增删改查(append,pop,insert,remove,sort)", "列表切片 s[start:end:step]", "元组的不可变特性与解包"],
-"fruits = ['apple', 'banana', 'cherry']\nprint(f'列表: {fruits}')\nprint(f'第一个: {fruits[0]}, 最后一个: {fruits[-1]}')\nprint(f'切片前2个: {fruits[:2]}')\nfruits.append('date')\nprint(f'追加后: {fruits}')\n\ncoordinates = (3, 4)\nx, y = coordinates\nprint(f'元组解包: x={x}, y={y}')",
-[
-{"type": "mcq", "q": "fruits = ['a','b','c']，fruits[-1] 的结果是？", "opts": ["'a'", "'b'", "'c'", "报错"], "ans": 2},
-{"type": "fill", "q": "在列表末尾添加元素使用 ____() 方法；排序使用 ____()", "ans": "append sort"},
-{"type": "run", "q": "创建成绩列表，完成排序/反转/切片/统计(最高/最低/平均/总分)；使用列表推导式筛选",
-"hint": "使用 max(), min(), sum(), len(), sorted()；列表推导式 [x for x in ... if ...]",
-"template": "scores = [85, 92, 78, 88, 95, 72, 80, 90]\nprint(f\"原始: {scores}\")\nprint(f\"最高: {max(scores)}, 最低: {min(scores)}\")\nprint(f\"平均: {sum(scores)/len(scores):.1f}, 总分: {sum(scores)}\")\nprint(f\"升序: {sorted(scores)}\")\nprint(f\"降序: {sorted(scores, reverse=True)}\")\nprint(f\"前3: {scores[:3]}, 后3: {scores[-3:]}\")\nprint(f\"反转: {scores[::-1]}\")\nprint(f\"偶数: {[x for x in scores if x%2==0]}\")\nprint(f\"80分以上: {[x for x in scores if x>=80]}\")\nprint(f\"平方: {[x**2 for x in scores]}\")\n"}
-]),
-ch(6, "第六章：字典",
-"字典(dict)用于存储键值对(key-value)映射关系。通过键可以快速查找值，是数据分析中存储结构化数据的常用方式。",
-["字典的创建与访问 d[key] / d.get(key)", "字典的增删改查操作", "遍历: keys()/values()/items()", "字典推导式与嵌套字典"],
-"student = {'name': '樊珍秀', 'age': 20, 'major': '商务数据分析'}\nprint(f\"姓名: {student['name']}\")\nfor k, v in student.items():\n    print(f'  {k}: {v}')\nprint(f\"身高 (get): {student.get('height', '未知')}\")",
-[
-{"type": "mcq", "q": "访问字典键时避免 KeyError 的方法是？", "opts": ["d[key]", "d.get(key)", "d[key] = ...", "d.key"], "ans": 1},
-{"type": "fill", "q": "遍历键值对使用 d.____()；获取所有键用 d.____()", "ans": "items keys"},
-{"type": "run", "q": "创建学生成绩字典，遍历输出，添加/删除学生，按成绩排序，统计总分/平均分/最高分",
-"hint": "用 sorted(d.items(), key=lambda x: x[1], reverse=True) 排序",
-"template": "scores = {'张三':85, '李四':92, '王五':78, '赵六':88}\nprint(\"所有学生:\")\nfor n, s in scores.items():\n    print(f\"  {n}: {s}分\")\nscores['孙八'] = 82\nprint(f\"\\n新增孙八后共{len(scores)}人\")\nsc = list(scores.values())\nprint(f\"平均: {sum(sc)/len(sc):.1f}, 最高: {max(sc)}, 最低: {min(sc)}\")\nsorted_stu = sorted(scores.items(), key=lambda x: -x[1])\nprint(\"排名:\")\nfor i,(n,s) in enumerate(sorted_stu,1):\n    print(f\"  第{i}名: {n} {s}分\")\nprint(f\"及格: {dict((n,s) for n,s in scores.items() if s>=60)}\")\n"}
-]),
-ch(7, "第七章：函数",
-"函数是组织代码的基本单元，用于封装可重用的代码块。Python支持默认参数、返回多值和lambda匿名函数。",
-["函数定义 def 与调用", "参数传递(位置/关键字/默认参数)", "返回值 return (可返回多个值)", "lambda 匿名函数和高阶函数"],
-"def calc_area(r):\n    return 3.14159 * r**2\nprint(f'r=5, 面积={calc_area(5):.2f}')\nadd = lambda x, y: x + y\nprint(f'lambda: 3+5={add(3,5)}')",
-[
-{"type": "mcq", "q": "定义函数使用什么关键字？", "opts": ["function", "def", "func", "define"], "ans": 1},
-{"type": "fill", "q": "返回多个值时用逗号分隔，接收时用多个变量____", "ans": "解包"},
-{"type": "run", "q": "定义函数：判断素数、计算阶乘、多值返回(最小/最大/总和/平均)、lambda排序",
-"hint": "def 函数名(参数): ... return ...；lambda 可用作排序 key",
-"template": "def is_prime(n):\n    if n<2: return False\n    for i in range(2,int(n**0.5)+1):\n        if n%i==0: return False\n    return True\n\ndef stats(nums):\n    return min(nums),max(nums),sum(nums),sum(nums)/len(nums)\n\nprint(\"素数:\", [n for n in range(1,51) if is_prime(n)])\nmn,mx,tot,avg = stats([85,92,78,88,95])\nprint(f\"统计: 最低{mn}, 最高{mx}, 总和{tot}, 平均{avg:.1f}\")\nprint(f\"lambda排序: {sorted([(1,5),(3,2),(2,8)], key=lambda x: x[1])}\")\n"}
-]),
-ch(8, "第八章：文件操作",
-"文件操作是程序与外部数据交互的重要方式。使用 with 语句可自动管理文件打开与关闭。",
-["文件打开模式 ('r','w','a','r+')", "读取文件 (read,readline,readlines)", "写入文件 (write,writelines)", "with 语句自动关闭"],
-"with open('demo.txt','w') as f:\n    f.write('Hello\\n')\nwith open('demo.txt','r') as f:\n    for line in f: print(line.strip())",
-[
-{"type": "mcq", "q": "自动管理文件打开/关闭的语句是？", "opts": ["try-catch", "for", "with", "while"], "ans": 2},
-{"type": "fill", "q": "只读模式: open('f.txt', ____)；写入模式: open('f.txt', ____)", "ans": "'r' 'w'"},
-{"type": "run", "q": "创建CSV写入学生数据，读取后统计平均分/最高分，将报告写入新文件",
-"hint": "用 with open() as f: 操作文件；readlines() 读取所有行",
-"template": "import os\nwith open('stu.csv','w') as f:\n    f.write('name,age,score\\n')\n    f.write('张三,20,85\\n')\n    f.write('李四,21,92\\n')\n    f.write('王五,19,78\\n')\nwith open('stu.csv','r') as f:\n    lines = f.readlines()\nprint(f\"共{len(lines)}行\")\ndata = [l.strip().split(',') for l in lines[1:]]\nscores = [int(d[2]) for d in data]\nprint(f\"平均分: {sum(scores)/len(scores):.1f}\")\nprint(f\"最高分: {max(scores)}\")\nwith open('report.txt','w') as f:\n    f.write(f\"平均分: {sum(scores)/len(scores):.1f}\\n\")\n    f.write(f\"最高分: {max(scores)}\\n\")\nprint(\"报告已写入 report.txt\")\nfor fn in ['stu.csv','report.txt']:\n    if os.path.exists(fn): os.remove(fn)\nprint(\"临时文件已清理\")\n"}
-]),
-ch(9, "第九章：模块与包",
-"模块通过 import 导入，可使用标准库功能。Python有丰富的标准库：math, random, datetime, os 等。",
-["import / from ... import ...", "常用标准库 (math, random, datetime, os)", "dir() 查看模块功能", "自定义模块"],
-"import math\nprint(f'pi={math.pi:.4f}')\nprint(f'√144={math.sqrt(144)}')\nfrom random import randint, choice\nprint(f'随机: {randint(1,100)}, {choice([\"A\",\"B\"])}')",
-[
-{"type": "mcq", "q": "只导入模块中的特定函数用？", "opts": ["from module import func", "import module.func", "include func", "use func"], "ans": 0},
-{"type": "fill", "q": "生成1-100随机整数: random.____(1,100)；当前时间: datetime.datetime.____()", "ans": "randint now"},
-{"type": "run", "q": "使用 math 计算圆面积和三角函数；用 random 模拟掷骰子和彩票；用 datetime 显示当前时间",
-"hint": "import math; import random; import datetime",
-"template": "import math, random, datetime\nprint(f\"π={math.pi:.6f}\")\nprint(f\"sin(30°)={math.sin(math.radians(30)):.4f}\")\nprint(f\"10!={math.factorial(10)}\")\ndice = [random.randint(1,6) for _ in range(10)]\nprint(f\"掷骰子10次: {dice}, 平均{sum(dice)/10:.1f}\")\nnow = datetime.datetime.now()\nprint(f\"现在: {now.strftime('%Y-%m-%d %H:%M:%S')}\")\nprint(f\"今天是星期{['一','二','三','四','五','六','日'][now.weekday()]}\")\n"}
-]),
-ch(10, "第十章：面向对象编程",
-"OOP将数据和操作封装在对象中。用class定义类，通过继承实现代码复用和多态。",
-["类的定义 class", "对象实例化和属性/方法", "__init__ 构造方法", "继承: class 子类(父类)"],
-"class Student:\n    def __init__(self, n, a, m):\n        self.name, self.age, self.major = n, a, m\n    def intro(self):\n        return f'我叫{self.name}, {self.age}岁'\nfan = Student('樊珍秀',20,'商务数据分析')\nprint(fan.intro())",
-[
-{"type": "mcq", "q": "构造方法的名称是？", "opts": ["__init__", "__new__", "__create__", "constructor"], "ans": 0},
-{"type": "fill", "q": "在类方法中引用当前对象用 ____；继承时在类名括号中写 ____", "ans": "self 父类名"},
-{"type": "run", "q": "创建银行账户类 BankAccount（存/取/查询/交易记录）；创建子类 SavingsAccount 添加利息计算",
-"hint": "class 类: def __init__(self,...): ... def 方法(self,...): ...",
-"template": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner=owner; self.balance=balance\n        self.txns=[(('开户',balance))]\n    def deposit(self,amt):\n        self.balance+=amt; self.txns.append(('存款',amt))\n    def withdraw(self,amt):\n        if amt<=self.balance:\n            self.balance-=amt; self.txns.append(('取款',-amt)); return True\n        return False\n\nclass SavingsAccount(BankAccount):\n    def __init__(self,owner,balance=0,rate=0.03):\n        super().__init__(owner,balance); self.rate=rate\n    def add_interest(self):\n        int_ = round(self.balance*self.rate,2)\n        self.balance+=int_\n        self.txns.append(('利息',int_))\n\nacct = SavingsAccount('樊珍秀',1000,0.035)\nacct.deposit(2000); acct.withdraw(500)\nacct.add_interest()\nprint(f\"{acct.owner} 余额: {acct.balance:.2f}元\")\nfor t,a in acct.txns:\n    print(f\"  {t}: {a:+.2f}\")\n"}
-])
-]
-}
- 
-# ==================== CSS ====================
-css = """*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#6366f1;--primary-dark:#4f46e5;--accent:#8b5cf6;--success:#10b981;--danger:#ef4444;--warning:#f59e0b;--dark:#0f172a;--g6:#475569;--g5:#64748b;--g4:#cbd5e1;--g3:#e2e8f0;--g2:#f1f5f9;--g1:#f8fafc;--sm:0 8px 24px rgba(0,0,0,0.08);--lg:0 20px 60px rgba(0,0,0,0.12);--r12:12px;--r20:20px}
-body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;color:var(--dark);background:var(--g1);line-height:1.6;-webkit-font-smoothing:antialiased}
-.navbar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--g3);padding:14px 32px;display:flex;justify-content:space-between;align-items:center}
-.nav-logo{font-size:20px;font-weight:800;background:linear-gradient(135deg,#6366f1,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.nav-links{display:flex;gap:24px}
-.nav-links a{color:var(--g5);text-decoration:none;font-weight:500;font-size:14px;transition:color .2s}
-.nav-links a:hover{color:var(--primary)}
-.hero{padding:140px 32px 80px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 50%,rgba(255,255,255,0.15),transparent 50%),radial-gradient(circle at 80% 80%,rgba(255,255,255,0.1),transparent 50%)}
-.hero-content{position:relative;max-width:900px;margin:0 auto}
-.hero h1{font-size:48px;font-weight:800;margin-bottom:20px;letter-spacing:-1px}
-.hero .subtitle{font-size:20px;opacity:0.9;margin-bottom:32px}
-.hero-stats{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:32px}
-.stat-item{background:rgba(255,255,255,0.15);padding:18px 28px;border-radius:var(--r12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);min-width:120px}
-.stat-num{font-size:32px;font-weight:800}
-.stat-label{font-size:13px;opacity:0.85;margin-top:4px}
-.section{padding:80px 32px}
-.container{max-width:1200px;margin:0 auto}
-.section-title{font-size:36px;font-weight:800;text-align:center;margin-bottom:12px}
-.section-desc{text-align:center;color:var(--g5);margin-bottom:48px;font-size:16px}
-.courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
-.course-card{background:#fff;border-radius:var(--r20);padding:28px;box-shadow:var(--sm);transition:all .3s;cursor:pointer;border:2px solid transparent}
-.course-card:hover{transform:translateY(-6px);box-shadow:var(--lg);border-color:var(--primary)}
-.course-icon-wrap{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
-.course-card h3{font-size:20px;font-weight:700;margin-bottom:8px}
-.course-card .desc{color:var(--g5);font-size:14px;margin-bottom:16px;min-height:42px}
-.course-meta{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--g3);font-size:13px;color:var(--g5)}
-.course-meta .arrow{color:var(--primary);font-weight:700}
-.progress-bar-wrap{background:var(--g2);height:6px;border-radius:3px;overflow:hidden;margin-top:12px}
-.progress-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:3px;transition:width .4s;width:0%}
-.modal-mask{position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(8px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-mask.active{display:flex;animation:fadeIn .2s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal{background:#fff;border-radius:var(--r20);max-width:900px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;animation:slideUp .3s}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.modal-header{padding:28px 32px;color:#fff}
-.modal-header h2{font-size:24px;font-weight:800}
-.modal-header .desc{opacity:0.9;font-size:14px;margin-top:4px}
-.close-btn{position:absolute;top:20px;right:20px;background:rgba(255,255,255,0.2);color:#fff;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;transition:all .2s;z-index:10}
-.close-btn:hover{background:rgba(255,255,255,0.35);transform:rotate(90deg)}
-.modal-body{padding:24px 32px;overflow-y:auto;flex:1}
-.chapter-item{background:var(--g1);padding:18px 22px;border-radius:var(--r12);cursor:pointer;transition:all .2s;border:2px solid transparent;display:flex;align-items:center;gap:16px;margin-bottom:10px}
-.chapter-item:hover{background:#fff;border-color:var(--g3);transform:translateX(4px);box-shadow:var(--sm)}
-.chapter-item.done{border-color:var(--success);background:rgba(16,185,129,0.06)}
-.chapter-num{width:40px;height:40px;border-radius:10px;background:rgba(99,102,241,0.1);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;color:var(--primary)}
-.chapter-item.done .chapter-num{background:var(--success);color:#fff}
-.chapter-info{flex:1}
-.chapter-info h4{font-size:16px;font-weight:700;margin-bottom:4px}
-.chapter-info p{font-size:13px;color:var(--g5)}
-.chapter-detail{padding:0}
-.chapter-detail-header{padding:24px 28px;color:#fff;position:sticky;top:0;z-index:10}
-.chapter-detail-header h2{font-size:22px;font-weight:800;margin-bottom:6px}
-.chapter-detail-header .meta{font-size:14px;opacity:0.9;margin-top:8px;display:flex;gap:16px}
-.breadcrumb{font-size:13px;opacity:0.85;margin-bottom:8px;cursor:pointer}
-.breadcrumb:hover{text-decoration:underline}
-.chapter-body{padding:28px}
-.content-block{margin-bottom:28px}
-.content-block h3{font-size:18px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.content-block h3 i{width:32px;height:32px;background:var(--g2);border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;color:var(--primary)}
-.content-block .content-text{color:var(--g6);line-height:1.8;background:var(--g1);padding:16px 20px;border-radius:var(--r12);font-size:15px}
-.knowledge-list{list-style:none;display:flex;flex-wrap:wrap;gap:10px}
-.knowledge-list li{padding:10px 16px;background:var(--g1);border-radius:10px;display:flex;align-items:center;gap:10px;font-size:14px}
-.knowledge-list li::before{content:'\\2713';color:var(--success);font-weight:800}
-.code-editor-wrap{background:#1e293b;border-radius:var(--r12);overflow:hidden;margin-bottom:10px;border:1px solid #334155}
-.code-editor-header{padding:10px 14px;background:#0f172a;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #334155}
-.code-editor-header .title{color:#cbd5e1;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
-.btn-run,.btn-reset{padding:5px 12px;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;color:#fff}
-.btn-run{background:var(--success)}.btn-run:hover{background:#059669}
-.btn-reset{background:var(--g6)}.btn-reset:hover{background:#334155}
-.code-editor{width:100%;min-height:140px;padding:14px;background:#1e293b;border:none;color:#e2e8f0;font-family:'SF Mono',Monaco,'Courier New',Consolas,monospace;font-size:13px;line-height:1.7;resize:vertical;outline:none;tab-size:4}
-.code-editor:focus{box-shadow:inset 0 0 0 2px var(--primary)}
-.code-output{background:#020617;padding:14px;border-top:1px solid #334155;font-family:'SF Mono',Monaco,'Courier New',Consolas,monospace;font-size:13px;color:#a5f3fc;white-space:pre-wrap;word-wrap:break-word;min-height:36px;max-height:260px;overflow-y:auto;border-radius:0 0 8px 8px}
-.code-output.error{color:#fca5a5}
-.code-output .output-label{color:#64748b;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;display:block}
-.exercise-item{background:var(--g1);border-radius:var(--r12);padding:20px;margin-bottom:14px;border-left:4px solid var(--primary);transition:all .2s}
-.exercise-item:hover{box-shadow:var(--sm)}
-.exercise-type{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:10px}
-.type-mcq{background:rgba(99,102,241,0.15);color:var(--primary)}
-.type-fill{background:rgba(245,158,11,0.15);color:var(--warning)}
-.type-run{background:rgba(16,185,129,0.15);color:var(--success)}
-.exercise-question{font-size:15px;font-weight:600;color:var(--dark);margin-bottom:12px;line-height:1.6}
-.mcq-options{display:flex;flex-direction:column;gap:8px}
-.mcq-option{padding:10px 14px;background:#fff;border:2px solid var(--g3);border-radius:10px;cursor:pointer;font-size:14px;transition:all .2s;display:flex;align-items:center;gap:10px}
-.mcq-option:hover{border-color:var(--primary)}
-.mcq-option .opt-letter{width:24px;height:24px;background:var(--g2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
-.mcq-option.selected{border-color:var(--primary);background:rgba(99,102,241,0.06)}
-.mcq-option.selected .opt-letter{background:var(--primary);color:#fff}
-.mcq-option.correct{border-color:var(--success);background:rgba(16,185,129,0.06)}
-.mcq-option.correct .opt-letter{background:var(--success);color:#fff}
-.mcq-option.wrong{border-color:var(--danger);background:rgba(239,68,68,0.06)}
-.mcq-option.wrong .opt-letter{background:var(--danger);color:#fff}
-.fill-input{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.fill-input input{flex:1;min-width:200px;padding:10px 14px;border:2px solid var(--g3);border-radius:8px;font-size:14px;transition:all .2s}
-.fill-input input:focus{outline:none;border-color:var(--primary)}
-.fill-input input.correct{border-color:var(--success);background:rgba(16,185,129,0.06)}
-.fill-input input.wrong{border-color:var(--danger);background:rgba(239,68,68,0.06)}
-.check-btn,.show-btn{padding:7px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:#fff;background:var(--primary)}
-.check-btn:hover{background:var(--primary-dark)}
-.show-btn{background:var(--g4);color:var(--g6)}.show-btn:hover{background:var(--g3)}
-.exercise-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;display:none}
-.exercise-feedback.show{display:block;animation:fadeIn .3s}
-.exercise-feedback.correct{background:rgba(16,185,129,0.12);color:var(--success)}
-.exercise-feedback.wrong{background:rgba(239,68,68,0.12);color:var(--danger)}
-.exercise-feedback.info{background:rgba(99,102,241,0.12);color:var(--primary)}
-.exercise-feedback .ans{font-weight:700;padding:2px 6px;background:rgba(0,0,0,0.05);border-radius:4px}
-.course-progress{font-size:12px;color:var(--g5);display:flex;justify-content:space-between;margin-top:8px;padding:0 4px}
-.footer{padding:32px;text-align:center;color:var(--g5);font-size:13px;background:#fff;border-top:1px solid var(--g3)}"""
- 
-js = r'''
-let progress = JSON.parse(localStorage.getItem('fan_progress') || '{}');
-let currentCourseId = null;
-let currentChapterId = null;
- 
-function saveProgress() { localStorage.setItem('fan_progress', JSON.stringify(progress)); }
- 
-function markDone(courseId, chId, exIdx) {
-progress[`${courseId}-${chId}-${exIdx}`] = true;
-saveProgress();
-}
- 
-function isDoneKey(courseId, chId, exIdx) {
-return progress[`${courseId}-${chId}-${exIdx}`] === true;
-}
- 
-function chapterProgress(courseId, chId) {
-const ch = courses.find(c=>c.id===courseId).chapters.find(c=>c.id===chId);
-if (!ch) return {done:0,total:0,pct:0};
-let d = 0;
-for (let i=0;i<ch.exercises.length;i++) if (isDoneKey(courseId,chId,i)) d++;
-return {done:d, total:ch.exercises.length, pct:Math.round(d/ch.exercises.length*100)};
-}
- 
-function courseProgress(courseId) {
-const c = courses.find(c=>c.id===courseId);
-let td=0,dd=0;
-c.chapters.forEach(ch=>ch.exercises.forEach((_,i)=>{td++; if(isDoneKey(courseId,ch.id,i)) dd++;}));
-return {done:dd, total:td, pct:td>0?Math.round(dd/td*100):0};
-}
- 
-function updateStats() {
-const totalCh = courses.reduce((s,c)=>s+c.chapters.length,0);
-const totalEx = courses.reduce((s,c)=>s+c.chapters.reduce((ss,ch)=>ss+ch.exercises.length,0),0);
-let doneEx = 0; Object.values(progress).forEach(v=>{if(v)doneEx++;});
-const pct = totalEx>0?Math.round(doneEx/totalEx*100):0;
-document.getElementById('heroStats').innerHTML = `
-<div class="hero-stats">
-<div class="stat-item"><div class="stat-num">${courses.length}</div><div class="stat-label">核心课程</div></div>
-<div class="stat-item"><div class="stat-num">${totalCh}</div><div class="stat-label">学习章节</div></div>
-<div class="stat-item"><div class="stat-num">${totalEx}</div><div class="stat-label">练习题</div></div>
-<div class="stat-item"><div class="stat-num">${pct}%</div><div class="stat-label">完成进度</div></div>
-</div>`;
-}
- 
-function renderCourses() {
-const grid = document.getElementById('coursesGrid');
-grid.innerHTML = courses.map(c => {
-const p = courseProgress(c.id);
-return '<div class="course-card" onclick="openCourse('+c.id+')">'+
-'<div class="course-icon-wrap" style="background:'+c.color+'15;color:'+c.color+'"><i class="fas '+c.icon+'"></i></div>'+
-'<h3>'+c.name+'</h3><p class="desc">'+c.desc+'</p>'+
-'<div class="course-meta"><span><i class="fas fa-book"></i> '+c.chapters.length+'章 · '+p.done+'/'+p.total+' 已完成</span><span class="arrow">开始 →</span></div>'+
-'<div class="progress-bar-wrap"><div class="progress-bar" style="width:'+p.pct+'%"></div></div>'+
-'</div>';
-}).join('');
-}
- 
-function openCourse(courseId) {
-currentCourseId = courseId;
-const course = courses.find(c=>c.id===courseId);
-document.getElementById('modalHeader').style.background = 'linear-gradient(135deg,'+course.color+'dd,'+course.color+')';
-document.getElementById('modalHeader').innerHTML =
-'<h2>'+course.name+'</h2><div class="desc">'+course.desc+'</div>';
-document.getElementById('modalBody').innerHTML =
-'<div class="course-progress" style="margin-bottom:16px"><span>学习进度</span><span>共 '+course.chapters.length+' 章节</span></div>'+
-'<div class="progress-bar-wrap" style="margin-bottom:20px"><div class="progress-bar" style="width:'+courseProgress(courseId).pct+'%"></div></div>'+
-course.chapters.map((ch,idx)=>{
-const p = chapterProgress(courseId, ch.id);
-const doneClass = p.done===p.total&&p.total>0?' done':'';
-return '<div class="chapter-item'+doneClass+'" onclick="openChapter('+courseId+','+ch.id+')">'+
-'<div class="chapter-num">'+(''+(idx+1)).padStart(2,'0')+'</div>'+
-'<div class="chapter-info"><h4>'+ch.title+'</h4><p>'+ch.content.substring(0,40)+'...</p></div>'+
-'<div class="course-progress" style="flex-direction:column;align-items:flex-end;gap:2px;margin:0"><span>'+p.done+'/'+p.total+'</span>'+
-'<div class="progress-bar-wrap" style="width:60px;height:4px"><div class="progress-bar" style="width:'+p.pct+'%"></div></div></div></div>';
-}).join('');
-document.getElementById('courseModal').classList.add('active');
-}
- 
-function closeModal() {
-document.getElementById('courseModal').classList.remove('active');
-}
- 
-function openChapter(courseId, chId) {
-currentChapterId = chId;
-const course = courses.find(c=>c.id===courseId);
-const ch = course.chapters.find(c=>c.id===chId);
-const body = document.getElementById('chapterBody');
-document.getElementById('chapterHeader').style.background = 'linear-gradient(135deg,'+course.color+'dd,'+course.color+')';
-document.getElementById('chapterHeader').innerHTML =
-'<div class="breadcrumb" onclick="openCourse('+courseId+')">← 返回 '+course.name+'</div>'+
-'<h2>'+ch.title+'</h2><div class="meta">'+course.name+' · '+(chId)+' / '+course.chapters.length+'</div>';
-body.innerHTML = '';
- 
-// Content section
-body.innerHTML += '<div class="content-block"><h3><i class="fas fa-book-open"></i> 章节内容</h3><div class="content-text">'+ch.content+'</div></div>';
- 
-// Knowledge points
-if (ch.knowledge) {
-body.innerHTML += '<div class="content-block"><h3><i class="fas fa-lightbulb"></i> 核心知识点</h3><ul class="knowledge-list">'+
-ch.knowledge.map(k=>'<li>'+k+'</li>').join('')+'</ul></div>';
-}
- 
-// Code example
-if (ch.code) {
-body.innerHTML += '<div class="content-block"><h3><i class="fas fa-code"></i> 代码示例</h3>'+
-'<div class="code-editor-wrap"><div class="code-editor-header"><span class="title"><i class="fas fa-python"></i> Python</span></div>'+
-'<pre class="code-editor" style="overflow:auto;background:#1e293b;color:#e2e8f0;padding:14px;font-size:13px;min-height:auto;resize:none" readonly>'+ch.code+'</pre></div></div>';
-}
- 
-// Exercises
-body.innerHTML += '<div class="content-block"><h3><i class="fas fa-pencil-alt"></i> 练习平台</h3></div>';
-ch.exercises.forEach((ex, idx) => {
-const exDiv = document.createElement('div');
-exDiv.className = 'exercise-item';
-exDiv.dataset.course = courseId;
-exDiv.dataset.chapter = chId;
-exDiv.dataset.exIdx = idx;
- 
-const typeLabel = {mcq:'选择题', fill:'填空题', run:'编程练习'};
-const typeClass = {mcq:'type-mcq', fill:'type-fill', run:'type-run'};
- 
-if (ex.type === 'mcq') {
-exDiv.innerHTML = '<span class="exercise-type '+typeClass.mcq+'">'+typeLabel.mcq+'</span>'+
-'<div class="exercise-question">'+ex.q+'</div>'+
-'<div class="mcq-options" data-ex="'+idx+'">'+
-ex.opts.map((o,i) => '<div class="mcq-option" data-idx="'+i+'" onclick="checkMCQ(this,'+courseId+','+chId+','+idx+')">'+
-'<span class="opt-letter">'+String.fromCharCode(65+i)+'</span><span>'+o+'</span></div>').join('')+
-'</div><div class="exercise-feedback" id="fb-'+courseId+'-'+chId+'-'+idx+'"></div>';
-} else if (ex.type === 'fill') {
-exDiv.innerHTML = '<span class="exercise-type '+typeClass.fill+'">'+typeLabel.fill+'</span>'+
-'<div class="exercise-question">'+ex.q+'</div>'+
-'<div class="fill-input"><input type="text" id="fill-'+courseId+'-'+chId+'-'+idx+'" placeholder="请输入答案...">'+
-'<button class="check-btn" onclick="checkFill('+courseId+','+chId+','+idx+')">✓ 检查</button>'+
-'<button class="show-btn" onclick="showFillAns('+courseId+','+chId+','+idx+')">显示答案</button></div>'+
-'<div class="exercise-feedback" id="fb-'+courseId+'-'+chId+'-'+idx+'"></div>';
-} else if (ex.type === 'run') {
-const savedCode = localStorage.getItem('editor_'+courseId+'_'+chId+'_'+idx) || ex.template || '';
-exDiv.innerHTML = '<span class="exercise-type '+typeClass.run+'">'+typeLabel.run+'</span>'+
-'<div class="exercise-question">'+ex.q+'</div>'+
-'<div class="code-hint"><i class="fas fa-info-circle"></i> '+ex.hint+'</div>'+
-'<div class="code-editor-wrap">'+
-'<div class="code-editor-header"><span class="title"><i class="fas fa-terminal"></i> Python 在线运行</span>'+
-'<div><button class="btn-run" onclick="runCode('+courseId+','+chId+','+idx+')" id="runBtn-'+courseId+'-'+chId+'-'+idx+'"><i class="fas fa-play"></i> 运行</button>'+
-'<button class="btn-reset" onclick="resetCode('+courseId+','+chId+','+idx+')" style="margin-left:6px"><i class="fas fa-undo"></i> 重置</button></div></div>'+
-'<textarea class="code-editor" id="editor-'+courseId+'-'+chId+'-'+idx+'" spellcheck="false">'+savedCode+'</textarea>'+
-'<div class="code-output" id="output-'+courseId+'-'+chId+'-'+idx+'"><span class="output-label">输出</span></div></div>';
-}
-body.appendChild(exDiv);
-});
- 
-// Close other modals and show chapter
-document.getElementById('courseModal').classList.remove('active');
-document.getElementById('chapterModal').classList.add('active');
-}
- 
-function closeChapter() {
-document.getElementById('chapterModal').classList.remove('active');
-}
- 
-// ============ MCQ checking ============
-function checkMCQ(el, courseId, chId, exIdx) {
-const parent = el.closest('.mcq-options');
-const opts = parent.querySelectorAll('.mcq-option');
-opts.forEach(o => o.classList.remove('selected','correct','wrong'));
- 
-el.classList.add('selected');
-const course = courses.find(c=>c.id===courseId);
-const ch = course.chapters.find(c=>c.id===chId);
-const ex = ch.exercises[exIdx];
-const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
- 
-if (parseInt(el.dataset.idx) === ex.ans) {
-el.classList.add('correct');
-fb.className = 'exercise-feedback show correct';
-fb.textContent = '✓ 回答正确！';
-markDone(courseId, chId, exIdx);
-} else {
-el.classList.add('wrong');
-const correctOpt = opts[ex.ans];
-correctOpt.classList.add('correct');
-fb.className = 'exercise-feedback show wrong';
-fb.textContent = '✗ 不正确。正确答案是 ' + String.fromCharCode(65+ex.ans) + ': ' + ex.opts[ex.ans];
-}
-updateAllProgress();
-}
- 
-// ============ Fill checking ============
-function checkFill(courseId, chId, exIdx) {
-const input = document.getElementById('fill-'+courseId+'-'+chId+'-'+exIdx);
-const course = courses.find(c=>c.id===courseId);
-const ch = course.chapters.find(c=>c.id===chId);
-const ex = ch.exercises[exIdx];
-const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
-const val = input.value.trim();
- 
-const answers = ex.ans.split(' ');
-const correct = answers.some(a => val.includes(a) || a.includes(val));
- 
-if (correct) {
-input.className = 'correct';
-fb.className = 'exercise-feedback show correct';
-fb.textContent = '✓ 回答正确！';
-markDone(courseId, chId, exIdx);
-} else {
-input.className = 'wrong';
-fb.className = 'exercise-feedback show wrong';
-fb.textContent = '✗ 还不完全正确，试试看其他答案';
-}
-updateAllProgress();
-}
- 
-function showFillAns(courseId, chId, exIdx) {
-const course = courses.find(c=>c.id===courseId);
-const ch = course.chapters.find(c=>c.id===chId);
-const ex = ch.exercises[exIdx];
-const fb = document.getElementById('fb-'+courseId+'-'+chId+'-'+exIdx);
-fb.className = 'exercise-feedback show info';
-fb.innerHTML = '参考答案: <span class="ans">'+ex.ans+'</span>';
-}
- 
-// ============ Code running ============
-function runCode(courseId, chId, exIdx) {
-const editor = document.getElementById('editor-'+courseId+'-'+chId+'-'+exIdx);
-const output = document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx);
-const btn = document.getElementById('runBtn-'+courseId+'-'+chId+'-'+exIdx);
-const code = editor.value;
- 
-localStorage.setItem('editor_'+courseId+'_'+chId+'_'+exIdx, code);
- 
-output.innerHTML = '<span class="output-label">运行中...</span>';
-output.className = 'code-output';
-btn.disabled = true;
-btn.textContent = '运行中...';
- 
-const startTime = performance.now();
-const lines = code.split('\\n');
-let resultLines = [];
- 
-// Custom Python interpreter simulation
-// This is a mini Python runner that handles basic constructs
-function runPython(codeStr) {
-const outputLines = [];
-let vars = {};
- 
-function writeOut(text) {
-outputLines.push(String(text));
-}
- 
-// Process line by line
-let i = 0;
-const codeLines = codeStr.split('\\n');
-while (i < codeLines.length) {
-const line = codeLines[i].trim();
- 
-if (!line || line.startsWith('#')) { i++; continue; }
- 
-try {
-// print()
-if (line.startsWith('print(')) {
-const match = line.match(/^print\((.*)\)$/);
-if (match) {
-let arg = match[1].trim();
-// Handle f-strings
-if (arg.startsWith('f"') || arg.startsWith("f'")) {
-let strContent = arg.substring(2, arg.length-1);
-// Replace {var} with values
-let result = strContent.replace(/\\{(\\w+)\\}/g, (m, vname) => {
-return vars[vname] !== undefined ? vars[vname] : m;
-});
-writeOut(result);
-}
-// Handle strings
-else if ((arg.startsWith('"') && arg.endsWith('"')) ||
-(arg.startsWith("'") && arg.endsWith("'"))) {
-writeOut(arg.slice(1, -1));
-}
-// Handle variables and expressions
-else {
-try {
-let val = evalExpr(arg, vars);
-writeOut(val);
-} catch(e) {
-writeOut(arg);
-}
-}
-}
-}
-// Variable assignment
-else if (line.includes('=') && !line.includes('==')) {
-const eqIdx = line.indexOf('=');
-const varname = line.substring(0, eqIdx).trim();
-let valStr = line.substring(eqIdx+1).trim();
- 
-// Check for f-strings
-if (valStr.startsWith('f"') || valStr.startsWith("f'")) {
-let strContent = valStr.substring(2, valStr.length-1);
-strContent = strContent.replace(/\\{(\\w+)\\}/g, (m, vname) => {
-return vars[vname] !== undefined ? vars[vname] : m;
-});
-vars[varname] = strContent;
-}
-// regular strings
-else if (valStr.startsWith('"') || valStr.startsWith("'")) {
-vars[varname] = valStr.slice(1, -1);
-}
-// numbers
-else {
-try {
-let val = evalExpr(valStr, vars);
-vars[varname] = val;
-} catch(e) {
-// maybe it's something else - just store as string
-vars[varname] = valStr;
-}
-}
-}
-// for loops (simplified)
-else if (line.startsWith('for ')) {
-const forMatch = line.match(/^for (\\w+) in (.*):$/);
-if (forMatch) {
-const varName = forMatch[1];
-const iterExpr = forMatch[2].trim();
- 
-// Find the loop body
-let bodyLines = [];
-i++;
-while (i < codeLines.length) {
-const bodyLine = codeLines[i];
-if (bodyLine.trim() && !bodyLine.startsWith(' ')) { i--; break; }
-if (bodyLine.trim()) bodyLines.push(bodyLine.trim());
-i++;
-}
- 
-// Handle range()
-const rangeMatch = iterExpr.match(/^range\\((\\d+)(?:,\\s*(\\d+))?(?:,\\s*(\\d+))?\\)$/);
-if (rangeMatch) {
-const start = parseInt(rangeMatch[1]) || 0;
-const end = rangeMatch[2] ? parseInt(rangeMatch[2]) : start;
-const step = rangeMatch[3] ? parseInt(rangeMatch[3]) : 1;
-const actualStart = rangeMatch[2] ? start : 0;
-const actualEnd = rangeMatch[2] ? end : start;
- 
-for (let v = actualStart; v < actualEnd; v += step || 1) {
-vars[varName] = v;
-for (const bodyLine of bodyLines) {
-const processedLine = bodyLine.replace(new RegExp('\\\\b' + varName + '\\\\b', 'g'), v);
-const evalLine = '    ' + processedLine;
-try {
-const pp = processedLine;
-if (pp.startsWith('print(')) {
-const pm = pp.match(/^print\((.*)\)$/);
-if (pm) {
-let pa = pm[1].trim();
-if (pa.startsWith('f"') || pa.startsWith("f'")) {
-let sc = pa.substring(2, pa.length-1);
-let res = sc.replace(/\\{(\\w+)\\}/g, (m,vn) => vars[vn]!==undefined?vars[vn]:m);
-writeOut(res);
-} else if ((pa.startsWith('"')&&pa.endsWith('"'))||(pa.startsWith("'")&&pa.endsWith("'"))) {
-writeOut(pa.slice(1,-1));
-} else {
-try { writeOut(evalExpr(pa, vars)); } catch(e) { writeOut(pa); }
-}
-}
-}
-} catch(e) {}
-}
-}
-continue;
-}
-// Handle list iteration like `for n in [1,2,3]`
-const listMatch = iterExpr.match(/^\\[(.*)\\]$/);
-if (listMatch) {
-const items = listMatch[1].split(',').map(x => parseInt(x.trim())).filter(x => !isNaN(x));
-for (const v of items) {
-vars[varName] = v;
-for (const bodyLine of bodyLines) {
-const pp = bodyLine;
-if (pp.startsWith('print(')) {
-const pm = pp.match(/^print\((.*)\)$/);
-if (pm) {
-let pa = pm[1].trim();
-if (pa.startsWith('f"')||pa.startsWith("f'")) {
-let sc = pa.substring(2, pa.length-1);
-let res = sc.replace(/\\{(\\w+)\\}/g, (m,vn)=>vars[vn]!==undefined?vars[vn]:m);
-writeOut(res);
-} else {
-try { writeOut(evalExpr(pa, vars)); } catch(e) { writeOut(pa); }
-}
-}
-}
-}
-}
-continue;
-}
-}
-}
-// import
-else if (line.startsWith('import ')) {
-// just skip - we don't really import
-}
-// from ... import ...
-else if (line.startsWith('from ')) {
-// skip
-}
-// other expressions - try to evaluate
-else {
-try {
-let val = evalExpr(line, vars);
-if (val !== undefined) writeOut(val);
-} catch(e) {
-// silently ignore unparseable lines
-}
-}
-} catch(e) {
-writeOut('Error: ' + e.message);
-}
-i++;
-}
-return outputLines;
-}
- 
-function evalExpr(expr, vars) {
-expr = expr.trim();
-// Try to evaluate simple expressions
-const allVars = {...vars};
-// Check for + operators (concatenation or addition)
-if (expr.includes('+') && !expr.includes('(')) {
-// Handle f-string expressions in various contexts
-}
-// Try as number
-if (!isNaN(Number(expr))) return Number(expr);
-// Try as variable
-if (vars[expr] !== undefined) return vars[expr];
-// Check for arithmetic expressions with variables
-try {
-let expr2 = expr;
-for (const [k,v] of Object.entries(vars)) {
-if (typeof v === 'number') {
-expr2 = expr2.replace(new RegExp('\\\\b' + k + '\\\\b', 'g'), String(v));
-}
-}
-// Now try to evaluate the numeric expression
-if (!expr2.match(/[a-zA-Z]/)) {
-const val = Function('"use strict"; return (' + expr2 + ')')();
-return val;
-}
-} catch(e) {}
-return undefined;
-}
- 
-// Run the code in a simplified way
-let result;
-try {
-result = runPython(code);
-const elapsed = (performance.now() - startTime).toFixed(1);
- 
-if (result.length === 0) {
-output.innerHTML = '<span class="output-label">输出</span>代码执行完毕（无输出）';
-} else {
-output.innerHTML = '<span class="output-label">输出 (耗时 '+elapsed+'ms)</span>' + result.join('\\n');
-}
-output.className = 'code-output';
- 
-markDone(courseId, chId, exIdx);
-} catch(e) {
-output.innerHTML = '<span class="output-label">错误</span>' + e.message;
-output.className = 'code-output error';
-}
- 
-btn.disabled = false;
-btn.innerHTML = '<i class="fas fa-play"></i> 运行';
-updateAllProgress();
-}
- 
-function resetCode(courseId, chId, exIdx) {
-const course = courses.find(c=>c.id===courseId);
-const ch = course.chapters.find(c=>c.id===chId);
-const ex = ch.exercises[exIdx];
-document.getElementById('editor-'+courseId+'-'+chId+'-'+exIdx).value = ex.template || '';
-localStorage.removeItem('editor_'+courseId+'_'+chId+'_'+exIdx);
-document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx).innerHTML = '<span class="output-label">输出</span>';
-document.getElementById('output-'+courseId+'-'+chId+'-'+exIdx).className = 'code-output';
-}
- 
-function updateAllProgress() {
-renderCourses();
-updateStats();
-if (currentCourseId) {
-if (document.getElementById('courseModal').classList.contains('active')) {
-openCourse(currentCourseId);
-} else if (document.getElementById('chapterModal').classList.contains('active')) {
-// just re-render courses
-}
-}
-}
- 
-document.addEventListener('DOMContentLoaded', () => {
-updateStats();
-renderCourses();
- 
-// Close on overlay click
-document.getElementById('courseModal').addEventListener('click', (e) => {
-if (e.target === document.getElementById('courseModal')) closeModal();
-});
-document.getElementById('chapterModal').addEventListener('click', (e) => {
-if (e.target === document.getElementById('chapterModal')) closeChapter();
-});
- 
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-if (e.key === 'Escape') {
-if (document.getElementById('chapterModal').classList.contains('active')) closeChapter();
-else if (document.getElementById('courseModal').classList.contains('active')) closeModal();
-}
-});
-});
-'''
- 
-# ==================== BUILD HTML ====================
-html = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>樊珍秀 - 商务数据分析与应用 | 个人学习平台</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>''' + css + '''</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樊珍秀 | 商务数据分析学习平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#254bcc',
+                        secondary: '#8b5cf6',
+                        dark: '#0f172a',
+                        glass: 'rgba(255,255,255,0.1)',
+                        codebg: '#1e293b'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .glassmorphism {
+                background: rgba(255, 255, 255, 0.08);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+            }
+            .card-hover {
+                transition: all 0.3s ease;
+            }
+            .card-hover:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 20px 40px rgba(37, 75, 204, 0.15);
+                border-color: rgba(139, 92, 246, 0.4);
+            }
+            .gradient-text {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+        }
+    </style>
 </head>
-<body>
- 
-<nav class="navbar">
-<div class="nav-logo">樊珍秀</div>
-<div class="nav-links">
-<a href="#" onclick="document.getElementById('coursesSection').scrollIntoView({behavior:'smooth'})">课程中心</a>
-<a href="#" onclick="updateStats();document.getElementById('heroSection').scrollIntoView({behavior:'smooth'})">个人主页</a>
-</div>
-</nav>
- 
-隐藏43行
-</div>
- 
-<script>
-const courses = __COURSES_DATA__;
- 
-__JS_LOGIC__
-</script>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    <!-- 全局导航 -->
+    <nav class="fixed top-0 left-0 w-full glassmorphism z-50 px-8 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <i class="fa fa-bar-chart text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-primary to-secondary gradient-text">樊珍秀 · 商务数据分析学习门户</h1>
+            </div>
+            <div class="flex gap-8 text-sm font-medium">
+                <a onclick="switchPage('home')" class="nav-link cursor-pointer hover:text-secondary transition">首页</a>
+                <a onclick="switchPage('courses')" class="nav-link cursor-pointer hover:text-secondary transition">课程总览</a>
+                <a onclick="switchPage('progress')" class="nav-link cursor-pointer hover:text-secondary transition">学习进度</a>
+                <a onclick="switchPage('profile')" class="nav-link cursor-pointer hover:text-secondary transition">个人档案</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-20">
+        <!-- ========== 首页 Page ========== -->
+        <section id="page-home" class="page block max-w-7xl mx-auto px-8 py-12">
+            <!-- 英雄区 -->
+            <div class="rounded-3xl bg-gradient-to-br from-primary/90 to-secondary/90 text-white p-16 mb-16 relative overflow-hidden">
+                <div class="relative z-10 max-w-3xl">
+                    <p class="text-sm uppercase tracking-widest mb-3 opacity-80">广东科学技术职业学院 · 商学院</p>
+                    <h2 class="text-[42px] font-bold leading-tight mb-4">以数据为核心，构建商务分析核心竞争力</h2>
+                    <p class="text-lg opacity-90 mb-8">我是樊珍秀，商务数据分析与应用专业在读，系统化学习Python、SQL、可视化、供应链分析、BI等全栈数据技能</p>
+                    <button onclick="switchPage('courses')" class="px-8 py-3 bg-white text-primary rounded-full font-medium hover:shadow-lg transition">浏览全部课程 <i class="fa fa-arrow-right ml-2"></i></button>
+                </div>
+                <div class="absolute right-0 bottom-0 opacity-10 text-[200px] font-bold">DATA</div>
+            </div>
+
+            <!-- 课程快速入口 -->
+            <h3 class="text-2xl font-bold mb-8">核心学习课程 <span class="text-sm font-normal text-slate-500">共10门，每门10章节配套练习</span></h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16" id="home-course-grid">
+                <!-- JS动态渲染10门课程卡片 -->
+            </div>
+
+            <!-- 学习数据看板 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover">
+                    <i class="fa fa-book text-primary text-3xl mb-4"></i>
+                    <h4 class="text-3xl font-bold">10</h4>
+                    <p class="text-slate-500">专业课程体系</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover">
+                    <i class="fa fa-list-alt text-secondary text-3xl mb-4"></i>
+                    <h4 class="text-3xl font-bold">100+</h4>
+                    <p class="text-slate-500">实战章节练习</p>
+                </div>
+                <div class="bg-white rounded-2xl p-8 shadow-sm card-hover">
+                    <i class="fa fa-code text-emerald-500 text-3xl mb-4"></i>
+                    <h4 class="text-3xl font-bold">全栈</h4>
+                    <p class="text-slate-500">数据采集/清洗/建模/可视化</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 课程总览页 ========== -->
+        <section id="page-courses" class="page hidden max-w-7xl mx-auto px-8 py-12">
+            <h2 class="text-3xl font-bold mb-3">全部课程</h2>
+            <p class="text-slate-500 mb-12">每门课程包含10个教学章节，配套知识点讲解+在线代码练习平台</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="all-course-grid">
+                <!-- JS渲染全部课程 -->
+            </div>
+        </section>
+
+        <!-- ========== 单课程详情/章节练习页 ========== -->
+        <section id="page-course-detail" class="page hidden max-w-7xl mx-auto px-8 py-12">
+            <div class="flex gap-8">
+                <!-- 左侧章节侧边栏 -->
+                <aside class="w-72 shrink-0 bg-white rounded-2xl p-6 shadow-sm h-fit sticky top-24">
+                    <h3 id="course-detail-title" class="text-xl font-bold mb-6"></h3>
+                    <div id="chapter-list" class="flex flex-col gap-2">
+                        <!-- 10个章节按钮JS渲染 -->
+                    </div>
+                </aside>
+                <!-- 右侧章节内容+练习面板 -->
+                <div class="flex-1">
+                    <div class="mb-8">
+                        <h3 id="chapter-title" class="text-2xl font-bold mb-2"></h3>
+                        <p id="chapter-desc" class="text-slate-500"></p>
+                    </div>
+                    <!-- 知识要点 -->
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8">
+                        <h4 class="font-bold mb-3 flex items-center gap-2"><i class="fa fa-lightbulb-o text-amber-500"></i> 知识要点</h4>
+                        <div id="knowledge-points" class="flex flex-wrap gap-3">
+                            <!-- 知识点标签 -->
+                        </div>
+                    </div>
+                    <!-- 练习区域 -->
+                    <div class="mb-4 font-bold text-lg">实战练习：<span id="practice-title"></span></div>
+                    <!-- 代码编辑器 -->
+                    <div class="bg-codebg rounded-xl overflow-hidden mb-4">
+                        <textarea id="code-input" class="w-full h-56 bg-transparent text-gray-100 p-4 outline-none resize-none font-mono text-sm" placeholder="在此输入Python代码..."></textarea>
+                    </div>
+                    <!-- 操作按钮 -->
+                    <div class="flex gap-4 mb-6">
+                        <button onclick="runCode()" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"><i class="fa fa-play mr-2"></i>运行代码</button>
+                        <button onclick="submitCode()" class="px-6 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition"><i class="fa fa-check mr-2"></i>提交答案</button>
+                        <button onclick="resetCode()" class="px-6 py-2 bg-slate-300 rounded-lg hover:bg-slate-400 transition">重置</button>
+                    </div>
+                    <!-- 输出控制台 -->
+                    <div>
+                        <p class="text-sm text-slate-500 mb-2">输出结果</p>
+                        <div id="output-box" class="bg-codebg text-gray-100 p-4 rounded-xl h-32 font-mono text-sm overflow-auto">等待运行代码...</div>
+                    </div>
+                    <!-- 上下章节切换 -->
+                    <div class="flex justify-between mt-10 pt-6 border-t">
+                        <button id="prev-chapter" onclick="prevChapter()" class="px-5 py-2 border rounded-lg hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa fa-arrow-left mr-2"></i>上一章节
+                        </button>
+                        <button id="next-chapter" onclick="nextChapter()" class="px-5 py-2 border rounded-lg hover:bg-slate-100 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                            下一章节<i class="fa fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 学习进度页 ========== -->
+        <section id="page-progress" class="page hidden max-w-7xl mx-auto px-8 py-12">
+            <h2 class="text-3xl font-bold mb-6">我的学习进度</h2>
+            <p class="text-slate-500 mb-10">记录每一门课程学习完成状态与练习记录</p>
+            <div id="progress-list" class="flex flex-col gap-6">
+                <!-- JS渲染每门课进度 -->
+            </div>
+        </section>
+
+        <!-- ========== 个人档案页 ========== -->
+        <section id="page-profile" class="page hidden max-w-7xl mx-auto px-8 py-12">
+            <div class="bg-white rounded-3xl p-12 shadow-sm">
+                <div class="flex items-center gap-6 mb-8">
+                    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-bold">F</div>
+                    <div>
+                        <h2 class="text-3xl font-bold">樊珍秀</h2>
+                        <p class="text-slate-500 mt-1">广东科学技术职业学院 · 商学院 | 商务数据分析与应用专业</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">专业介绍</h3>
+                        <p class="text-slate-600 leading-relaxed">商务数据分析与应用专业聚焦商业场景下的数据挖掘、处理、可视化与决策支持，融合Python编程、SQL数据库、统计学、供应链分析、BI商业智能等核心技能，培养能够用数据解决企业经营问题的复合型商务数据人才。</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">学习技能栈</h3>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">Python</span>
+                            <span class="px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm">SQL</span>
+                            <span class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-full text-sm">数据清洗</span>
+                            <span class="px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm">Matplotlib/Seaborn</span>
+                            <span class="px-4 py-2 bg-pink-100 text-pink-600 rounded-full text-sm">Power BI</span>
+                            <span class="px-4 py-2 bg-cyan-100 text-cyan-600 rounded-full text-sm">统计学</span>
+                            <span class="px-4 py-2 bg-violet-100 text-violet-600 rounded-full text-sm">机器学习基础</span>
+                            <span class="px-4 py-2 bg-amber-100 text-amber-600 rounded-full text-sm">供应链分析</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="mt-20 py-8 text-center text-slate-400 text-sm border-t">
+        <p>樊珍秀 | 广东科学技术职业学院 商学院 商务数据分析与应用专业 · 个人学习实训平台</p>
+    </footer>
+
+    <script>
+        // 10门课程完整数据，每门10章节+知识点
+        const courseData = [
+            {
+                id: 'python',
+                name: 'Python基础',
+                icon: 'fa-python',
+                desc: '从入门到精通，掌握Python编程基础',
+                chapters: [
+                    {title:'第1章：环境搭建与基础语法',desc:'安装Python、变量、数据类型',points:['环境配置','变量与常量','基础运算符','输入输出']},
+                    {title:'第2章：流程控制',desc:'条件判断、循环结构',points:['if分支','for/while循环','break/continue']},
+                    {title:'第3章：容器数据类型',desc:'列表、元组、字典、集合',points:['list操作','dict键值对','集合去重']},
+                    {title:'第4章：函数基础',desc:'函数定义、参数、返回值',points:['def定义','形参与实参','作用域']},
+                    {title:'第5章：文件读写',desc:'本地文件读取写入',points:['open函数','with上下文','txt/csv读写']},
+                    {title:'第6章：异常处理',desc:'try except错误捕获',points:['异常类型','捕获处理','主动抛出']},
+                    {title:'第7章：面向对象入门',desc:'类与实例、封装',points:['class创建','构造函数','属性方法']},
+                    {title:'第8章：模块与包',desc:'导入第三方库',points:['import','pip安装','标准库使用']},
+                    {title:'第9章：时间与日期',desc:'datetime模块使用',points:['时间戳','日期格式化','时间计算']},
+                    {title:'第10章：综合小项目',desc:'小型数据工具实战',points:['需求拆解','代码封装','调试优化']},
+                ]
+            },
+            {
+                id: 'data-analysis',
+                name: '数据分析技术',
+                icon: 'fa-bar-chart',
+                desc: '数据清洗、可视化、统计分析实战',
+                chapters: [
+                    {title:'第1章：数据加载',desc:'读取CSV、Excel文件',points:['pandas导入','read_csv/read_excel','数据结构DataFrame']},
+                    {title:'第2章：数据查看',desc:'探索性数据分析',points:['head/info/describe','行列选取','基础观测']},
+                    {title:'第3章：缺失值处理',desc:'处理数据中的缺失值',points:['isnull检测','填充fillna','删除dropna']},
+                    {title:'第4章：统计计算',desc:'均值、中位数、标准差',points:['聚合函数','方差分位数','相关性计算']},
+                    {title:'第5章：数据筛选',desc:'条件筛选和查询',points:['布尔索引','query查询','多条件组合']},
+                    {title:'第6章：分组统计',desc:'groupby分组分析',points:['分组聚合','透视表pivot_table']},
+                    {title:'第7章：数据可视化',desc:'绘制基础图表',points:['折线/柱状图','图例标签','画布设置']},
+                    {title:'第8章：Excel导出',desc:'保存数据到Excel',points:['to_excel','工作表拆分','格式简单设置']},
+                    {title:'第9章：数据合并',desc:'merge/concat拼接',points:['表连接','上下合并','键对齐']},
+                    {title:'第10章：综合分析案例',desc:'业务数据集完整分析流程',points:['数据全流程','业务解读','结论输出']},
+                ]
+            },
+            {
+                id: 'data-collect',
+                name: '数据采集与处理',
+                icon: 'fa-globe',
+                desc: '爬虫、API、数据清洗与入库',
+                chapters: [
+                    {title:'第1章：网页基础',desc:'HTML结构解析',points:['标签语法','DOM结构','静态页面结构']},
+                    {title:'第2章：静态网页爬虫',desc:'requests获取页面',points:['get请求','状态码','页面文本提取']},
+                    {title:'第3章：API获取',desc:'调用API获取结构化数据',points:['RESTful API','请求头设置','JSON解析','Token认证']},
+                    {title:'第4章：网页解析',desc:'BeautifulSoup提取内容',points:['标签查找','选择器','文本提取']},
+                    {title:'第5章：正则表达式',desc:'正则匹配提取文本',points:['匹配规则','分组提取','批量清洗']},
+                    {title:'第6章：动态页面简易抓取',desc:'Ajax接口抓包',points:['F12抓包','异步接口解析','参数构造']},
+                    {title:'第7章：反爬基础策略',desc:'请求伪装',points:['User-Agent','延时请求','代理基础']},
+                    {title:'第8章：采集数据清洗',desc:'脏数据过滤',points:['去空格','异常值剔除','格式统一']},
+                    {title:'第9章：数据入库',desc:'写入数据库',points:['连接库','insert插入','批量存储']},
+                    {title:'第10章：采集实战项目',desc:'公开平台数据采集完整案例',points:['需求设计','爬虫架构','合规采集']},
+                ]
+            },
+            {
+                id: 'supply-chain',
+                name: '供应链数据分析',
+                icon: 'fa-cube',
+                desc: '库存、预测、效率、成本分析',
+                chapters: [
+                    {title:'第1章：供应链指标体系',desc:'核心业务指标认知',points:['库存周转率','履约时效','采购成本']},
+                    {title:'第2章：库存数据清洗',desc:'库存台账预处理',points:['出入库数据对齐','库存盘点差值']},
+                    {title:'第3章：销量趋势分析',desc:'时序销量拆解',points:['月度波动','季节因子','异常销量识别']},
+                    {title:'第4章：库存安全阈值测算',desc:'安全库存计算',points:['需求标准差','补货周期','缺货成本']},
+                    {title:'第5章：供应商分析',desc:'供应商履约能力评估',points:['交货准时率','供货稳定性','价格对比']},
+                    {title:'第6章：物流时效分析',desc:'运输链路效率',points:['配送时长分布','区域时效差异']},
+                    {title:'第7章：成本拆解分析',desc:'供应链全链路成本',points:['采购/仓储/物流成本分摊']},
+                    {title:'第8章：需求简易预测',desc:'移动平均预测销量',points:['简单均值','加权移动平均','预测误差']},
+                    {title:'第9章：供应链可视化看板',desc:'业务指标图表搭建',points:['库存趋势图','供应商对比图','时效分布图']},
+                    {title:'第10章：供应链优化案例',desc:'基于数据的降本增效方案',points:['问题定位','数据佐证','优化建议']},
+                ]
+            },
+            {
+                id: 'database',
+                name: '数据库原理与应用',
+                icon: 'fa-database',
+                desc: 'SQL、表设计、查询、事务管理',
+                chapters: [
+                    {title:'第1章：数据库基础概念',desc:'关系型数据库认知',points:['库/表/字段','主键外键','范式理论']},
+                    {title:'第2章：SQL基础查询',desc:'select基础语法',points:['字段筛选','where条件','排序order by']},
+                    {title:'第3章：聚合与分组',desc:'count/sum/group by',points:['聚合函数','分组筛选having']},
+                    {title:'第4章：多表连接',desc:'inner/left/right join',points:['多表关联','关联键设计']},
+                    {title:'第5章：增删改操作',desc:'insert/update/delete',points:['数据新增','更新修改','删除约束']},
+                    {title:'第6章：子查询',desc:'嵌套查询使用',points:['标量子查询','in子查询','exists判断']},
+                    {title:'第7章：表结构设计',desc:'建表、字段类型',points:['char/varchar','数值类型','约束设置']},
+                    {title:'第8章：索引优化',desc:'索引提升查询速度',points:['普通索引','联合索引','索引失效场景']},
+                    {title:'第9章：事务管理',desc:'ACID事务特性',points:['commit/rollback','事务隔离级别']},
+                    {title:'第10章：Python操作SQL',desc:'pymysql库读写数据库',points:['建立连接','参数化查询','批量操作']},
+                ]
+            },
+            {
+                id: 'stats',
+                name: '统计学基础',
+                icon: 'fa-line-chart',
+                desc: '描述统计、概率论、假设检验',
+                chapters: [
+                    {title:'第1章：描述统计量',desc:'集中趋势、离散程度',points:['均值中位数众数','极差方差标准差']},
+                    {title:'第2章：概率基础',desc:'随机事件与概率',points:['古典概型','独立事件','条件概率']},
+                    {title:'第3章：常用分布',desc:'正态、二项分布',points:['正态分布特征','分布概率计算']},
+                    {title:'第4章：抽样与抽样分布',desc:'样本抽取逻辑',points:['简单随机抽样','样本均值分布']},
+                    {title:'第5章：参数估计',desc:'点估计、区间估计',points:['置信区间','误差边际']},
+                    {title:'第6章：假设检验基础',desc:'原假设与备择假设',points:['P值判断','单侧双侧检验']},
+                    {title:'第7章：相关性分析',desc:'皮尔逊相关系数',points:['线性相关','相关强度解读']},
+                    {title:'第8章：一元线性回归',desc:'简单回归建模',points:['拟合直线','R方拟合优度']},
+                    {title:'第9章：统计检验实战',desc:'Python实现检验计算',points:['scipy.stats','检验结果解读']},
+                    {title:'第10章：业务统计分析案例',desc:'用统计学解决业务问题',points:['指标显著性','数据结论推导']},
+                ]
+            },
+            {
+                id: 'ml',
+                name: '机器学习入门',
+                icon: 'fa-robot',
+                desc: '回归、分类、聚类算法实战',
+                chapters: [
+                    {title:'第1章：机器学习概述',desc:'监督/无监督学习区分',points:['任务分类','数据集划分train/test']},
+                    {title:'第2章：特征预处理',desc:'数据标准化归一化',points:['StandardScaler','MinMaxScaler','缺失填充']},
+                    {title:'第3章：线性回归',desc:'简单预测模型',points:['最小二乘','模型评估MSE']},
+                    {title:'第4章：逻辑回归',desc:'二分类模型',points:['sigmoid函数','准确率召回率']},
+                    {title:'第5章：K近邻KNN',desc:'距离分类算法',points:['欧式距离','K值选择']},
+                    {title:'第6章：决策树',desc:'树形分类规则',points:['信息熵','树剪枝基础']},
+                    {title:'第7章：K-Means聚类',desc:'无监督分群',points:['簇数量选择','聚类评估']},
+                    {title:'第8章：模型评估指标',desc:'分类/回归评价',points:['混淆矩阵','MAE/R2分数']},
+                    {title:'第9章：sklearn工具库',desc:'调用现成算法库',points:['数据集加载','模型训练预测']},
+                    {title:'第10章：简单预测实战',desc:'业务数据建模预测',points:['全流程建模','结果业务解读']},
+                ]
+            },
+            {
+                id: 'visual',
+                name: '数据可视化',
+                icon: 'fa-paint-brush',
+                desc: 'Matplotlib、Seaborn、图表制作',
+                chapters: [
+                    {title:'第1章：Matplotlib基础画布',desc:'画布、子图创建',points:['figure/axes','多子图布局']},
+                    {title:'第2章：基础图表绘制',desc:'折线、柱状、饼图',points:['plot/bar/pie','颜色样式调整']},
+                    {title:'第3章：图表美化',desc:'标题、图例、坐标轴',points:['label/title/legend','刻度设置']},
+                    {title:'第4章：Seaborn高级绘图',desc:'统计风格图表',points:['distplot分布图','box箱线图']},
+                    {title:'第5章：多维度对比图',desc:'分组柱状、热力图',points:['heatmap热力图','分类对比']},
+                    {title:'第6章：时序可视化',desc:'时间序列趋势图',points:['日期坐标轴','滚动均值叠加']},
+                    {title:'第7章：相关性热力图',desc:'变量关联可视化',points:['相关矩阵绘图','标注系数']},
+                    {title:'第8章：图表导出',desc:'高清图片保存',points:['savefig','分辨率设置']},
+                    {title:'第9章：可视化配色规范',desc:'商务配色原则',points:['低饱和商务色','色盲友好配色']},
+                    {title:'第10章：业务看板图表组合',desc:'多图表整合分析面板',points:['多子图业务看板','数据故事呈现']},
+                ]
+            },
+            {
+                id: 'excel',
+                name: 'Excel高级应用',
+                icon: 'fa-file-excel-o',
+                desc: '函数、数据透视表、VBA自动化',
+                chapters: [
+                    {title:'第1章：高阶函数',desc:'逻辑/查找函数',points:['IFS/XLOOKUP/SUMIFS','数组函数']},
+                    {title:'第2章：数据清洗工具',desc:'分列、删除重复值',points:['快速填充','条件格式标记异常']},
+                    {title:'第3章：数据透视表',desc:'多维汇总分析',points:['行/列字段','值字段聚合','切片器']},
+                    {title:'第4章：Power Query',desc:'批量数据处理',points:['多文件合并','自定义清洗步骤']},
+                    {title:'第5章：动态数组函数',desc:'Excel365新函数',points:['FILTER/SORT/UNIQUE']},
+                    {title:'第6章：图表高级制作',desc:'组合图、双轴图表',points:['次坐标轴','动态图表']},
+                    {title:'第7章：名称管理器',desc:'定义动态区域',points:['固定名称','动态引用']},
+                    {title:'第8章：VBA基础语法',desc:'宏录制与简单代码',points:['宏录制','变量循环','单元格操作']},
+                    {title:'第9章：VBA自动化报表',desc:'一键生成周报',points:['批量刷新透视表','导出PDF']},
+                    {title:'第10章：Excel商务报表实战',desc:'企业经营报表搭建',points:['自动更新报表','数据校验']},
+                ]
+            },
+            {
+                id: 'bi',
+                name: 'BI商业智能',
+                icon: 'fa-area-chart',
+                desc: 'Power BI、数据建模、报表制作',
+                chapters: [
+                    {title:'第1章：Power BI界面认知',desc:'软件模块功能',points:['数据/建模/报表/视图','工作区概念']},
+                    {title:'第2章：多源数据导入',desc:'Excel/CSV/数据库接入',points:['文件导入','数据库连接','网页数据']},
+                    {title:'第3章：Power Query数据转换',desc:'BI内数据清洗',points:['添加列、拆分、逆透视']},
+                    {title:'第4章：数据建模关系',desc:'表之间建立关联',points:['一对一/一对多关系','星型模型']},
+                    {title:'第5章：DAX度量值基础',desc:'计算指标',points:['CALCULATE','SUMX','时间智能函数']},
+                    {title:'第6章：可视化控件使用',desc:'各类图表卡片',points:['切片器、卡片图、地图、瀑布图']},
+                    {title:'第7章：交互式报表',desc:'联动筛选、钻取',points:['页面筛选','向下钻取分析']},
+                    {title:'第8章：仪表板看板',desc:'整合多报表页面',points:['固定视觉层级','全局筛选']},
+                    {title:'第9章：数据刷新与发布',desc:'云端工作区共享',points:['计划刷新','发布至Power BI服务']},
+                    {title:'第10章：企业商务BI看板案例',desc:'销售/供应链综合看板',points:['业务指标分层','数据自助分析']},
+                ]
+            }
+        ];
+
+        // 当前全局状态
+        let currentCourseIdx = 0;
+        let currentChapterIdx = 0;
+
+        // 页面切换
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));
+            document.getElementById(`page-${pageId}`).classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
+
+        // 渲染首页课程卡片
+        function renderHomeCourses() {
+            const grid = document.getElementById('home-course-grid');
+            grid.innerHTML = '';
+            courseData.slice(0,5).forEach((course,idx)=>{
+                grid.innerHTML += `
+                    <div onclick="openCourse(${idx})" class="bg-white p-6 rounded-2xl shadow-sm card-hover cursor-pointer">
+                        <i class="fa ${course.icon} text-primary text-3xl mb-4"></i>
+                        <h4 class="font-bold text-lg mb-2">${course.name}</h4>
+                        <p class="text-slate-500 text-sm mb-4 line-clamp-2">${course.desc}</p>
+                        <span class="text-xs text-primary font-medium">10章节 · 配套练习</span>
+                    </div>
+                `
+            })
+        }
+
+        // 渲染全部课程页
+        function renderAllCourses() {
+            const grid = document.getElementById('all-course-grid');
+            grid.innerHTML = '';
+            courseData.forEach((course,idx)=>{
+                grid.innerHTML += `
+                    <div class="bg-white p-8 rounded-2xl shadow-sm card-hover">
+                        <i class="fa ${course.icon} text-primary text-4xl mb-5"></i>
+                        <h4 class="font-bold text-xl mb-2">${course.name}</h4>
+                        <p class="text-slate-500 mb-6">${course.desc}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-slate-400">共10个实战章节</span>
+                            <button onclick="openCourse(${idx})" class="px-5 py-2 bg-primary text-white rounded-lg text-sm hover:bg-primary/90 transition">进入学习</button>
+                        </div>
+                    </div>
+                `
+            })
+        }
+
+        // 打开指定课程，进入章节详情页
+        function openCourse(idx) {
+            currentCourseIdx = idx;
+            currentChapterIdx = 0;
+            renderCourseDetail();
+            switchPage('course-detail');
+        }
+
+        // 渲染课程详情侧边章节+内容
+        function renderCourseDetail() {
+            const course = courseData[currentCourseIdx];
+            document.getElementById('course-detail-title').innerText = course.name;
+            // 渲染章节列表
+            const chapterList = document.getElementById('chapter-list');
+            chapterList.innerHTML = '';
+            course.chapters.forEach((ch,idx)=>{
+                chapterList.innerHTML += `
+                    <button onclick="switchChapter(${idx})" class="chapter-btn w-full text-left px-4 py-3 rounded-lg transition ${idx===currentChapterIdx?'bg-primary/10 text-primary font-medium':'hover:bg-slate-100'}">
+                        ${ch.title}
+                    </button>
+                `
+            })
+            // 渲染当前章节内容
+            const ch = course.chapters[currentChapterIdx];
+            document.getElementById('chapter-title').innerText = ch.title;
+            document.getElementById('chapter-desc').innerText = ch.desc;
+            document.getElementById('practice-title').innerText = ch.title + ' 代码实操';
+            // 知识点标签
+            const pointsBox = document.getElementById('knowledge-points');
+            pointsBox.innerHTML = '';
+            ch.points.forEach(p=>{
+                pointsBox.innerHTML += `<span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">${p}</span>`
+            })
+            // 上下章按钮状态
+            document.getElementById('prev-chapter').disabled = currentChapterIdx === 0;
+            document.getElementById('next-chapter').disabled = currentChapterIdx === course.chapters.length-1;
+            // 清空编辑器和输出
+            document.getElementById('code-input').value = '';
+            document.getElementById('output-box').innerText = '等待运行代码...';
+        }
+
+        // 切换章节
+        function switchChapter(idx) {
+            currentChapterIdx = idx;
+            renderCourseDetail();
+        }
+        function prevChapter() { if(currentChapterIdx>0){currentChapterIdx--;renderCourseDetail();} }
+        function nextChapter() { const len = courseData[currentCourseIdx].chapters.length; if(currentChapterIdx < len-1){currentChapterIdx++;renderCourseDetail();} }
+
+        // 代码操作模拟
+        function runCode() {
+            const code = document.getElementById('code-input').value.trim();
+            const outputBox = document.getElementById('output-box');
+            if(!code){
+                outputBox.innerText = '请输入代码后再运行！';
+                return;
+            }
+            // 模拟运行输出
+            outputBox.innerText = `>>> 代码执行成功\n模拟输出结果：\n（平台后端执行返回数据，此处为演示交互）`;
+        }
+        function submitCode() {
+            const outputBox = document.getElementById('output-box');
+            outputBox.innerText = '答案提交成功！系统已记录你的练习作答';
+        }
+        function resetCode() {
+            document.getElementById('code-input').value = '';
+            document.getElementById('output-box').innerText = '等待运行代码...';
+        }
+
+        // 渲染学习进度页
+        function renderProgress() {
+            const box = document.getElementById('progress-list');
+            box.innerHTML = '';
+            courseData.forEach((course,idx)=>{
+                box.innerHTML += `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm">
+                        <div class="flex justify-between items-center mb-3">
+                            <div class="flex items-center gap-3">
+                                <i class="fa ${course.icon} text-primary text-xl"></i>
+                                <h4 class="font-bold text-lg">${course.name}</h4>
+                            </div>
+                            <span class="text-sm text-slate-400">0/10 章节完成</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full w-0 bg-primary rounded-full"></div>
+                        </div>
+                        <button onclick="openCourse(${idx})" class="mt-4 text-sm text-primary hover:underline">继续学习</button>
+                    </div>
+                `
+            })
+        }
+
+        // 页面初始化
+        window.onload = ()=>{
+            renderHomeCourses();
+            renderAllCourses();
+            renderProgress();
+        }
+    </script>
 </body>
-</html>'''
- 
-html = html.replace('__COURSES_DATA__', json.dumps(course_python, ensure_ascii=False))
-html = html.replace('__JS_LOGIC__', js)
- 
-size = len(html)
-lines = html.count('\n')
-隐藏5行
-print(f'  练习题: {sum(len(ch["exercises"]) for ch in course_python["chapters"])} 道')
-print(f'  CSS: 内联样式')
-print(f'  JS: 内联脚本')
-print(f'  数据: 内联JSON')
- 
-# Write output file
-with open('/workspace/index.html', 'w', encoding='utf-8') as f:
-f.write(html)
- 
-print(f'  ✓ 已写入 /workspace/index.html')
+</html>
